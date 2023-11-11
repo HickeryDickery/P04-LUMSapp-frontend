@@ -1,8 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import * as SplashScreen from 'expo-splash-screen';
+
+const outlookImage = require("../assets/outlook_image.png");
+const lumsLogo = require("../assets/Lums.png");
 
 const Signup = () => {
   const [fontsLoaded] = useFonts({
@@ -12,11 +15,36 @@ const Signup = () => {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   SplashScreen.hideAsync();
+
+  const onPress = () => {
+    console.log("Pressed");
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.centerText}>LUMS App</Text>
+      <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
+      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor= "#fff"/>
+      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor= "#fff"/>
+      <TextInput style={styles.input} placeholder="Username" placeholderTextColor= "#fff"/>
+      <TextInput style={styles.input} keyboardType= "visible-password" placeholder="Password" placeholderTextColor= "#fff"/>
+
+      <TouchableOpacity style= {styles.signupButton} onPress={onPress}>
+        <Text style={{fontWeight: "bold" }}>Sign Up</Text>
+      </TouchableOpacity>
+
+      <View style={styles.dividerContainer}>
+        <View style={styles.dividerLine} />
+        <Text style={styles.divBar}>or</Text>
+        <View style={styles.dividerLine} />
+      </View>
+
+      <TouchableOpacity style= {styles.outlookButton} onPress={onPress}>
+        <Image source={outlookImage} style={styles.logo} />
+        <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>Outlook</Text>
+      </TouchableOpacity>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -31,11 +59,54 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  centerText: {
-    color: "#35C2C1",
-    fontFamily: "Roboto",
-    alignItems: "center",
-    height:10
-    // justifyContent: "",
+  input: {
+    borderColor: "#35C2C1",
+    width: "80%",
+    borderBottomWidth: 1,
+    borderRadius: 10,
+    marginTop: "5%",
+    padding: 15,
+    color: "#fff", 
   },
+  signupButton: {
+    marginTop: "20%",
+    backgroundColor: "#35C2C1",
+    borderRadius: 10,
+    width: "80%",
+    padding: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Roboto",
+  },
+  outlookButton: {
+    fontFamily: "Roboto",
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#146987",
+    borderRadius: 10,
+    width: "80%",
+    padding: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: "5%",
+    width: "80%",
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#35C2C1",
+  },
+  divBar: {
+    color: "#fff",
+    fontSize: 12,
+    paddingHorizontal: 10,
+  },
+  logo:{
+    width: 30,
+    height: 20,
+  }
 });
