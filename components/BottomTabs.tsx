@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Home from "../screens/Home";
+import Signup from "../screens/Signup";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,7 @@ const BottomTabs = () => {
         })}
       >
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Signup" component={Signup} />
       </Tab.Navigator>
     </NavigationContainer>
   );
