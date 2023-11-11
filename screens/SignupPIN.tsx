@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
@@ -14,21 +14,7 @@ const SignupPIN = () => {
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
   
-  const timerAlert = () => {
-    Alert.alert(
-      "Timer Finished",
-      "Your timer has finished.",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-      ],
-      { cancelable: false }
-      );
-    };
-  const codeAlert = (codeValue:string, codeMessage:string) => {
+  const alertCall = (codeValue:string, codeMessage:string) => {
     Alert.alert(
       codeValue,
       codeMessage,
@@ -42,12 +28,13 @@ const SignupPIN = () => {
       { cancelable: false }
       );
     };
+    
     useEffect(() => {
       let interval = setInterval(() => {
         setTimer((lastTimerCount) => {
           if (lastTimerCount <= 1) {
             clearInterval(interval);
-            timerAlert();
+            alertCall("Timeout, Please try again", "Your code has expired. Please request a new code.");
           }
         return lastTimerCount - 1;
       });
@@ -81,9 +68,9 @@ const SignupPIN = () => {
         codeInputHighlightStyle={styles.underlineStyleHighLighted}
         onCodeFilled={(code) => {
           if (code === "1234") {
-            codeAlert("Correct Code", "You have entered the correct code.");
+            alertCall("Correct Code", "You have entered the correct code.");
           } else {
-            codeAlert("Incorrect Code", "You have entered the incorrect code.");
+            alertCall("Incorrect Code", "You have entered the incorrect code.");
           }
         }}
       />

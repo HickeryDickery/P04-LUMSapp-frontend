@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#35C2C1",
     borderRadius: 10,
     width: "80%",
-    padding: 15,
+    padding: 20,
     justifyContent: "center",
     alignItems: "center",
     fontFamily: "Roboto",
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#146987",
     borderRadius: 10,
     width: "80%",
-    padding: 15,
+    padding: 20,
     justifyContent: "center",
     alignItems: "center",
   },

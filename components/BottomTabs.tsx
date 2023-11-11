@@ -6,6 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Home from "../screens/Home";
 import Signup from "../screens/Signup";
 import SignupPIN from "../screens/SignupPIN";
+import SignupProfilePicture from "../screens/SignupProfilePicture";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,7 @@ const BottomTabs = () => {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Signup" component={Signup} />
         <Tab.Screen name="SignupPIN" component={SignupPIN} />
+        <Tab.Screen name="SignupProfilePicture" component={SignupProfilePicture} />
       </Tab.Navigator>
     </NavigationContainer>
   );
