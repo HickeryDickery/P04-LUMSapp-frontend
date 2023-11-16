@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from 'expo-splash-screen';
 import * as ImagePicker from 'expo-image-picker';
 
 const profilepicturePlaceholder = require("../assets/profilepicture_placeholder.png");
@@ -26,16 +26,25 @@ const SignupProfilePicture = () => {
     }
   };
 
+  useEffect(() => {
+    const hideSplash = async () => {
+      await SplashScreen.hideAsync();
+    };
+
+    hideSplash();
+  }, []);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
 
   const continueOnPress = () => {
     console.log("Continue Pressed");
-  }
+  };
+
   const skipOnPress = () => {
     console.log("Skip Pressed");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -50,18 +59,18 @@ const SignupProfilePicture = () => {
       </View>
       
       <TouchableOpacity onPress={pickImage}>
-        <Text style={{color: "#35C2C1", fontSize: 16, fontWeight: "bold", margin: 20}}>Edit Picture</Text>
+        <Text style={{ color: "#35C2C1", fontSize: 16, fontWeight: "bold", margin: 20 }}>Edit Picture</Text>
       </TouchableOpacity>
 
-     <Text style={{color: "grey", fontSize: 16, width: "80%"}}>Bio</Text> 
-     <TextInput style={styles.input} placeholder="Something Interesting" placeholderTextColor= "#fff"/>
+      <Text style={{ color: "#fff", fontSize: 16, width: "80%" }}>Bio</Text> 
+      <TextInput style={styles.input} placeholder="Something Interesting" placeholderTextColor="grey" />
 
-     <TouchableOpacity style= {styles.signupButton} onPress={continueOnPress}>
-        <Text style={{fontWeight: "bold" }}>Continue</Text>
+      <TouchableOpacity style={styles.signupButton} onPress={continueOnPress}>
+        <Text style={{ fontWeight: "bold" }}>Continue</Text>
       </TouchableOpacity>
 
-     <TouchableOpacity style= {styles.skipButton} onPress={skipOnPress}>
-        <Text style={{fontWeight: "bold", color: "#35C2C1", fontFamily: "Roboto"}}>Skip for now</Text>
+      <TouchableOpacity style={styles.skipButton} onPress={skipOnPress}>
+        <Text style={{ fontWeight: "bold", color: "#35C2C1", fontFamily: "Roboto" }}>Skip for now</Text>
       </TouchableOpacity>
 
       <StatusBar style="auto" />

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { useEffect } from 'react'; // Import useEffect
 import * as SplashScreen from 'expo-splash-screen';
 
 const outlookImage = require("../assets/outlook_image.png");
@@ -12,11 +12,17 @@ const Signup = () => {
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  useEffect(() => {
+    const hideSplash = async () => {
+      await SplashScreen.hideAsync();
+    };
 
-  SplashScreen.hideAsync();
+    hideSplash();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const onPress = () => {
     console.log("Pressed");
@@ -25,13 +31,13 @@ const Signup = () => {
   return (
     <View style={styles.container}>
       <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
-      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor= "#fff"/>
-      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor= "#fff"/>
-      <TextInput style={styles.input} placeholder="Username" placeholderTextColor= "#fff"/>
-      <TextInput style={styles.input} keyboardType= "visible-password" placeholder="Password" placeholderTextColor= "#fff"/>
+      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor="#fff" />
+      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#fff" />
+      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#fff" />
+      <TextInput style={styles.input} keyboardType="visible-password" placeholder="Password" placeholderTextColor="#fff" />
 
-      <TouchableOpacity style= {styles.signupButton} onPress={onPress}>
-        <Text style={{fontWeight: "bold" }}>Sign Up</Text>
+      <TouchableOpacity style={styles.signupButton} onPress={onPress}>
+        <Text style={{ fontWeight: "bold" }}>Sign Up</Text>
       </TouchableOpacity>
 
       <View style={styles.dividerContainer}>
@@ -40,7 +46,7 @@ const Signup = () => {
         <View style={styles.dividerLine} />
       </View>
 
-      <TouchableOpacity style= {styles.outlookButton} onPress={onPress}>
+      <TouchableOpacity style={styles.outlookButton} onPress={onPress}>
         <Image source={outlookImage} style={styles.logo} />
         <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>Outlook</Text>
       </TouchableOpacity>

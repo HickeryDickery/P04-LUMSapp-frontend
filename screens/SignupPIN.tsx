@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from 'expo-splash-screen';
 import OTPInputView from "@twotalltotems/react-native-otp-input";
-
 
 const email = "email@lums.edu.pk";
 
 const SignupPIN = () => {
-  const [timerCount, setTimer] = useState(120);
+  const [timerCount, setTimer] = useState(3);
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
-  
+
   const alertCall = (codeValue:string, codeMessage:string) => {
     Alert.alert(
       codeValue,
@@ -26,32 +25,39 @@ const SignupPIN = () => {
         },
       ],
       { cancelable: false }
-      );
+    );
+  };
+
+  useEffect(() => {
+    const hideSplash = async () => {
+      await SplashScreen.hideAsync();
     };
-    
-    useEffect(() => {
-      let interval = setInterval(() => {
-        setTimer((lastTimerCount) => {
-          if (lastTimerCount <= 1) {
-            clearInterval(interval);
-            alertCall("Timeout, Please try again", "Your code has expired. Please request a new code.");
-          }
+
+    hideSplash();
+
+    let interval = setInterval(() => {
+      setTimer((lastTimerCount) => {
+        if (lastTimerCount <= 1) {
+          setTimer(0);
+          clearInterval(interval);
+          alertCall("Timeout, Please try again", "Your code has expired. Please request a new code.");
+        }
         return lastTimerCount - 1;
       });
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
-  
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
-  
+
   const minutes = Math.floor(timerCount / 60);
   const seconds = timerCount % 60;
 
   return (
-  <View style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.centerText}>Enter PIN</Text>
 
       <Text style={styles.emailText}>
@@ -59,11 +65,10 @@ const SignupPIN = () => {
         <Text style={{ textDecorationLine: "underline", color: "lightgrey" }}>{email}</Text>
       </Text>
 
-
       <OTPInputView
         style={{ width: '80%', height: 200 }}
         pinCount={4}
-        autoFocusOnLoad
+        autoFocusOnLoad={false}
         codeInputFieldStyle={styles.underlineStyleBase}
         codeInputHighlightStyle={styles.underlineStyleHighLighted}
         onCodeFilled={(code) => {
@@ -75,8 +80,8 @@ const SignupPIN = () => {
         }}
       />
 
-    <Text style={styles.timerText}>{`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`} remaining</Text>
-      
+      <Text style={styles.timerText}>{`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`} remaining</Text>
+
       <StatusBar style="auto" />
     </View>
   );
