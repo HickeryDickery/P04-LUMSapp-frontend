@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from "@react-navigation/native";
 
 const profilepicturePlaceholder = require("../assets/profilepicture_placeholder.png");
 
@@ -12,7 +13,9 @@ const SignupProfilePicture = () => {
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
+  const navigation = useNavigation();
   const [image, setImage] = useState<null | string>(null);
+  const [bio, setBio] = useState('');
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -39,11 +42,12 @@ const SignupProfilePicture = () => {
   }
 
   const continueOnPress = () => {
-    console.log("Continue Pressed");
-  };
+    if (image && bio) {
+      navigation.navigate('Home');
+  };}
 
   const skipOnPress = () => {
-    console.log("Skip Pressed");
+    navigation.navigate('Home');
   };
 
   return (
@@ -63,7 +67,8 @@ const SignupProfilePicture = () => {
       </TouchableOpacity>
 
       <Text style={{ color: "#fff", fontSize: 16, width: "80%" }}>Bio</Text> 
-      <TextInput style={styles.input} placeholder="Something Interesting" placeholderTextColor="grey" />
+      <TextInput style={styles.input} placeholder="Something Interesting" placeholderTextColor="grey"
+        onChangeText={(text) => setBio(text)} />
 
       <TouchableOpacity style={styles.signupButton} onPress={continueOnPress}>
         <Text style={{ fontWeight: "bold" }}>Continue</Text>

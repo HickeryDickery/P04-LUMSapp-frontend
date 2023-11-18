@@ -1,13 +1,20 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from 'expo-font';
-import { useEffect } from 'react'; // Import useEffect
+import { useEffect, useState } from 'react'; // Import useEffect
 import * as SplashScreen from 'expo-splash-screen';
+import { useNavigation } from '@react-navigation/native';
+
 
 const outlookImage = require("../assets/outlook_image.png");
 const lumsLogo = require("../assets/Lums.png");
 
 const Signup = () => {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [password, setPassword] = useState('');
+
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
@@ -26,17 +33,24 @@ const Signup = () => {
 
   const onPress = () => {
     console.log("Pressed");
+    if (email && fullname && password) {  
+    navigation.navigate('SignupPIN');}
+    else (
+      alert("Please fill all the fields")
+    )
   }
 
   return (
     <View style={styles.container}>
       <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
-      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor="#fff" />
-      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#fff" />
-      <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#fff" />
-      <TextInput style={styles.input} keyboardType="visible-password" placeholder="Password" placeholderTextColor="#fff" />
+      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor="#fff" 
+        onChangeText={(text) => setEmail(text)} />
+      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#fff" 
+        onChangeText={(text) => setFullname(text)} />
+      <TextInput style={styles.input} keyboardType="visible-password" placeholder="Password" placeholderTextColor="#fff" 
+        secureTextEntry={true} onChangeText={(text) => setPassword(text)}  />
 
-      <TouchableOpacity style={styles.signupButton} onPress={onPress}>
+      <TouchableOpacity style={styles.signupButton}  onPress={onPress}>
         <Text style={{ fontWeight: "bold" }}>Sign Up</Text>
       </TouchableOpacity>
 
