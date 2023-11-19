@@ -1,25 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 
-import Home from "../screens/Home";
-import Signup from "../screens/Signup";
-
-const TabBar = ({ state, descriptors, navigation }: any) => {
-  return <View></View>;
-};
-import LdfHomePage from "../screens/LdfHomePage";
-import LdfSpecificPost from "../screens/LdfSpecificPost";
+import bottomTabs from "../constants/bottomtabs";
+import Header from "./Header";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
   return (
-    <NavigationContainer>
+    <View style={{ flex: 1, backgroundColor: "black" }}>
+      <Header />
       <Tab.Navigator
-        initialRouteName="LoginScreen"
+        initialRouteName="Home"
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           tabBarStyle: { backgroundColor: "black" },
@@ -28,8 +23,23 @@ const BottomTabs = () => {
           headerShown: false,
         })}
       >
-
-        <Tab.Screen
+        {bottomTabs.map((tab) => (
+          <Tab.Screen
+            key={tab.name}
+            name={tab.name}
+            component={tab.component}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Ionicons
+                  name={tab.icon}
+                  size={focused ? 24 : 20}
+                  color={focused ? "#DDDDDD" : "#35C2C1"}
+                />
+              ),
+            }}
+          />
+        ))}
+        {/* <Tab.Screen
           name="Home"
           component={Home}
           options={{
@@ -41,12 +51,12 @@ const BottomTabs = () => {
               />
             ),
           }}
-        />
-        
-        <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
-        <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} />
+        /> */}
+
+        {/* <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
+        <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} /> */}
       </Tab.Navigator>
-    </NavigationContainer>
+    </View>
   );
 };
 

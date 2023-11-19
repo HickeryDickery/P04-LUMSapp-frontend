@@ -1,27 +1,41 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import axios from "axios"; 
+import axios from "axios";
+import { useFonts } from "expo-font";
 
-const LoginScreen = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [fontsLoaded] = useFonts({
+    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
+  });
+
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://192.168.10.18:8000/login", {
-        email,
-        password,
-      });
+      // const response = await axios.post("http://192.168.10.18:8000/login", {
+      //   email,
+      //   password,
+      // });
 
-      if (response.status === 200) {
-        // Handle successful login
-        console.log("Login successful");
-      } else {
-        // Handle login error
-        console.error("Login failed");
-      }
+      // if (response.status === 200) {
+      //   // Handle successful login
+      //   console.log("Login successful");
+      // } else {
+      //   // Handle login error
+      //   console.error("Login failed");
+      // }
+
+      console.log("Login");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -29,18 +43,51 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <Text
+        style={{
+          color: "white",
+          fontSize: 24,
+          textAlign: "center",
+          marginBottom: 20,
+        }}
+      >
+        Hello, Welcome Back!
+      </Text>
 
-      {/* Back arrow */}
-      <TouchableOpacity style={styles.backButton}>
-        <Ionicons name="arrow-back" size={24} color="white" />
+      {/* <Image source={lumsLogo} style={{ width: 150, height: 150 }} /> */}
+      <TextInput
+        style={styles.input}
+        keyboardType="email-address"
+        placeholder="Email"
+        placeholderTextColor="#757575"
+        // onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        placeholderTextColor="#757575"
+        // onChangeText={(text) => setFullname(text)}
+      />
+
+      <TouchableOpacity style={styles.signupButton}>
+        <Text style={{ fontWeight: "bold" }}>Login</Text>
       </TouchableOpacity>
 
-      {/* Welcome message */}
-      <Text style={styles.welcomeMessage}>Hello, welcome back!</Text>
+      <View style={styles.dividerContainer}>
+        <View style={styles.dividerLine} />
+        <Text style={styles.divBar}>or</Text>
+        <View style={styles.dividerLine} />
+      </View>
+
+      <TouchableOpacity style={styles.outlookButton}>
+        {/* <Image source={outlookImage} style={styles.logo} /> */}
+        <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>
+          Outlook
+        </Text>
+      </TouchableOpacity>
 
       {/* Email and Password fields */}
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
           <TextInput
             style={styles.input}
@@ -62,25 +109,28 @@ const LoginScreen = () => {
           />
           <View style={styles.inputLine} />
         </View>
-      </View>
+      </View> */}
 
       {/* Login button */}
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      {/* <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Separator */}
-      <View style={styles.separatorContainer}>
+      {/* <View style={styles.separatorContainer}>
         <View style={styles.separatorLine}></View>
         <Text style={styles.separatorText}>or</Text>
         <View style={styles.separatorLine}></View>
-      </View>
+      </View> */}
 
       {/* Outlook button */}
-      <TouchableOpacity style={styles.outlookButton}>
-        <Image source={require("../assets/outlookLogo.png")} style={styles.outlookLogo} />
+      {/* <TouchableOpacity style={styles.outlookButton}>
+        <Image
+          source={require("../assets/outlookLogo.png")}
+          style={styles.outlookLogo}
+        />
         <Text style={styles.buttonText}>Outlook</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -88,81 +138,45 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
-    paddingHorizontal: 20,
-    paddingTop: 50,
+    backgroundColor: "#000",
+    alignItems: "center",
     justifyContent: "center",
   },
-  backButton: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-    padding: 10,
-  },
-  welcomeMessage: {
-    color: "white",
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 20, // Adjust the margin as needed
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputWrapper: {
-    position: "relative",
-    marginBottom: 20,
-  },
   input: {
-    backgroundColor: "transparent",
-    padding: 15,
-    borderRadius: 0,
-    color: "white",
-  },
-  inputLine: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 2,
-    backgroundColor: "#35C2C1",
-  },
-  loginButton: {
-    backgroundColor: "#35C2C1",
-    padding: 15,
+    borderColor: "#35C2C1",
+    width: "80%",
+    borderBottomWidth: 1,
     borderRadius: 10,
-    marginBottom: 10,
+    marginTop: "5%",
+    padding: 15,
+    color: "#fff",
   },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 16,
+  signupButton: {
+    marginTop: "20%",
+    backgroundColor: "#35C2C1",
+    borderRadius: 10,
+    width: "80%",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Roboto",
   },
-  separatorContainer: {
+  dividerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20,
+    marginVertical: "5%",
+    width: "80%",
   },
-  separatorLine: {
+  dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: "#8e8e8e",
+    backgroundColor: "#35C2C1",
   },
-  separatorText: {
-    color: "#8e8e8e",
-    marginHorizontal: 10,
-  },
-  outlookButton: {
-    backgroundColor: "#0072C6",
-    padding: 15,
-    borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  outlookLogo: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
+  divBar: {
+    color: "#fff",
+    fontSize: 12,
+    paddingHorizontal: 10,
   },
 });
 
-export default LoginScreen;
+export default Login;

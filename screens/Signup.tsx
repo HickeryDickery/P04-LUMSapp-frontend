@@ -1,19 +1,24 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useFonts } from 'expo-font';
-import { useEffect, useState } from 'react'; // Import useEffect
-import * as SplashScreen from 'expo-splash-screen';
-import { useNavigation } from '@react-navigation/native';
-
+import { useFonts } from "expo-font";
+import { useEffect, useState } from "react"; // Import useEffect
+import * as SplashScreen from "expo-splash-screen";
+import { useNavigation } from "@react-navigation/native";
 
 const outlookImage = require("../assets/outlook_image.png");
 const lumsLogo = require("../assets/Lums.png");
 
-const Signup = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [fullname, setFullname] = useState('');
-  const [password, setPassword] = useState('');
+const Signup = ({ navigation }: any) => {
+  const [email, setEmail] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [password, setPassword] = useState("");
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
@@ -33,24 +38,37 @@ const Signup = () => {
 
   const onPress = () => {
     console.log("Pressed");
-    if (email && fullname && password) {  
-    navigation.navigate('SignupPIN');}
-    else (
-      alert("Please fill all the fields")
-    )
-  }
+    if (email && fullname && password) {
+      navigation.navigate("SignupPIN");
+    } else alert("Please fill all the fields");
+  };
 
   return (
     <View style={styles.container}>
       <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
-      <TextInput style={styles.input} keyboardType="email-address" placeholder="Email" placeholderTextColor="#fff" 
-        onChangeText={(text) => setEmail(text)} />
-      <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#fff" 
-        onChangeText={(text) => setFullname(text)} />
-      <TextInput style={styles.input} keyboardType="visible-password" placeholder="Password" placeholderTextColor="#fff" 
-        secureTextEntry={true} onChangeText={(text) => setPassword(text)}  />
+      <TextInput
+        style={styles.input}
+        keyboardType="email-address"
+        placeholder="Email"
+        placeholderTextColor="#757575"
+        onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        placeholderTextColor="#757575"
+        onChangeText={(text) => setFullname(text)}
+      />
+      <TextInput
+        style={styles.input}
+        // keyboardType="visible-password"
+        placeholder="Password"
+        placeholderTextColor="#757575"
+        secureTextEntry
+        onChangeText={(text) => setPassword(text)}
+      />
 
-      <TouchableOpacity style={styles.signupButton}  onPress={onPress}>
+      <TouchableOpacity style={styles.signupButton} onPress={onPress}>
         <Text style={{ fontWeight: "bold" }}>Sign Up</Text>
       </TouchableOpacity>
 
@@ -62,8 +80,20 @@ const Signup = () => {
 
       <TouchableOpacity style={styles.outlookButton} onPress={onPress}>
         <Image source={outlookImage} style={styles.logo} />
-        <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>Outlook</Text>
+        <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>
+          Outlook
+        </Text>
       </TouchableOpacity>
+
+      <Text style={{ color: "#fff", marginTop: 20 }}>
+        Already have an account?{" "}
+        <Text
+          style={{ color: "#35C2C1", fontWeight: "bold" }}
+          onPress={() => navigation.navigate("Login")}
+        >
+          Login
+        </Text>
+      </Text>
 
       <StatusBar style="auto" />
     </View>
@@ -86,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: "5%",
     padding: 15,
-    color: "#fff", 
+    color: "#fff",
   },
   signupButton: {
     marginTop: "20%",
@@ -110,8 +140,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: "5%",
     width: "80%",
   },
@@ -125,8 +155,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 10,
   },
-  logo:{
+  logo: {
     width: 30,
     height: 20,
-  }
+  },
 });

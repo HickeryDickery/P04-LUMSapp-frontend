@@ -17,7 +17,7 @@ import HomeButtons from "../components/HomeButtons";
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      {/* <Header /> */}
       <CarouselCard />
 
       <View
