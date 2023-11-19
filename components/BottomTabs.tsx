@@ -10,6 +10,8 @@ import Signup from "../screens/Signup";
 const TabBar = ({ state, descriptors, navigation }: any) => {
   return <View></View>;
 };
+import LdfHomePage from "../screens/LdfHomePage";
+import LdfSpecificPost from "../screens/LdfSpecificPost";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,20 +42,9 @@ const BottomTabs = () => {
             ),
           }}
         />
-        <Tab.Screen
-          name="LDF"
-          component={Home}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Ionicons
-                name="people-circle"
-                size={24}
-                color={focused ? "#DDDDDD" : "#35C2C1"}
-              />
-            ),
-          }}
-        />
-
+        
+        <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
+        <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} />
       </Tab.Navigator>
     </NavigationContainer>
   );
