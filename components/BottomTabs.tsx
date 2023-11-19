@@ -1,9 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 import Home from "../screens/Home";
+import Signup from "../screens/Signup";
+
+const TabBar = ({ state, descriptors, navigation }: any) => {
+  return <View></View>;
+};
 import LdfHomePage from "../screens/LdfHomePage";
 import LdfSpecificPost from "../screens/LdfSpecificPost";
 
@@ -13,24 +19,30 @@ const BottomTabs = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="LoginScreen"
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            // You can return any component that you like here!
-            return (
-              <Ionicons
-                name="ios-information-circle"
-                size={size}
-                color={color}
-              />
-            );
-          },
-          tabBarActiveTintColor: "blue",
-          tabBarInactiveTintColor: "gray",
+          tabBarShowLabel: false,
+          tabBarStyle: { backgroundColor: "black" },
+          tabBarActiveTintColor: "#DDDDDD",
+          tabBarInactiveTintColor: "#35C2C1",
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Ionicons
+                name="home"
+                size={24}
+                color={focused ? "#DDDDDD" : "#35C2C1"}
+              />
+            ),
+          }}
+        />
+        
         <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
         <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} />
       </Tab.Navigator>
