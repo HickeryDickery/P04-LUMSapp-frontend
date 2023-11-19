@@ -1,12 +1,128 @@
-import { StyleSheet, Text, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+
+// import { Avatar } from "react-native-paper";
+import Header from "../components/Header";
+import CarouselCard from "../components/CarouselCard";
+import { MaterialIcons } from "@expo/vector-icons";
+import buttons from "../constants/homebutton";
+import HomeButtons from "../components/HomeButtons";
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Header />
+      <CarouselCard />
+
+      <View
+        style={{
+          paddingHorizontal: "5%",
+          paddingVertical: "5%",
+          flex: 1,
+          // borderColor: "red",
+          // borderWidth: 1,
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            // borderWidth: 1,
+            // borderColor: "red",
+          }}
+        >
+          {buttons.map((button) => (
+            <HomeButtons
+              key={button.name}
+              name={button.name}
+              icon={button.icon}
+            />
+          ))}
+        </View>
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            width: "100%",
+            justifyContent: "flex-start",
+            backgroundColor: "#2B2B2B",
+            borderRadius: 20,
+            padding: 10,
+            marginVertical: 10,
+            paddingLeft: 20,
+          }}
+        >
+          <MaterialIcons name="info" size={40} color="#35C2B0" />
+          <View>
+            <Text style={{ color: "#35C2B0", fontWeight: "bold" }}>
+              Campus Information
+            </Text>
+            <Text style={{ color: "#185D54", fontSize: 10 }}>
+              Instructor Emails, Gym Timings, Eateries Info etc
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      {/* <View
+        style={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+          flexWrap: "wrap",
+          borderWidth: 1,
+          borderColor: "red",
+        }}
+      >
+        {buttons.map((button) => (
+          <HomeButtons
+            key={button.name}
+            name={button.name}
+            icon={button.icon}
+          />
+        ))}
+      </View>
+      <TouchableOpacity
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          width: "100%",
+          justifyContent: "flex-start",
+          backgroundColor: "#2B2B2B",
+          borderRadius: 20,
+          padding: 10,
+          marginBottom: 10,
+          paddingLeft: 20,
+        }}
+      >
+        <MaterialIcons name="info" size={40} color="#35C2B0" />
+        <View>
+          <Text style={{ color: "#35C2B0", fontWeight: "bold" }}>
+            Campus Information
+          </Text>
+          <Text style={{ color: "#185D54", fontSize: 10 }}>
+            Instructor Emails, Gym Timings, Eateries Info etc
+          </Text>
+        </View>
+      </TouchableOpacity> */}
+    </SafeAreaView>
   );
 };
 
@@ -15,8 +131,20 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     alignItems: "center",
-    justifyContent: "center",
+    color: "#fff",
+    paddingHorizontal: 20,
+    justifyContent: "flex-start",
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginTop: 20,
+    // borderColor: "red",
+    // borderWidth: 1,
+    padding: 0,
   },
 });
