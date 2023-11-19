@@ -5,6 +5,7 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 
 import Home from "../screens/Home";
+import Signup from "../screens/Signup";
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   return <View></View>;
@@ -25,6 +26,7 @@ const BottomTabs = () => {
           headerShown: false,
         })}
       >
+
         <Tab.Screen
           name="Home"
           component={Home}
@@ -51,6 +53,7 @@ const BottomTabs = () => {
             ),
           }}
         />
+
       </Tab.Navigator>
     </NavigationContainer>
   );
