@@ -3,7 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import Home from "../screens/Home";
+import Home from "../screens/FirstScreen";
+import LoginScreen from "../screens/Login";
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +12,7 @@ const BottomTabs = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="LoginScreen"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             // You can return any component that you like here!
@@ -28,7 +29,7 @@ const BottomTabs = () => {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Login" component={LoginScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
