@@ -17,7 +17,7 @@ const BottomTabs = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="LoginScreen"
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           tabBarStyle: { backgroundColor: "black" },
