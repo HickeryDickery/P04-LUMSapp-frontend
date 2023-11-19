@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Home from "../screens/Home";
+import LdfHomePage from "../screens/LdfHomePage";
+import LdfSpecificPost from "../screens/LdfSpecificPost";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +31,8 @@ const BottomTabs = () => {
         })}
       >
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
+        <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} />
       </Tab.Navigator>
     </NavigationContainer>
   );
