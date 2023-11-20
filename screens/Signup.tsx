@@ -6,11 +6,13 @@ import {
   View,
   Image,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { useEffect, useState } from "react"; // Import useEffect
-import * as SplashScreen from "expo-splash-screen";
-import { useNavigation } from "@react-navigation/native";
+import { useState, useEffect } from "react";
+import Loader from "../components/Loader";
+// import { useAppDispatch, useAppSelector } from "../redux/hooks";
+// import { signup } from "../redux/action";
+import axios from "axios";
+import { IP } from "../constants/ip";
 
 const outlookImage = require("../assets/outlook_image.png");
 const lumsLogo = require("../assets/Lums.png");
@@ -19,33 +21,68 @@ const Signup = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
-  useEffect(() => {
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
-    hideSplash();
-  }, []);
+  // const { loading, error, isSignedUp } = useAppSelector((state) => state.auth);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // const dispatch = useAppDispatch();
 
-  const onPress = () => {
-    console.log("Pressed");
-    if (email && fullname && password) {
-      navigation.navigate("SignupPIN");
-    } else alert("Please fill all the fields");
+  const signupHandler = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`${IP}/user/signup`, {
+        name: fullname,
+        email,
+        password,
+      });
+
+      setLoading(false);
+      if (data.success) {
+        navigation.navigate("PIN");
+      }
+    } catch (error: any) {
+      console.log("Error in signupHandler: ", error);
+      setLoading(false);
+      alert(error.response.data.message);
+    }
+
+    // dispatch(signup(fullname, email, password));
   };
+
+  // useEffect(() => {
+  //   if (isSignedUp) {
+  //     navigation.navigate("PIN");
+  //   }
+  // }, [isSignedUp, navigation]);
+
+  // useEffect(() => {
+  //   if (error) {
+  //     alert(error);
+  //     dispatch({ type: "clearError" });
+  //   }
+  // }, [error, dispatch, alert]);
 
   return (
     <View style={styles.container}>
       <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
+      <Text
+        style={{
+          color: "white",
+          fontSize: 24,
+          textAlign: "center",
+          marginBottom: 10,
+        }}
+      >
+        Sign Up
+      </Text>
       <TextInput
         style={styles.input}
         keyboardType="email-address"
@@ -68,7 +105,7 @@ const Signup = ({ navigation }: any) => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.signupButton} onPress={onPress}>
+      <TouchableOpacity style={styles.signupButton} onPress={signupHandler}>
         <Text style={{ fontWeight: "bold" }}>Sign Up</Text>
       </TouchableOpacity>
 
@@ -78,7 +115,7 @@ const Signup = ({ navigation }: any) => {
         <View style={styles.dividerLine} />
       </View>
 
-      <TouchableOpacity style={styles.outlookButton} onPress={onPress}>
+      <TouchableOpacity style={styles.outlookButton}>
         <Image source={outlookImage} style={styles.logo} />
         <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>
           Outlook
@@ -95,7 +132,8 @@ const Signup = ({ navigation }: any) => {
         </Text>
       </Text>
 
-      <StatusBar style="auto" />
+      {loading && <Loader />}
+      {/* <StatusBar style="auto" /> */}
     </View>
   );
 };
@@ -114,12 +152,12 @@ const styles = StyleSheet.create({
     width: "80%",
     borderBottomWidth: 1,
     borderRadius: 10,
-    marginTop: "5%",
+    marginTop: "2%",
     padding: 15,
     color: "#fff",
   },
   signupButton: {
-    marginTop: "20%",
+    marginTop: "10%",
     backgroundColor: "#35C2C1",
     borderRadius: 10,
     width: "80%",

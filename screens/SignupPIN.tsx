@@ -1,95 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
-import * as SplashScreen from 'expo-splash-screen';
-import OTPInputView from "@twotalltotems/react-native-otp-input";
-import { useNavigation } from '@react-navigation/native';
-
+import axios from "axios";
+import { IP } from "../constants/ip";
+import Loader from "../components/Loader";
+import Otp from "../components/Otp";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { verifyOtp } from "../redux/action";
 
 const email = "email@lums.edu.pk";
 
-const SignupPIN = () => {
-  const [timerCount, setTimer] = useState(120);
-  const navigation = useNavigation();
+const SignupPIN = ({ navigation }: any) => {
+  // const [timerCount, setTimer] = useState(120);
+  const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const lumsLogo = require("../assets/Lums.png");
+
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
-  const alertCall = (codeValue:string, codeMessage:string, redirectPage:string) => {
-    Alert.alert(
-      codeValue,
-      codeMessage,
-      [
-        {
-          text: "Confirm",
-          onPress: () => {
-            if (redirectPage) {
-            navigation.navigate(redirectPage);
-          }},
-          style: "cancel",
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
-
-    hideSplash();
-
-    let interval = setInterval(() => {
-      setTimer((lastTimerCount) => {
-        if (lastTimerCount <= 1) {
-          setTimer(0);
-          clearInterval(interval);
-          alertCall("Timeout, Please try again", "Your code has expired. Please request a new code.", "Signup");
-        }
-        return lastTimerCount - 1;
+  const handleSubmit = async () => {
+    const otp = code.join("");
+    try {
+      const { data } = await axios.post(`${IP}/user/verify`, {
+        otp,
       });
-    }, 1000);
+      if (data.success) {
+        dispatch({ type: "otpSuccess", payload: data.user });
+      }
+    } catch (error) {
+      console.log("Error in handleSubmit: ", error);
+    }
 
-    return () => clearInterval(interval);
-  }, []);
+    // const otp = code.join("");
+    // dispatch(verifyOtp(otp));
+  };
 
   if (!fontsLoaded) {
     return null;
   }
 
-  const minutes = Math.floor(timerCount / 60);
-  const seconds = timerCount % 60;
-
   return (
     <View style={styles.container}>
+      <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
       <Text style={styles.centerText}>Enter PIN</Text>
 
       <Text style={styles.emailText}>
-        Please enter the 6-alphanumeric PIN sent to{" "}
-        <Text style={{ textDecorationLine: "underline", color: "lightgrey" }}>{email}</Text>
+        Please enter the 6-character alphanumeric PIN sent to{" "}
+        <Text style={{ textDecorationLine: "underline", color: "lightgrey" }}>
+          {email}
+        </Text>
       </Text>
 
-      <OTPInputView
-        style={{ width: '80%', height: 200 }}
-        keyboardType="default"
-        pinCount={6}
-        autoFocusOnLoad={false}
-        codeInputFieldStyle={styles.underlineStyleBase}
-        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-        onCodeFilled={(code) => {
-          if (code === "ABCDEF") {
-            alertCall("Correct Code", "You have entered the correct code.", "SignupProfilePicture");
-          } else {
-            alertCall("Incorrect Code", "You have entered the incorrect code.", "");
-          }
-        }}
-      />
+      <Otp length={6} code={code} setCode={setCode} />
 
-      <Text style={styles.timerText}>{`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`} remaining</Text>
+      <TouchableOpacity style={styles.signupButton} onPress={handleSubmit}>
+        <Text style={{ fontWeight: "bold" }}>Submit</Text>
+      </TouchableOpacity>
 
-      <StatusBar style="auto" />
+      {loading && <Loader />}
     </View>
   );
 };
@@ -102,39 +74,30 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 20,
+    paddingBottom: "30%",
   },
   centerText: {
     color: "#35C2C1",
     fontFamily: "Roboto",
     fontSize: 36,
-    paddingBottom: 20,
+    marginBottom: "5%",
   },
   emailText: {
     color: "grey",
-    marginTop: 10,
+    // marginTop: 10,
+    // alignSelf: "center",
+    marginBottom: "10%",
+    textAlign: "center",
   },
-  timerText: {
-    color: "#146987",
-    marginTop: 10,
-  },
-
-  borderStyleBase: {
-    width: 30,
-    height: 45
-  },
-
-  borderStyleHighLighted: {
-    borderColor: "#03DAC6",
-  },
-
-  underlineStyleBase: {
-    width: 30,
-    height: 45,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-  },
-
-  underlineStyleHighLighted: {
-    borderColor: "#03DAC6",
+  signupButton: {
+    marginTop: "10%",
+    backgroundColor: "#35C2C1",
+    borderRadius: 10,
+    width: "80%",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Roboto",
   },
 });
