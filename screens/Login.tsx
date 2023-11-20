@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import { useFonts } from "expo-font";
+import { IP } from "../constants/IP2";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,18 +23,18 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      // const response = await axios.post("http://192.168.10.18:8000/login", {
-      //   email,
-      //   password,
-      // });
+      const response = await axios.post(`${IP}/user/login`, {
+        email,
+        password,
+      });
 
-      // if (response.status === 200) {
-      //   // Handle successful login
-      //   console.log("Login successful");
-      // } else {
-      //   // Handle login error
-      //   console.error("Login failed");
-      // }
+      if (response.status === 200) {
+        // Handle successful login
+        console.log("Login successful");
+      } else {
+        // Handle login error
+        console.error("Login failed");
+      }
 
       console.log("Login");
     } catch (error) {
@@ -60,16 +61,16 @@ const Login = () => {
         keyboardType="email-address"
         placeholder="Email"
         placeholderTextColor="#757575"
-        // onChangeText={(text) => setEmail(text)}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Full Name"
+        placeholder="Password"
         placeholderTextColor="#757575"
-        // onChangeText={(text) => setFullname(text)}
+        onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.signupButton}>
+      <TouchableOpacity style={styles.signupButton} onPress={handleLogin}>
         <Text style={{ fontWeight: "bold" }}>Login</Text>
       </TouchableOpacity>
 
@@ -177,6 +178,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 10,
   },
+  outlookButton: {},
 });
 
 export default Login;

@@ -11,6 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import React, { useState } from "react";
 
 type PostProps = {
   name: string;
@@ -20,9 +21,13 @@ type PostProps = {
   likes: number;
   dislikes: number;
   comments: number;
+  liked: boolean;
+  disliked: boolean;
 };
 
 const Post = (props: PostProps) => {
+  const [liked, setLiked] = useState(props.liked);
+  const [disliked, setDisliked] = useState(props.disliked);
   return (
     <View // Touchable opacity is baiscally a postd
       style={styles.post}
@@ -52,12 +57,26 @@ const Post = (props: PostProps) => {
       <View style={styles.footerPost}>
         <View style={styles.leftFooter}>
           <View style={styles.footerComponent}>
-            <FontAwesome name="arrow-up" size={24} color="white" />
-            <Text style={{ color: "white", fontSize: 10 }}>{props.likes}</Text>
+            <FontAwesome
+              name="arrow-up"
+              size={24}
+              color={props.liked ? "white" : "grey"}
+            />
+            <Text
+              style={{ color: props.liked ? "white" : "grey", fontSize: 10 }}
+            >
+              {props.likes}
+            </Text>
           </View>
           <View style={styles.footerComponent}>
-            <FontAwesome name="arrow-down" size={24} color="grey" />
-            <Text style={{ color: "grey", fontSize: 10 }}>
+            <FontAwesome
+              name="arrow-down"
+              size={24}
+              color={props.disliked ? "white" : "grey"}
+            />
+            <Text
+              style={{ color: props.disliked ? "white" : "grey", fontSize: 10 }}
+            >
               {props.dislikes}
             </Text>
             {/* This is grey because it is not pressed(we haven't disliked). We have to make this dynamic rather than static*/}

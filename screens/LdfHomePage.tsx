@@ -10,6 +10,9 @@ import {
 
 import Post from "../components/components_LDF/Post";
 import React, { useState } from "react";
+import { IP } from "../constants/IP2";
+import axios from "axios";
+import { useEffect } from "react";
 
 const DATA = [
   {
@@ -23,6 +26,8 @@ const DATA = [
     likes: 10,
     dislikes: 20,
     comments: 100,
+    liked: false,
+    disliked: true,
   },
   {
     id: "2",
@@ -35,6 +40,8 @@ const DATA = [
     likes: 10,
     dislikes: 20,
     comments: 100,
+    liked: true,
+    disliked: false,
   },
   {
     id: "3",
@@ -47,6 +54,8 @@ const DATA = [
     likes: 10,
     dislikes: 300,
     comments: 100,
+    liked: true,
+    disliked: false,
   },
   {
     id: "4",
@@ -59,27 +68,57 @@ const DATA = [
     likes: 10,
     dislikes: 20,
     comments: 100,
+    liked: true,
+    disliked: false,
   },
 ];
 
 const LdfHomePage = () => {
+  const [posts, setPosts] = useState(null);
+  const [page, setPage] = useState(0);
+
+  const getData = async (page: number) => {
+    try {
+      const res = await axios.get(`${IP}/post/feed?page=${page}`);
+      setPosts(res.data.posts);
+      // console.log(res.data);
+      console.log("Feed Fetched Successfully!");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // will run every time page changes
+  useEffect(() => {
+    getData(page);
+  }, [page]);
+  // useEffect(() => {
+  //   getData(page);
+  // });
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.scrollPost}
-        data={DATA}
+        data={posts}
+        onEndReached={() => {
+          setPage(page + 1);
+        }}
+        onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <Post
-            name={item.name}
-            profileImage={item.profileImage}
-            body={item.body}
-            image={item.image}
-            likes={item.likes}
-            dislikes={item.dislikes}
-            comments={item.comments}
+            name={"Muneeb Akmal"}
+            profileImage={"https://picsum.photos/200"}
+            body={item.text}
+            image={"https://picsum.photos/200"} // make this an array
+            likes={item.likeCount}
+            dislikes={item.dislikeCount}
+            comments={item.commentCount}
+            liked={item.isLikedbyUser}
+            disliked={item.isDislikedbyUser}
           />
         )}
         keyExtractor={(item) => item.id}
+        extraData={posts}
       />
     </SafeAreaView>
   );

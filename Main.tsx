@@ -20,7 +20,7 @@ const Main = () => {
     >
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Signup"
+          initialRouteName="BottomTabs"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="BottomTabs" component={BottomTabs} />
