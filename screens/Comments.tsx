@@ -12,31 +12,30 @@ import {
   Button,
 } from "react-native";
 import { IP } from "../constants/ip";
+import Comment from "../components/Comment";
 
-const Comment = ({ comment }) => {
-  return (
-    <View style={[styles.commentContainer && { paddingLeft: 20 }]}>
-      <View style={styles.userInfoContainer}>
-        <Image
-          source={{ uri: comment.profile_picture.url }}
-          style={styles.profile_picture}
-        />
-        <Text style={styles.fullname}>{comment.postedBy.fullname}</Text>
-      </View>
+interface commentI {
+  text:string,
+  likedBy: any
+  dislikedBy: any
+   
+  postedBy: any
 
-      <View style={styles.commentContent}>
-        <Text style={styles.commentText}>{comment.text}</Text>
-      </View>
-    </View>
-  );
-};
+  likeCount:number
+  dislikeCount: number
+  createdAt:Date
+  updatedAt: Date
+}
 
-const CommentList = ({ commentsData }) => {
+
+
+const CommentList = ({ commentsData }:any) => {
+  // console.log(commentsData)
   return (
     <FlatList
       data={commentsData}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => <Comment comment={item} />}
+      keyExtractor={(item,index) => item._id.toString()}
+      renderItem={({ item })=> <Comment comment = {item} />}
     />
   );
 };
@@ -47,12 +46,16 @@ const Comments = ({ route, navigation }: any) => {
 
   const submitHandler = async () => {
     try {
-      const { data } = await axios.post(`${IP}/comment/get`, {
+      // setNewComment("");
+      // const {postId} = route.params
+      const { data } = await axios.post(`${IP}/comment/create`, {
         postId: postId,
         text: newComment,
       });
       // Handle the response data as needed
-      setNewComment("");
+      setCommentsData((prevComments) => [...prevComments, data.comment]);
+      setNewComment("")
+    
       console.log("Reply submitted:", data);
       // Close the modal and clear the reply text
     } catch (error) {
@@ -61,15 +64,17 @@ const Comments = ({ route, navigation }: any) => {
     }
   };
 
-  const [commentsData, setCommentsData] = useState([]);
+  const [commentsData, setCommentsData] =useState<any[]>([]);;
+  
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const { data } = await axios.post(`${IP}/comments/get`, {
+        const { data } = await axios.post(`${IP}/comment/get`, {
           postId: postId,
         });
-        setCommentsData(data);
+        setCommentsData(data.comments);
+        // console.log(data)
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
@@ -77,6 +82,8 @@ const Comments = ({ route, navigation }: any) => {
 
     fetchComments();
   }, [postId]);
+
+
 
   return (
     <View style={styles.container}>
@@ -99,19 +106,22 @@ const Comments = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 6,
     backgroundColor: "black",
   },
   commentContainer: {
     marginBottom: 16,
-    borderColor: "#ddd",
+    // borderColor: "grey",
+    backgroundColor: "#195e5e",
     borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 5,
+  
+    padding: 2,
   },
   userInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
+    // borderColor: "white",
     marginBottom: 8,
   },
   profile_picture: {
@@ -127,6 +137,11 @@ const styles = StyleSheet.create({
   },
   commentContent: {
     marginBottom: 8,
+    backgroundColor:"#144a4a",
+    borderRadius:4,
+    padding:8,
+
+    
   },
   commentText: {
     fontSize: 16,
@@ -138,12 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 4,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
+  
 
   newCommentContainer: {
     flexDirection: "row",

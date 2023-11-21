@@ -13,6 +13,7 @@ import { loadUser } from "./redux/action";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Loader from "./components/Loader";
+import SinglePost from "./screens/SinglePost";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,7 @@ const Main = () => {
             <Stack.Group>
               <Stack.Screen name="BottomTabs" component={BottomTabs} />
               <Stack.Screen name="Comments" component={Comments} />
+              <Stack.Screen name="SinglePost" component={SinglePost} />
             </Stack.Group>
           ) : (
             <Stack.Group>

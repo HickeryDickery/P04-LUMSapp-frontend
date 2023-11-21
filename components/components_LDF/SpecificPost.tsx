@@ -23,7 +23,22 @@ type PostProps = {
   time: string;
   date: string;
   views: number;
+  nav: any;
 };
+
+// type PostProps = {
+//   name: string;
+//   profileImage: string;
+//   body: string;
+//   image: string; // revisit the type of image
+//   likes: number;
+//   dislikes: number;
+//   comments: number;
+//   liked: boolean;
+//   disliked: boolean;
+//   postID: string;
+//   nav: any;
+// };
 
 const SpecificPost = (props: PostProps) => {
   return (
