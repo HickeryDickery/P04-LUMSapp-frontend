@@ -9,7 +9,7 @@ interface BottomTab {
   component: React.FC;
 }
 
-const bottomTabs = [
+const bottomTabs: BottomTab[] = [
   { name: "LDF", icon: "people-circle", component: LdfHomePage },
   // { name: "Events", icon: "calendar", },
   { name: "Home", icon: "home", component: Home },

@@ -10,11 +10,11 @@ import {
 
 import Post from "../components/components_LDF/Post";
 import React, { useState } from "react";
-import { IP } from "../constants/IP2";
+import { IP } from "../constants/ip";
 import axios from "axios";
 import { useEffect } from "react";
 
-const LdfHomePage = ({ navigation }) => {
+const LdfHomePage = ({ navigation }: any) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [refresh, setRefresh] = useState(false);
@@ -23,8 +23,6 @@ const LdfHomePage = ({ navigation }) => {
     try {
       const res = await axios.post(`${IP}/post/feed`, { page: page });
       setPosts((posts) => [...posts, ...res.data.posts]);
-      console.log(res.data, page);
-      console.log("Feed Fetched Successfully! of page no: ", page);
     } catch (error) {
       console.log(error);
     }
@@ -54,6 +52,7 @@ const LdfHomePage = ({ navigation }) => {
         onEndReachedThreshold={0.9}
         renderItem={({ item }) => (
           <Post
+            key={item._id}
             name={item.postedBy.fullname}
             profileImage={"https://picsum.photos/200"}
             body={item.text}
@@ -64,10 +63,9 @@ const LdfHomePage = ({ navigation }) => {
             liked={item.isLikedbyUser}
             disliked={item.isDislikedbyUser}
             postID={item._id}
-            onPress={navigation}
+            nav={navigation}
           />
         )}
-        keyExtractor={(item) => item.id}
         extraData={posts}
       />
     </SafeAreaView>

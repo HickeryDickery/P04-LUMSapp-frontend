@@ -13,7 +13,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { IP } from "../../constants/IP2";
+import { IP } from "../../constants/ip";
 import axios from "axios";
 import Comments from "../../screens/Comments";
 import { useNavigation } from "@react-navigation/native";
@@ -29,7 +29,7 @@ type PostProps = {
   liked: boolean;
   disliked: boolean;
   postID: string;
-  onPress: any;
+  nav: any;
 };
 
 const Post = (props: PostProps) => {
@@ -99,7 +99,12 @@ const Post = (props: PostProps) => {
   }, [update]);
 
   return (
-    <TouchableOpacity style={styles.post}>
+    <TouchableOpacity
+      style={styles.post}
+      onPress={() => {
+        props.nav.navigate("Comments", { postId: props.postID });
+      }}
+    >
       <View style={styles.headerPost}>
         <View style={styles.profileComponent}>
           {/* Image and Name are One Element so we have a separate View(div) for them */}

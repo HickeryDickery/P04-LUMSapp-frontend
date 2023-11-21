@@ -7,6 +7,7 @@ import Login from "./screens/Login";
 import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
+import Comments from "./screens/Comments";
 
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
@@ -45,6 +46,7 @@ const Main = () => {
           {isAuthenticated ? (
             <Stack.Group>
               <Stack.Screen name="BottomTabs" component={BottomTabs} />
+              <Stack.Screen name="Comments" component={Comments} />
             </Stack.Group>
           ) : (
             <Stack.Group>

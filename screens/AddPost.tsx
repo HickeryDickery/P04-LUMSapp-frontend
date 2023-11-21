@@ -10,7 +10,7 @@ import {
 
 import React, { useState } from "react";
 import axios from "axios";
-import { IP } from "../constants/IP2";
+import { IP } from "../constants/ip";
 
 const AddPost = () => {
   const [text, onChangeText] = useState("");

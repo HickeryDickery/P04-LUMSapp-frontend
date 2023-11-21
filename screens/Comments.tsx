@@ -11,7 +11,8 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import { IP } from "../constants/IP2";
+import { IP } from "../constants/ip";
+
 const Comment = ({ comment }) => {
   return (
     <View style={[styles.commentContainer && { paddingLeft: 20 }]}>
@@ -30,11 +31,6 @@ const Comment = ({ comment }) => {
   );
 };
 
-// type CommentListProps = {
-//     commentsData: Array<any>;
-//     onReplyPress: Dispatch<SetStateAction<CommentsState>>;
-// }
-
 const CommentList = ({ commentsData }) => {
   return (
     <FlatList
@@ -51,7 +47,7 @@ const Comments = ({ route, navigation }: any) => {
 
   const submitHandler = async () => {
     try {
-      const { data } = await axios.post(`${IP}/comments`, {
+      const { data } = await axios.post(`${IP}/comment/get`, {
         postId: postId,
         text: newComment,
       });
@@ -81,26 +77,6 @@ const Comments = ({ route, navigation }: any) => {
 
     fetchComments();
   }, [postId]);
-
-  // const commentsData = [
-  //     {
-  //         id: 1,
-  //         postedBy: {
-  //             fullname: "John Doe",
-  //             profile_picture: {
-  //                 public_id: "",
-  //                 url: "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316647.png",
-  //             }
-  //         },
-  //         profile_picture:{
-  //             public_id: "",
-  //             url: "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316647.png",
-
-  //         } ,
-  //         text: "This is the main comment.",
-
-  //     }
-  // ];
 
   return (
     <View style={styles.container}>
