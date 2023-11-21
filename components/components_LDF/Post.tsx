@@ -12,6 +12,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { IP } from "../../constants/IP2";
+import axios from "axios";
+import Comments from "../../screens/Comments";
+import { useNavigation } from "@react-navigation/native";
 
 type PostProps = {
   name: string;
@@ -23,15 +28,78 @@ type PostProps = {
   comments: number;
   liked: boolean;
   disliked: boolean;
+  postID: string;
+  onPress: any;
 };
 
 const Post = (props: PostProps) => {
   const [liked, setLiked] = useState(props.liked);
   const [disliked, setDisliked] = useState(props.disliked);
+  const [likeCount, setLikeCount] = useState(props.likes);
+  const [dislikeCount, setDislikeCount] = useState(props.dislikes);
+  const [update, setUpdate] = useState(false);
+
+  const likePost = async () => {
+    try {
+      if (liked == true) {
+        setLikeCount(likeCount - 1);
+      } else {
+        setLikeCount(likeCount + 1);
+      }
+      setLiked(!liked);
+      setDisliked(false);
+      setUpdate(!update);
+      const res = await axios.post(`${IP}/post/like`, { postId: props.postID });
+      if (disliked == true) {
+        // Here SendReverseLike Request
+        console.log("Was disliked Earlier - Changing state to earlier one");
+        const res = await axios.post(`${IP}/post/dislike`, {
+          postId: props.postID,
+        });
+        setDislikeCount(dislikeCount - 1);
+      }
+
+      console.log("Sent Like Request");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const dislikePost = async () => {
+    try {
+      if (disliked == true) {
+        setDislikeCount(dislikeCount - 1);
+      } else {
+        setDislikeCount(dislikeCount + 1);
+      }
+      setDisliked(!disliked);
+      setLiked(false);
+      setUpdate(!update);
+
+      if (liked == true) {
+        console.log("Was Liked Earlier -> Decrementing  ");
+        const res = await axios.post(`${IP}/post/like`, {
+          postId: props.postID,
+        });
+        setLikeCount(likeCount - 1);
+      }
+      const res = await axios.post(`${IP}/post/dislike`, {
+        postId: props.postID,
+      });
+
+      console.log("Sent Dislike Request");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setLiked(liked);
+    setDisliked(disliked);
+  }, [update]);
+
   return (
-    <View // Touchable opacity is baiscally a postd
-      style={styles.post}
-    >
+    <TouchableOpacity style={styles.post}>
       <View style={styles.headerPost}>
         <View style={styles.profileComponent}>
           {/* Image and Name are One Element so we have a separate View(div) for them */}
@@ -56,31 +124,47 @@ const Post = (props: PostProps) => {
       </View>
       <View style={styles.footerPost}>
         <View style={styles.leftFooter}>
-          <View style={styles.footerComponent}>
+          <TouchableOpacity
+            style={styles.footerComponent}
+            onPress={() => {
+              likePost();
+            }}
+          >
             <FontAwesome
               name="arrow-up"
               size={24}
-              color={props.liked ? "white" : "grey"}
+              color={props.liked || liked ? "white" : "grey"}
             />
             <Text
-              style={{ color: props.liked ? "white" : "grey", fontSize: 10 }}
+              style={{
+                color: props.liked || liked ? "white" : "grey",
+                fontSize: 10,
+              }}
             >
-              {props.likes}
+              {likeCount}
             </Text>
-          </View>
-          <View style={styles.footerComponent}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerComponent}
+            onPress={() => {
+              dislikePost();
+            }}
+          >
             <FontAwesome
               name="arrow-down"
               size={24}
-              color={props.disliked ? "white" : "grey"}
+              color={props.disliked || disliked ? "white" : "grey"}
             />
             <Text
-              style={{ color: props.disliked ? "white" : "grey", fontSize: 10 }}
+              style={{
+                color: props.disliked || liked ? "white" : "grey",
+                fontSize: 10,
+              }}
             >
-              {props.dislikes}
+              {dislikeCount}
             </Text>
             {/* This is grey because it is not pressed(we haven't disliked). We have to make this dynamic rather than static*/}
-          </View>
+          </TouchableOpacity>
           <View style={styles.footerComponent}>
             <MaterialCommunityIcons
               name="comment-outline"
@@ -102,7 +186,7 @@ const Post = (props: PostProps) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default Post;
