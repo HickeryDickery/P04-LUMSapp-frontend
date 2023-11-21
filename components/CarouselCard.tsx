@@ -4,12 +4,22 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
+import axios from "axios";
+import { IP } from "../constants/ip";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout } from "../redux/action";
 
-const CarouselCard = () => {
+const CarouselCard = ({ navigation }: any) => {
+  const dispatch = useAppDispatch();
+
+  const logoutHandler = async () => {
+    dispatch(logout());
+  };
+
   return (
-    <ImageBackground
-      source={require("../assets/splash.png")}
+    <TouchableOpacity
       style={{
         width: "100%",
         height: "25%",
@@ -18,13 +28,27 @@ const CarouselCard = () => {
         borderRadius: 10,
         marginTop: 10,
       }}
+      onPress={logoutHandler}
     >
-      <View>
-        <Text style={{ color: "white", alignSelf: "flex-end" }}>
-          Carousel Card
-        </Text>
-      </View>
-    </ImageBackground>
+      <ImageBackground
+        source={require("../assets/splash.png")}
+        style={{
+          // width: "100%",
+          // height: "25%",
+          // borderWidth: 1,
+          // borderColor: "red",
+          // borderRadius: 10,
+          // marginTop: 10,
+          flex: 1,
+        }}
+      >
+        <View>
+          <Text style={{ color: "white", alignSelf: "flex-end" }}>
+            Carousel Card
+          </Text>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 };
 

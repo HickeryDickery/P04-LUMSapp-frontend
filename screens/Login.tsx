@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,52 +7,47 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
-import axios from "axios";
 import { useFonts } from "expo-font";
-import { IP } from "../constants/IP2";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { login } from "../redux/action";
 
-const Login = () => {
+const Login = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const outlookImage = require("../assets/outlook_image.png");
+  const lumsLogo = require("../assets/Lums.png");
+
+  const { error } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
+
+  const loginHandler = () => {
+    dispatch(login(email, password));
+  };
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch({ type: "clearError" });
+    }
+  }, [error, dispatch, alert]);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${IP}/user/login`, {
-        email,
-        password,
-      });
-
-      if (response.status === 200) {
-        // Handle successful login
-        console.log("Login successful");
-      } else {
-        // Handle login error
-        console.error("Login failed");
-      }
-
-      console.log("Login");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-
   return (
     <View style={styles.container}>
+      <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
       <Text
         style={{
           color: "white",
           fontSize: 24,
           textAlign: "center",
-          marginBottom: 20,
+          marginBottom: 10,
         }}
       >
-        Hello, Welcome Back!
+        Login
       </Text>
 
       {/* <Image source={lumsLogo} style={{ width: 150, height: 150 }} /> */}
@@ -70,7 +65,7 @@ const Login = () => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.signupButton} onPress={handleLogin}>
+      <TouchableOpacity style={styles.signupButton} onPress={loginHandler}>
         <Text style={{ fontWeight: "bold" }}>Login</Text>
       </TouchableOpacity>
 
@@ -81,11 +76,26 @@ const Login = () => {
       </View>
 
       <TouchableOpacity style={styles.outlookButton}>
-        {/* <Image source={outlookImage} style={styles.logo} /> */}
+        <Image source={outlookImage} style={styles.logo} />
+        {/* <MaterialCommunityIcons
+          name="microsoft-outlook"
+          size={24}
+          color="white"
+        /> */}
         <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>
           Outlook
         </Text>
       </TouchableOpacity>
+
+      <Text style={{ color: "#fff", marginTop: 20 }}>
+        Don't have an account?{" "}
+        <Text
+          style={{ color: "#35C2C1", fontWeight: "bold" }}
+          onPress={() => navigation.navigate("Signup")}
+        >
+          Sign Up
+        </Text>
+      </Text>
 
       {/* Email and Password fields */}
       {/* <View style={styles.inputContainer}>
@@ -148,7 +158,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderBottomWidth: 1,
     borderRadius: 10,
-    marginTop: "5%",
+    marginTop: "2%",
     padding: 15,
     color: "#fff",
   },
@@ -178,7 +188,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 10,
   },
-  outlookButton: {},
+
+  outlookButton: {
+    fontFamily: "Roboto",
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#146987",
+    borderRadius: 10,
+    width: "80%",
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logo: {
+    width: 30,
+    height: 20,
+  },
 });
 
 export default Login;

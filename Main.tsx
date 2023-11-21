@@ -5,13 +5,30 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Signup from "./screens/Signup";
 import Login from "./screens/Login";
 import BottomTabs from "./components/BottomTabs";
-import Comments from "./screens/Comments";
-import LdfHomePage from "./screens/LdfHomePage";
+import SignupPIN from "./screens/SignupPIN";
+import SignupProfilePicture from "./screens/SignupProfilePicture";
+
+import { loadUser } from "./redux/action";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import Loader from "./components/Loader";
 
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  return (
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
+  const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
+  // const isAuthenticated = false;
+  // const loading = false;
+
+  return loading ? (
+    <Loader />
+  ) : (
     <SafeAreaView
       style={{
         flex: 1,
@@ -22,14 +39,24 @@ const Main = () => {
     >
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="BottomTabs"
+          initialRouteName={isAuthenticated ? "BottomTabs" : "Login"}
           screenOptions={{ headerShown: false }}
         >
-          <Stack.Screen name="BottomTabs" component={BottomTabs} />
-          <Stack.Screen name="LDFHomePage" component={LdfHomePage} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="comments" component={Comments} />
+          {isAuthenticated ? (
+            <Stack.Group>
+              <Stack.Screen name="BottomTabs" component={BottomTabs} />
+            </Stack.Group>
+          ) : (
+            <Stack.Group>
+              <Stack.Screen name="Signup" component={Signup} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="PIN" component={SignupPIN} />
+              <Stack.Screen
+                name="ProfilePicture"
+                component={SignupProfilePicture}
+              />
+            </Stack.Group>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
 
