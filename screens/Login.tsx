@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 10,
   },
+
   outlookButton: {
     fontFamily: "Roboto",
     display: "flex",

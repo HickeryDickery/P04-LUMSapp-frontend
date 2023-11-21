@@ -10,76 +10,65 @@ import {
 
 import Post from "../components/components_LDF/Post";
 import React, { useState } from "react";
+import { IP } from "../constants/IP2";
+import axios from "axios";
+import { useEffect } from "react";
 
-const DATA = [
-  {
-    id: "1",
-    name: "Muneeb Akmal",
-    profileImage:
-      "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg",
-    body: "This is the body",
-    image:
-      "https://cdn.pixabay.com/photo/2023/11/04/07/57/owl-8364426_1280.jpg",
-    likes: 10,
-    dislikes: 20,
-    comments: 100,
-  },
-  {
-    id: "2",
-    name: "Nauman Ijaz",
-    profileImage:
-      "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg",
-    body: "This is the body",
-    image:
-      "https://cdn.pixabay.com/photo/2021/04/26/01/39/trees-6207925_1280.jpg",
-    likes: 10,
-    dislikes: 20,
-    comments: 100,
-  },
-  {
-    id: "3",
-    name: "Owais Ahsan",
-    profileImage:
-      "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg",
-    body: "This is the body",
-    image:
-      "https://cdn.pixabay.com/photo/2023/11/04/10/03/bear-8364583_1280.png",
-    likes: 10,
-    dislikes: 300,
-    comments: 100,
-  },
-  {
-    id: "4",
-    name: "Ahsan Ali",
-    profileImage:
-      "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg",
-    body: "This is the body",
-    image:
-      "https://cdn.pixabay.com/photo/2021/04/26/01/39/trees-6207925_1280.jpg",
-    likes: 10,
-    dislikes: 20,
-    comments: 100,
-  },
-];
+const LdfHomePage = ({ navigation }) => {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [page, setPage] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
-const LdfHomePage = () => {
+  const getData = async (page: number) => {
+    try {
+      const res = await axios.post(`${IP}/post/feed`, { page: page });
+      setPosts((posts) => [...posts, ...res.data.posts]);
+      console.log(res.data, page);
+      console.log("Feed Fetched Successfully! of page no: ", page);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // will run every time page changes
+  useEffect(() => {
+    getData(page);
+  }, [page, refresh]);
+  // useEffect(() => {
+  //   getData(page);
+  // });
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.scrollPost}
-        data={DATA}
+        data={posts}
+        onEndReached={() => {
+          setPage(page + 1);
+        }}
+        onRefresh={() => {
+          setPosts([]);
+          setPage(0);
+          setRefresh(!refresh);
+        }}
+        refreshing={false}
+        onEndReachedThreshold={0.9}
         renderItem={({ item }) => (
           <Post
-            name={item.name}
-            profileImage={item.profileImage}
-            body={item.body}
-            image={item.image}
-            likes={item.likes}
-            dislikes={item.dislikes}
-            comments={item.comments}
+            name={item.postedBy.fullname}
+            profileImage={"https://picsum.photos/200"}
+            body={item.text}
+            image={"https://picsum.photos/200"} // make this an array
+            likes={item.likeCount}
+            dislikes={item.dislikeCount}
+            comments={item.commentCount}
+            liked={item.isLikedbyUser}
+            disliked={item.isDislikedbyUser}
+            postID={item._id}
+            onPress={navigation}
           />
         )}
         keyExtractor={(item) => item.id}
+        extraData={posts}
       />
     </SafeAreaView>
   );
