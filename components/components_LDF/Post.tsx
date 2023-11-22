@@ -17,6 +17,8 @@ import { IP } from "../../constants/ip";
 import axios from "axios";
 import Comments from "../../screens/Comments";
 import { useNavigation } from "@react-navigation/native";
+import SpecificPost from "./SpecificPost";
+// import SinglePost from "../../screens/SinglePost";
 
 type PostProps = {
   name: string;
@@ -101,8 +103,11 @@ const Post = (props: PostProps) => {
   return (
     <TouchableOpacity
       style={styles.post}
+      // onPress={() => {
+      //   props.nav.navigate("Comments", { postId: props.postID });
       onPress={() => {
-        props.nav.navigate("Comments", { postId: props.postID });
+        props.nav.navigate('SinglePost', { postProps: props });
+
       }}
     >
       <View style={styles.headerPost}>
