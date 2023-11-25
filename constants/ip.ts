@@ -1,1 +1,1 @@
-export const IP = "http://10.130.140.104:8000/api";
+export const IP = "https://uninterested-frog-top-hat.cyclic.app/api";

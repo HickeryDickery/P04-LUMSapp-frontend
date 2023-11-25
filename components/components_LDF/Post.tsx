@@ -1,24 +1,12 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { IP } from "../../constants/ip";
 import axios from "axios";
-import Comments from "../../screens/Comments";
-import { useNavigation } from "@react-navigation/native";
-import SpecificPost from "./SpecificPost";
-// import SinglePost from "../../screens/SinglePost";
 
 type PostProps = {
   name: string;
@@ -31,7 +19,6 @@ type PostProps = {
   liked: boolean;
   disliked: boolean;
   postID: string;
-  nav: any;
 };
 
 const Post = (props: PostProps) => {
@@ -54,14 +41,14 @@ const Post = (props: PostProps) => {
       const res = await axios.post(`${IP}/post/like`, { postId: props.postID });
       if (disliked == true) {
         // Here SendReverseLike Request
-        console.log("Was disliked Earlier - Changing state to earlier one");
+        // console.log("Was disliked Earlier - Changing state to earlier one");
         const res = await axios.post(`${IP}/post/dislike`, {
           postId: props.postID,
         });
         setDislikeCount(dislikeCount - 1);
       }
 
-      console.log("Sent Like Request");
+      // console.log("Sent Like Request");
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +66,7 @@ const Post = (props: PostProps) => {
       setUpdate(!update);
 
       if (liked == true) {
-        console.log("Was Liked Earlier -> Decrementing  ");
+        // console.log("Was Liked Earlier -> Decrementing  ");
         const res = await axios.post(`${IP}/post/like`, {
           postId: props.postID,
         });
@@ -89,7 +76,7 @@ const Post = (props: PostProps) => {
         postId: props.postID,
       });
 
-      console.log("Sent Dislike Request");
+      // console.log("Sent Dislike Request");
     } catch (error) {
       console.log(error);
     }
@@ -101,15 +88,7 @@ const Post = (props: PostProps) => {
   }, [update]);
 
   return (
-    <TouchableOpacity
-      style={styles.post}
-      // onPress={() => {
-      //   props.nav.navigate("Comments", { postId: props.postID });
-      onPress={() => {
-        props.nav.navigate('SinglePost', { postProps: props });
-
-      }}
-    >
+    <View style={styles.post}>
       <View style={styles.headerPost}>
         <View style={styles.profileComponent}>
           {/* Image and Name are One Element so we have a separate View(div) for them */}
@@ -196,7 +175,7 @@ const Post = (props: PostProps) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 export default Post;

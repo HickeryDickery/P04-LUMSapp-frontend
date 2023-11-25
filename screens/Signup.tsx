@@ -7,10 +7,8 @@ import {
   Image,
 } from "react-native";
 import { useFonts } from "expo-font";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Loader from "../components/Loader";
-// import { useAppDispatch, useAppSelector } from "../redux/hooks";
-// import { signup } from "../redux/action";
 import axios from "axios";
 import { IP } from "../constants/ip";
 
@@ -98,7 +96,6 @@ const Signup = ({ navigation }: any) => {
       />
       <TextInput
         style={styles.input}
-        // keyboardType="visible-password"
         placeholder="Password"
         placeholderTextColor="#757575"
         secureTextEntry

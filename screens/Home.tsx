@@ -2,13 +2,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 
-// import { Avatar } from "react-native-paper";
-import Header from "../components/Header";
 import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
@@ -17,7 +14,6 @@ import HomeButtons from "../components/HomeButtons";
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Header /> */}
       <CarouselCard />
 
       <View
@@ -74,54 +70,6 @@ const Home = () => {
           </View>
         </TouchableOpacity>
       </View>
-
-      {/* <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-          flexWrap: "wrap",
-          borderWidth: 1,
-          borderColor: "red",
-        }}
-      >
-        {buttons.map((button) => (
-          <HomeButtons
-            key={button.name}
-            name={button.name}
-            icon={button.icon}
-          />
-        ))}
-      </View>
-      <TouchableOpacity
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-          width: "100%",
-          justifyContent: "flex-start",
-          backgroundColor: "#2B2B2B",
-          borderRadius: 20,
-          padding: 10,
-          marginBottom: 10,
-          paddingLeft: 20,
-        }}
-      >
-        <MaterialIcons name="info" size={40} color="#35C2B0" />
-        <View>
-          <Text style={{ color: "#35C2B0", fontWeight: "bold" }}>
-            Campus Information
-          </Text>
-          <Text style={{ color: "#185D54", fontSize: 10 }}>
-            Instructor Emails, Gym Timings, Eateries Info etc
-          </Text>
-        </View>
-      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

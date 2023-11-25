@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  TextInput,
-  SafeAreaView,
-  StyleSheet,
-  Button,
-  Pressable,
-} from "react-native";
+import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 
 import React, { useState } from "react";
 import axios from "axios";
@@ -14,7 +6,7 @@ import { IP } from "../constants/ip";
 
 const AddPost = () => {
   const [text, onChangeText] = useState("");
-  const [pressed, setPressed] = useState(false);
+  // const [pressed, setPressed] = useState(false);
 
   const addPost = async () => {
     onChangeText("");

@@ -1,62 +1,35 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Modal,
-  TextInput,
-  Button,
-} from "react-native";
+import { StyleSheet, View, FlatList, TextInput, Button } from "react-native";
 import { IP } from "../constants/ip";
 import Comment from "../components/Comment";
 
-interface commentI {
-  text:string,
-  likedBy: any
-  dislikedBy: any
-   
-  postedBy: any
-
-  likeCount:number
-  dislikeCount: number
-  createdAt:Date
-  updatedAt: Date
-}
-
-
-
-const CommentList = ({ commentsData }:any) => {
+const CommentList = ({ commentsData }: any) => {
   // console.log(commentsData)
   return (
     <FlatList
       data={commentsData}
-      keyExtractor={(item,index) => item._id.toString()}
-      renderItem={({ item })=> <Comment comment = {item} />}
+      keyExtractor={(item, _) => item._id.toString()}
+      renderItem={({ item }) => <Comment comment={item} />}
     />
   );
 };
 
-const Comments = ({ route, navigation }: any) => {
+const Comments = ({ route }: any) => {
   const [newComment, setNewComment] = useState("");
   const { postId } = route.params;
 
   const submitHandler = async () => {
     try {
-      // setNewComment("");
-      // const {postId} = route.params
       const { data } = await axios.post(`${IP}/comment/create`, {
         postId: postId,
         text: newComment,
       });
       // Handle the response data as needed
       setCommentsData((prevComments) => [...prevComments, data.comment]);
-      setNewComment("")
-    
-      console.log("Reply submitted:", data);
+      setNewComment("");
+
+      // console.log("Reply submitted:", data);
       // Close the modal and clear the reply text
     } catch (error) {
       // Handle the error
@@ -64,8 +37,7 @@ const Comments = ({ route, navigation }: any) => {
     }
   };
 
-  const [commentsData, setCommentsData] =useState<any[]>([]);;
-  
+  const [commentsData, setCommentsData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -82,8 +54,6 @@ const Comments = ({ route, navigation }: any) => {
 
     fetchComments();
   }, [postId]);
-
-
 
   return (
     <View style={styles.container}>
@@ -115,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#195e5e",
     borderWidth: 1,
     borderRadius: 5,
-  
+
     padding: 2,
   },
   userInfoContainer: {
@@ -137,11 +107,9 @@ const styles = StyleSheet.create({
   },
   commentContent: {
     marginBottom: 8,
-    backgroundColor:"#144a4a",
-    borderRadius:4,
-    padding:8,
-
-    
+    backgroundColor: "#144a4a",
+    borderRadius: 4,
+    padding: 8,
   },
   commentText: {
     fontSize: 16,
@@ -153,7 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 4,
   },
-  
 
   newCommentContainer: {
     flexDirection: "row",
