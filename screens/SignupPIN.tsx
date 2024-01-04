@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import axios from "axios";
 import { IP } from "../constants/ip";
 import Loader from "../components/Loader";
 import Otp from "../components/Otp";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { verifyOtp } from "../redux/action";
+import { useAppDispatch } from "../redux/hooks";
 
 const email = "email@lums.edu.pk";
 
@@ -25,13 +24,16 @@ const SignupPIN = ({ navigation }: any) => {
   const handleSubmit = async () => {
     const otp = code.join("");
     try {
+      setLoading(true);
       const { data } = await axios.post(`${IP}/user/verify`, {
         otp,
       });
+      setLoading(false);
       if (data.success) {
         dispatch({ type: "otpSuccess", payload: data.user });
       }
     } catch (error) {
+      setLoading(false);
       console.log("Error in handleSubmit: ", error);
     }
 

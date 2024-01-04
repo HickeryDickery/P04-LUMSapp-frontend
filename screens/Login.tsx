@@ -50,7 +50,6 @@ const Login = ({ navigation }: any) => {
         Login
       </Text>
 
-      {/* <Image source={lumsLogo} style={{ width: 150, height: 150 }} /> */}
       <TextInput
         style={styles.input}
         keyboardType="email-address"
@@ -63,6 +62,7 @@ const Login = ({ navigation }: any) => {
         placeholder="Password"
         placeholderTextColor="#757575"
         onChangeText={(text) => setPassword(text)}
+        secureTextEntry
       />
 
       <TouchableOpacity style={styles.signupButton} onPress={loginHandler}>
@@ -77,11 +77,6 @@ const Login = ({ navigation }: any) => {
 
       <TouchableOpacity style={styles.outlookButton}>
         <Image source={outlookImage} style={styles.logo} />
-        {/* <MaterialCommunityIcons
-          name="microsoft-outlook"
-          size={24}
-          color="white"
-        /> */}
         <Text style={{ paddingLeft: 10, color: "#fff", fontWeight: "bold" }}>
           Outlook
         </Text>
@@ -96,52 +91,6 @@ const Login = ({ navigation }: any) => {
           Sign Up
         </Text>
       </Text>
-
-      {/* Email and Password fields */}
-      {/* <View style={styles.inputContainer}>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#8e8e8e"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <View style={styles.inputLine} />
-        </View>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#8e8e8e"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <View style={styles.inputLine} />
-        </View>
-      </View> */}
-
-      {/* Login button */}
-      {/* <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity> */}
-
-      {/* Separator */}
-      {/* <View style={styles.separatorContainer}>
-        <View style={styles.separatorLine}></View>
-        <Text style={styles.separatorText}>or</Text>
-        <View style={styles.separatorLine}></View>
-      </View> */}
-
-      {/* Outlook button */}
-      {/* <TouchableOpacity style={styles.outlookButton}>
-        <Image
-          source={require("../assets/outlookLogo.png")}
-          style={styles.outlookLogo}
-        />
-        <Text style={styles.buttonText}>Outlook</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

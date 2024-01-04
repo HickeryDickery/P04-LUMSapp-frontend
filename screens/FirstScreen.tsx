@@ -1,31 +1,27 @@
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import LoginScreen from "./Login";
 
-
-
- 
-
-
-
-const Home = () => { 
-
+const Home = () => {
   const navigation = useNavigation();
 
   const [loaded] = useFonts({
-    RobotoRegular: require('../assets/fonts/Roboto-Regular.ttf'),
-    RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
-
+    RobotoRegular: require("../assets/fonts/Roboto-Regular.ttf"),
+    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
   });
 
   if (!loaded) {
-    return null; 
+    return null;
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -39,10 +35,17 @@ const Home = () => {
         {/* Buttons */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.loginButton}>
-            <Text style={[styles.buttonText, styles.loginButtonText]} onPress={()=> navigation.navigate("Login")}>Login</Text>
+            <Text
+              style={[styles.buttonText, styles.loginButtonText]}
+              onPress={() => navigation.navigate("Login")}
+            >
+              Login
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.registerButton}>
-            <Text style={[styles.buttonText, styles.registerButtonText]}>Register</Text>
+            <Text style={[styles.buttonText, styles.registerButtonText]}>
+              Register
+            </Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -89,11 +92,11 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: "white",
-    fontFamily: 'RobotoBold',
+    fontFamily: "RobotoBold",
   },
   registerButtonText: {
     color: "white",
-    fontFamily: 'RobotoRegular',
+    fontFamily: "RobotoRegular",
   },
 });
 

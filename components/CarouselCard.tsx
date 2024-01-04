@@ -1,14 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
-import axios from "axios";
-import { IP } from "../constants/ip";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/action";
 
 const CarouselCard = ({ navigation }: any) => {
@@ -52,33 +43,33 @@ const CarouselCard = ({ navigation }: any) => {
   );
 };
 
-const data = [
-  {
-    title: "Title 1",
-    subtitle: "Subtitle 1",
-    image: require("../assets/splash.png"),
-  },
-  {
-    title: "Title 2",
-    subtitle: "Subtitle 2",
-    image: require("../assets/splash.png"),
-  },
-  {
-    title: "Title 3",
-    subtitle: "Subtitle 3",
-    image: require("../assets/splash.png"),
-  },
-  {
-    title: "Title 4",
-    subtitle: "Subtitle 4",
-    image: require("../assets/splash.png"),
-  },
-  {
-    title: "Title 5",
-    subtitle: "Subtitle 5",
-    image: require("../assets/splash.png"),
-  },
-];
+// const data = [
+//   {
+//     title: "Title 1",
+//     subtitle: "Subtitle 1",
+//     image: require("../assets/splash.png"),
+//   },
+//   {
+//     title: "Title 2",
+//     subtitle: "Subtitle 2",
+//     image: require("../assets/splash.png"),
+//   },
+//   {
+//     title: "Title 3",
+//     subtitle: "Subtitle 3",
+//     image: require("../assets/splash.png"),
+//   },
+//   {
+//     title: "Title 4",
+//     subtitle: "Subtitle 4",
+//     image: require("../assets/splash.png"),
+//   },
+//   {
+//     title: "Title 5",
+//     subtitle: "Subtitle 5",
+//     image: require("../assets/splash.png"),
+//   },
+// ];
 
 export default CarouselCard;
 

@@ -1,9 +1,6 @@
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
-  Image,
   FlatList,
   SafeAreaView,
 } from "react-native";
@@ -31,9 +28,6 @@ const LdfHomePage = ({ navigation }: any) => {
   useEffect(() => {
     getData(page);
   }, [page, refresh]);
-  // useEffect(() => {
-  //   getData(page);
-  // });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,20 +45,25 @@ const LdfHomePage = ({ navigation }: any) => {
         refreshing={false}
         onEndReachedThreshold={0.9}
         renderItem={({ item }) => (
-          <Post
-            key={item._id}
-            name={item.postedBy.fullname}
-            profileImage={"https://picsum.photos/200"}
-            body={item.text}
-            image={"https://picsum.photos/200"} // make this an array
-            likes={item.likeCount}
-            dislikes={item.dislikeCount}
-            comments={item.commentCount}
-            liked={item.isLikedbyUser}
-            disliked={item.isDislikedbyUser}
-            postID={item._id}
-            nav={navigation}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("SinglePost", { postProps: item });
+            }}
+          >
+            <Post
+              key={item._id}
+              name={item.postedBy?.fullname || "Deleted User"}
+              profileImage={"https://picsum.photos/200"}
+              body={item.text}
+              image={"https://picsum.photos/200"} // make this an array
+              likes={item.likeCount}
+              dislikes={item.dislikeCount}
+              comments={item.commentCount}
+              liked={item.isLikedbyUser}
+              disliked={item.isDislikedbyUser}
+              postID={item._id}
+            />
+          </TouchableOpacity>
         )}
         extraData={posts}
       />
