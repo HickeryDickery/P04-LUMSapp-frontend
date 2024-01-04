@@ -1,6 +1,7 @@
 import {
   NativeSyntheticEvent,
   StyleSheet,
+  Text,
   TextInputKeyPressEventData,
   View,
 } from "react-native";
@@ -65,6 +66,7 @@ const Otp = ({ length, code, setCode }: OTPInputProps) => {
               color: "#fff",
               fontSize: 25,
             }}
+            // keyboardType="number-pad"
             maxLength={1}
             contextMenuHidden
             selectTextOnFocus

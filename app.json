@@ -21,16 +21,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.biski.LUMSapp"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+<<<<<<< Updated upstream
+=======
     },
     "extra": {
-      "eas": {
-        "projectId": "437967a1-98e7-47f0-8b98-5b8c98931c57"
-      }
+      // "eas": {
+      //   "projectId": "437967a1-98e7-47f0-8b98-5b8c98931c57"
+      // }
+>>>>>>> Stashed changes
     }
   }
 }

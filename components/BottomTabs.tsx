@@ -1,6 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 
 import bottomTabs from "../constants/bottomtabs";
 import Header from "./Header";
@@ -37,6 +39,22 @@ const BottomTabs = () => {
             }}
           />
         ))}
+        {/* <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Ionicons
+                name="home"
+                size={24}
+                color={focused ? "#DDDDDD" : "#35C2C1"}
+              />
+            ),
+          }}
+        /> */}
+
+        {/* <Tab.Screen name="LdfHomePage" component={LdfHomePage} />
+        <Tab.Screen name="LdfSpecificPost" component={LdfSpecificPost} /> */}
       </Tab.Navigator>
     </View>
   );
