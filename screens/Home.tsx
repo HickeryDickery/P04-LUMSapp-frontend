@@ -7,6 +7,8 @@ import {
     Button,
 } from "react-native";
 import { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
 
 import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -18,6 +20,7 @@ import axios from "axios";
 
 const Home = () => {
     const [file, setFile]: any = useState();
+    const navigation = useNavigation();
     const selectTranscript = async () => {
         try {
             const docRes = await DocumentPicker.getDocumentAsync({
@@ -50,16 +53,21 @@ const Home = () => {
             console.log(formData);
 
             const { data } = await axios.post(
-                `${IP}/transcript`,
+                `${IP}/transcript/parse`,
                 formData,
                 {
                   headers: {
                     Accept: "application/json",
                     "Content-Type": "multipart/form-data",
-                  },
+                    },
                 }
             );
             console.log(data)
+            try {
+                await AsyncStorage.setItem('transcript', JSON.stringify(data.parsedData));
+            } catch (e) {
+                console.log(e)
+            }
         } catch (error) {
             console.log("Error while selecting file: ", error);
         }
@@ -104,6 +112,11 @@ const Home = () => {
                         onPress={uploadTranscript}
                         color="#3f3f3f"
                         title="Upload Transcript"
+                    />
+                    <Button
+                        onPress={() => {navigation.navigate("Transcript")}}
+                        color="#3f3f3f"
+                        title="View Transcript"
                     />
                 </View>
                 <TouchableOpacity
