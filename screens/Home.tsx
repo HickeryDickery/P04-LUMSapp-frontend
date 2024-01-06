@@ -11,7 +11,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
 
-const Home = () => {
+const Home = ( {navigation }: any) => {
+
+  const handleButtonPress = (buttonName:string) => {
+    if (buttonName === 'GPA Predictor') {
+      navigation.navigate('GpaPredictorHome');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <CarouselCard />
@@ -36,13 +43,15 @@ const Home = () => {
             // borderColor: "red",
           }}
         >
-          {buttons.map((button) => (
-            <HomeButtons
-              key={button.name}
-              name={button.name}
-              icon={button.icon}
-            />
-          ))}
+        {buttons.map((button) => (
+          <TouchableOpacity
+            key={button.name}
+            onPress={() => handleButtonPress(button.name)}
+            style={{ margin: 10 }}
+          >
+            <HomeButtons name={button.name} icon={button.icon} />
+          </TouchableOpacity>
+        ))}
         </View>
         <TouchableOpacity
           style={{

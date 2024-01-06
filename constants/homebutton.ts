@@ -1,4 +1,4 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface Button {
   name: string;
@@ -15,8 +15,8 @@ const buttons: Button[] = [
     icon: "calendar-today",
   },
   {
-    name: "Swapper",
-    icon: "swap-horiz",
+    name: "GPA Predictor",
+    icon: "check-circle",
   },
   {
     name: "Coming Soon",
