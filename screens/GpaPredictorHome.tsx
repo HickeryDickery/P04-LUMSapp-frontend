@@ -10,23 +10,92 @@ import { useFonts } from "expo-font";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as DocumentPicker from "expo-document-picker";
+import { IP } from "../constants/ip";
+import axios from "axios";
 
 import HomeButtons from "../components/HomeButtons"; //
 
-const currGPA = 3.6;
-// get gpa from backend and then set the usestate for gpa
-
 const GpaPredictorHome = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
-  const [gpa, setGpa] = useState(3.5);
+  const [gpa, setGpa] = useState(0.0);
+  const [file, setFile]: any = useState();
+  const [transcript, setTranscript]: any = useState(null);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
   });
 
   useEffect(() => {
-    setGpa(currGPA);
-  }, [currGPA]);
+      const updateTranscript = async () => {
+          try {
+              const jsonValue = await AsyncStorage.getItem('transcript');
+              setTranscript(jsonValue != null ? JSON.parse(jsonValue) : []);
+          } catch (e) {
+              console.log(e)
+          }
+      }
+
+      updateTranscript()
+  }, [])
+
+  const selectTranscript = async () => {
+    try {
+        const docRes = await DocumentPicker.getDocumentAsync({
+            type: "application/pdf",
+        });
+
+        const assets = docRes.assets;
+        if (!assets) return;
+        const fileInfo = assets[0];
+
+        let { name, size, uri } = fileInfo;
+        let nameParts = name.split(".");
+        let fileType = nameParts[nameParts.length - 1];
+
+        var fileToUpload = {
+            name: name,
+            size: size,
+            uri: uri,
+            type: "application/" + fileType,
+        };
+        setFile(fileToUpload);
+    } catch (error) {
+        console.log(error)
+    }
+  };
+  const uploadTranscript = async () => {
+      try {
+          const formData = new FormData();
+          formData.append("file", file);
+          console.log(formData);
+
+          const { data } = await axios.post(
+              `${IP}/transcript/parse`,
+              formData,
+              {
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "multipart/form-data",
+                  },
+              }
+          );
+          console.log(data)
+          try {
+              await AsyncStorage.setItem('transcript', JSON.stringify(data.parsedData));
+          } catch (e) {
+              console.log(e)
+          }
+      } catch (error) {
+          console.log("Error while selecting file: ", error);
+      }
+  };
+
+  useEffect(() => {
+    if (transcript)
+      setGpa(transcript.cgpa);
+  }, [transcript]);
 
   return (
     <View style={styles.container}>
@@ -51,9 +120,9 @@ const GpaPredictorHome = ({ navigation }: any) => {
         )}
       </AnimatedCircularProgress>
 
-      <TouchableOpacity style={styles.uploadTranscriptBttn}>
+      <TouchableOpacity style={styles.uploadTranscriptBttn} onPress={() => {file ? uploadTranscript() : selectTranscript()}}>
         <Text style={{ color: "#000", fontWeight: "bold" }}>
-          Upload Transcript
+          {file ? "Upload Transcript" : "Select Transcript"}
         </Text>
       </TouchableOpacity>
 
@@ -64,7 +133,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
           <HomeButtons name={"GPA"} icon={"trending-up"} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionBttns}>
+        <TouchableOpacity style={styles.actionBttns} onPress={() => {navigation.navigate("Transcript")}}>
           <HomeButtons name={"Transcript"} icon={"find-in-page"} />
         </TouchableOpacity>
     

@@ -9,11 +9,8 @@ import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Slider from '@react-native-community/slider';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-const AdmissionYear = 2021;
-const currGPA = 3.6;
-const currCredits = 101;
 const minor = "NA";
 // get gpa, admissionyear, credits, minor from backend and then set the usestate for gpa
 
@@ -27,6 +24,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
   const [sliderGPA, setSliderGPA] = useState(0); 
   const [estimatedGPA, setEstimatedGPA] = useState(0);
   const [minorChecker, setMinorChecker] = useState("");
+  const [transcript, setTranscript]: any = useState(null);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
@@ -42,29 +40,30 @@ const GpaPredictorHome = ({ navigation }: any) => {
   };
 
   useEffect(() => {
-    setGpa(currGPA);
-    setAcademicYear((new Date().getFullYear()) - AdmissionYear);
-    setCredits(currCredits);  
-    setMinorChecker(minor);
-    // fine tune logic later based on months (rising soph etc) 
-    switch(academicYear) {
-      case 1:
-        setAcademicRank("Freshman");
-        break;
-      case 2:
-        setAcademicRank("Sophomore");
-        break;
-      case 3:
-        setAcademicRank("Junior");
-        break;
-      case 4:
-        setAcademicRank("Senior");
-        break;
-      case 5:
-        setAcademicRank("Super Senior");
-        break;
+    if (transcript) {
+      setGpa(transcript.cgpa);
+      setAcademicYear((new Date().getFullYear()) - transcript.admitted);
+      setCredits(transcript.credits);  
+      setMinorChecker(minor);
+      switch(academicYear) {
+        case 1:
+          setAcademicRank("Freshman");
+          break;
+        case 2:
+          setAcademicRank("Sophomore");
+          break;
+        case 3:
+          setAcademicRank("Junior");
+          break;
+        case 4:
+          setAcademicRank("Senior");
+          break;
+        case 5:
+          setAcademicRank("Super Senior");
+          break;
+      }
     }
-  }, [currGPA, academicYear]);
+  }, [transcript]);
 
   useEffect(() => {
     let fullCredits = 130;
@@ -76,6 +75,19 @@ const GpaPredictorHome = ({ navigation }: any) => {
     var tempEst: number = (creditsLeft * sliderGPA + credits * gpa) / fullCredits;
     setEstimatedGPA(parseFloat(tempEst.toFixed(2)));
   }, [sliderCredits, sliderGPA]);
+
+  useEffect(() => {
+      const updateTranscript = async () => {
+          try {
+              const jsonValue = await AsyncStorage.getItem('transcript');
+              setTranscript(jsonValue != null ? JSON.parse(jsonValue) : []);
+          } catch (e) {
+              console.log(e)
+          }
+      }
+
+      updateTranscript()
+  }, [])
 
 
   return (

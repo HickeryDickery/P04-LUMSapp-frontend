@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import LdfHomePage from "../screens/LdfHomePage";
 import AddPost from "../screens/AddPost";
-import GpaPredictor from "../screens/GpaPredictorHome";
 
 interface BottomTab {
   name: string;

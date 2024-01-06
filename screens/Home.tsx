@@ -19,64 +19,13 @@ import { IP } from "../constants/ip";
 import axios from "axios";
 
 const Home = () => {
-    const [file, setFile]: any = useState();
     const navigation = useNavigation();
     const handleButtonPress = (buttonName:string) => {
       if (buttonName === 'GPA Predictor') {
         navigation.navigate('GpaPredictorHome');
       }
     };
-    const selectTranscript = async () => {
-        try {
-            const docRes = await DocumentPicker.getDocumentAsync({
-                type: "application/pdf",
-            });
-
-            const assets = docRes.assets;
-            if (!assets) return;
-            const fileInfo = assets[0];
-
-            let { name, size, uri } = fileInfo;
-            let nameParts = name.split(".");
-            let fileType = nameParts[nameParts.length - 1];
-
-            var fileToUpload = {
-                name: name,
-                size: size,
-                uri: uri,
-                type: "application/" + fileType,
-            };
-            setFile(fileToUpload);
-        } catch (error) {
-            console.log(error)
-        }
-    };
-    const uploadTranscript = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
-            console.log(formData);
-
-            const { data } = await axios.post(
-                `${IP}/transcript/parse`,
-                formData,
-                {
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            console.log(data)
-            try {
-                await AsyncStorage.setItem('transcript', JSON.stringify(data.parsedData));
-            } catch (e) {
-                console.log(e)
-            }
-        } catch (error) {
-            console.log("Error while selecting file: ", error);
-        }
-    };
+    
     return (
         <SafeAreaView style={styles.container}>
             <CarouselCard />
@@ -110,21 +59,6 @@ const Home = () => {
                         <HomeButtons name={button.name} icon={button.icon} />
                       </TouchableOpacity>
                     ))}
-                    <Button
-                        onPress={selectTranscript}
-                        color="#3f3f3f"
-                        title="Select Transcript"
-                    />
-                    <Button
-                        onPress={uploadTranscript}
-                        color="#3f3f3f"
-                        title="Upload Transcript"
-                    />
-                    <Button
-                        onPress={() => {navigation.navigate("Transcript")}}
-                        color="#3f3f3f"
-                        title="View Transcript"
-                    />
                 </View>
                 <TouchableOpacity
                     style={{
