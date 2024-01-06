@@ -3,25 +3,30 @@ import {
     Text,
     View,
     SafeAreaView,
-    TouchableOpacity,
-    Button,
+    ScrollView
 } from "react-native";
 import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import CarouselCard from "../components/CarouselCard";
-import { MaterialIcons } from "@expo/vector-icons";
-import buttons from "../constants/homebutton";
-import HomeButtons from "../components/HomeButtons";
+import { Button } from "react-native-paper";
+import { Ionicons } from '@expo/vector-icons';
+import Loader from "../components/Loader";
 
 const Transcript = ({ navigation }: any) => {
-    const [transcript, setTranscript]: any = useState([]);
+    const [transcript, setTranscript]: any = useState(null);
+
+    function truncateName(text: string, length: number) {
+        if (text.length <= length) {
+            return text;
+        }
+    
+        return text.substring(0, length) + '\u2026'
+    }
 
     useEffect(() => {
         const updateTranscript = async () => {
             try {
                 const jsonValue = await AsyncStorage.getItem('transcript');
-                setTranscript(jsonValue != null ? JSON.parse(jsonValue).course_info : []);
+                setTranscript(jsonValue != null ? JSON.parse(jsonValue) : []);
             } catch (e) {
                 console.log(e)
             }
@@ -31,65 +36,127 @@ const Transcript = ({ navigation }: any) => {
     }, [])
     
     return (
+        !transcript ? <Loader /> :
         <SafeAreaView style={styles.container}>
+            <Button
+                onPress={() => {navigation.goBack()}}
+                style={{
+                    position: 'absolute',
+                    left: '4%',
+                }}
+            >
+                <Ionicons name="chevron-back" size={24} color="white" />
+            </Button>
             <Text
                 style={{
-                    color: 'white'
+                    color: 'white',
+                    fontWeight: "bold",
+                    fontSize: 18,
                 }}
             >Transcript</Text>
-
             <View
                 style={{
-                    paddingHorizontal: "5%",
                     paddingVertical: "5%",
                     flex: 1,
-                    // borderColor: "red",
-                    // borderWidth: 1,
                     alignItems: "center",
                 }}
             >
-                <View
-                    style={{
-                        flex: 1,
+            <Text
+                style={{
+                    color: 'white',
+                    width: '100%',
+                    textAlign: 'center',
+                    paddingVertical: 22,
+                    fontWeight: "bold",
+                    fontSize: 28
+                }}
+            >CGPA  {transcript.cgpa}</Text>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{
                         flexDirection: "row",
                         flexWrap: "wrap",
                         justifyContent: "space-between",
-                        // borderWidth: 1,
-                        // borderColor: "red",
                     }}
                 >
-                    {transcript.map((course: any) => (
+                    {transcript.semesters ? transcript.semesters.map((sem: any) => (
                         <View 
-                            key={course.code}
+                            key={sem.semester}
                             style={{
                                 width: '100%',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                marginVertical: 4,
+                                alignItems: 'center'
                             }}
                         >
-                            {/* <Text
+                            <View
                                 style={{
-                                    color: 'white'
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    width: '95%',
+                                    paddingVertical: 4
                                 }}
-                            >{course.code}</Text> */}
-                            <Text
-                                style={{
-                                    color: 'white'
-                                }}
-                            >{course.name}</Text>
-                            <Text
-                                style={{
-                                    color: 'white'
-                                }}
-                            >{course.grade}</Text>
+                            >
+                                <Text
+                                    style={{
+                                        color: '#7A7A7A',
+                                    }}
+                                >{sem.semester}</Text>
+                                <Text
+                                    style={{
+                                        color: '#2fa192',
+                                    }}
+                                >{sem.course_info.reduce((accumulator: number, currentValue: any) => {
+                                    return accumulator + currentValue.credits;
+                                }, 0)} credits</Text>
+                            </View>
+                            {sem.course_info.map((course: any) => (
+                                <View
+                                    key={course.code}
+                                    style={{
+                                        width: '100%',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        backgroundColor: '#2B2B2B',
+                                        paddingHorizontal: 10,
+                                        paddingVertical: 8,
+                                        marginVertical: 3,
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <View
+                                        style={{
+                                            flexDirection: 'column'
+                                        }}
+                                    >
+                                    <Text
+                                        style={{
+                                            color: 'white',
+                                            fontSize: 15
+                                        }}
+                                    >{truncateName(course.name, 36)}</Text>
+                                    <Text
+                                        style={{
+                                            color: '#35C2B0',
+                                            fontSize: 12
+                                        }}
+                                    >{course.code}</Text>
+                                    </View>
+                                    <Text
+                                        style={{
+                                            color: '#35C2B0',
+                                            fontWeight: "bold",
+                                            fontSize: 20,
+                                            width: '8%'
+                                        }}
+                                    >{course.grade}</Text>
+                                </View>
+                            ))}
                         </View>
-                    ))}
-                    <Text
-                        style={{
-                            color: 'white'
-                        }}
-                    >yo</Text>
-                </View>
+                    )) : null}
+                </ScrollView>
             </View>
         </SafeAreaView>
     );
@@ -112,8 +179,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         flexWrap: "wrap",
         marginTop: 20,
-        // borderColor: "red",
-        // borderWidth: 1,
         padding: 0,
     },
 });
