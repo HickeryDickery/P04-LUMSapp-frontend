@@ -15,6 +15,8 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Loader from "./components/Loader";
 import SinglePost from "./screens/SinglePost";
 import Transcript from "./screens/Transcript";
+import GpaPredictorHome from "./screens/GpaPredictorHome";
+import GpaPredictor from "./screens/GpaPredictor";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +53,8 @@ const Main = () => {
               <Stack.Screen name="Comments" component={Comments} />
               <Stack.Screen name="SinglePost" component={SinglePost} />
               <Stack.Screen name="Transcript" component={Transcript} />
+              <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
+              <Stack.Screen name="GpaPredictor" component={GpaPredictor}  />
             </Stack.Group>
           ) : (
             <Stack.Group>

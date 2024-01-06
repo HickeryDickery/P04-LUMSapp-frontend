@@ -21,6 +21,11 @@ import axios from "axios";
 const Home = () => {
     const [file, setFile]: any = useState();
     const navigation = useNavigation();
+    const handleButtonPress = (buttonName:string) => {
+      if (buttonName === 'GPA Predictor') {
+        navigation.navigate('GpaPredictorHome');
+      }
+    };
     const selectTranscript = async () => {
         try {
             const docRes = await DocumentPicker.getDocumentAsync({
@@ -97,11 +102,13 @@ const Home = () => {
                     }}
                 >
                     {buttons.map((button) => (
-                        <HomeButtons
-                            key={button.name}
-                            name={button.name}
-                            icon={button.icon}
-                        />
+                      <TouchableOpacity
+                        key={button.name}
+                        onPress={() => handleButtonPress(button.name)}
+                        style={{ margin: 10 }}
+                      >
+                        <HomeButtons name={button.name} icon={button.icon} />
+                      </TouchableOpacity>
                     ))}
                     <Button
                         onPress={selectTranscript}
@@ -147,7 +154,7 @@ const Home = () => {
             </View>
         </SafeAreaView>
     );
-};
+}
 
 export default Home;
 
