@@ -7,7 +7,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const UploadTranscript = (props: any) => {
     const [file, setFile]: any = useState();
-    const selectTranscript = async () => {
+    const selectTranscript = async () => { // Use expo-document-picker to choose Transcript from PDF files.
         try {
             const docRes = await DocumentPicker.getDocumentAsync({
                 type: "application/pdf",
@@ -32,7 +32,7 @@ const UploadTranscript = (props: any) => {
             console.log(error)
         }
       };
-      const uploadTranscript = async () => {
+      const uploadTranscript = async () => { // Upload the selected PDF file to server.
         const formData = new FormData();
         formData.append("file", file);
         console.log(formData);
@@ -47,18 +47,22 @@ const UploadTranscript = (props: any) => {
                 },
             }
         ).then(async (response) => {
-          //console.log(response.data.token);
-            console.log(response)
-            try {
-                await AsyncStorage.setItem('transcript', JSON.stringify(response.data.parsedData));
-            } catch (e) {
-                console.log(e)
-            } finally {
-                props.uploadState(true);
-                setFile(null);
+            if (!response.data.success) {
+              alert(response.data.message)
+              setFile(null);
+            } else {
+              try {
+                  await AsyncStorage.setItem('transcript', JSON.stringify(response.data.parsedData));
+              } catch (e) {
+                  console.log(e)
+              } finally {
+                  props.uploadState(true);
+                  setFile(null);
+              }
             }
           })
           .catch((error) => {
+              setFile(null);
               console.log(error);
           })
       };
