@@ -45,10 +45,10 @@ const GpaPredictorHome = ({ navigation }: any) => {
     if (transcript) {
       setGpa(transcript.cgpa);
      
-      const semesterValues: string[] = transcript.semesters.map((entry: any) => entry.semester.slice(0, -8));
+      const semesterValues: string[] = transcript.semesters ? transcript.semesters.map((entry: any) => entry.semester.slice(0, -8)) : [];
       setMajorSems(semesterValues.filter((entry: string) => entry.includes("Fall") || entry.includes("Spring")))
       
-      setSemesters(transcript.semesters.length)
+      setSemesters(transcript.semesters ? transcript.semesters.length : 0)
       setAcademicYear((new Date().getFullYear()) - transcript.admitted);
       setCredits(transcript.credits);  
       setMinorChecker(minor);
@@ -78,7 +78,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
     if (minorChecker != "NA") {
       fullCredits = 150;
     }
-    creditsLeft = fullCredits - credits;
+    creditsLeft = majorSems.length * sliderCredits;
     var tempEst: number = (creditsLeft * sliderGPA + credits * gpa) / fullCredits;
     setEstimatedGPA(parseFloat(tempEst.toFixed(2)));
   }, [sliderCredits, sliderGPA]);

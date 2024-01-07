@@ -1,33 +1,26 @@
 import {
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  Image,
+  Dimensions 
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as DocumentPicker from "expo-document-picker";
-import { IP } from "../constants/ip";
-import axios from "axios";
 
 import HomeButtons from "../components/HomeButtons"; //
 import UploadTranscript from "../components/UploadTranscript";
 
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
 const GpaPredictorHome = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
-  const [gpa, setGpa] = useState(0);
   const [transcript, setTranscript]: any = useState(null);
-  const [fill, setFill]: any = useState();
   const [uploaded, setUploaded]: any = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
 
   useEffect(() => {
       const updateTranscript = async () => {
@@ -48,7 +41,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
 
       <AnimatedCircularProgress
-        size={190}
+        size={0.7 * SCREEN_WIDTH}
         width={7}
         delay={3}
         fill={((transcript?.cgpa != null ? transcript?.cgpa : 0)/4)*100}
