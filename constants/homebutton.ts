@@ -11,7 +11,7 @@ const buttons: Button[] = [
     icon: "school",
   },
   {
-    name: "Schedular",
+    name: "Scheduler",
     icon: "calendar-today",
   },
   {
