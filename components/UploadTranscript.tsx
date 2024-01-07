@@ -55,6 +55,7 @@ const UploadTranscript = (props: any) => {
                 console.log(e)
             } finally {
                 props.uploadState(true);
+                setFile(null);
             }
           })
           .catch((error) => {
