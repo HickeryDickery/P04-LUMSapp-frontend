@@ -6,17 +6,12 @@ import {
     TouchableOpacity,
     Button,
 } from "react-native";
-import { useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
 
 import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
-import * as DocumentPicker from "expo-document-picker";
-import { IP } from "../constants/ip";
-import axios from "axios";
 
 const Home = () => {
     const navigation = useNavigation();
