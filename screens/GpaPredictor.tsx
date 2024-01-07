@@ -25,6 +25,8 @@ const GpaPredictorHome = ({ navigation }: any) => {
   const [estimatedGPA, setEstimatedGPA] = useState(0);
   const [minorChecker, setMinorChecker] = useState("");
   const [transcript, setTranscript]: any = useState(null);
+  const [semesters, setSemesters] = useState(0);
+  const [majorSems, setMajorSems]:any = useState();
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
@@ -42,6 +44,11 @@ const GpaPredictorHome = ({ navigation }: any) => {
   useEffect(() => {
     if (transcript) {
       setGpa(transcript.cgpa);
+     
+      const semesterValues: string[] = transcript.semesters.map((entry: any) => entry.semester.slice(0, -8));
+      setMajorSems(semesterValues.filter((entry: string) => entry.includes("Fall") || entry.includes("Spring")))
+      
+      setSemesters(transcript.semesters.length)
       setAcademicYear((new Date().getFullYear()) - transcript.admitted);
       setCredits(transcript.credits);  
       setMinorChecker(minor);
@@ -116,9 +123,9 @@ const GpaPredictorHome = ({ navigation }: any) => {
       <Text style={{color:"#fff", marginTop:20 }}>{academicRank}</Text>
 
       <View style={styles.infoContainer}>
-        <Text style={{color:"#fff", paddingRight: 10}}>Semesters Taken: {academicYear * 2}</Text>
+        <Text style={{color:"#fff", paddingRight: 10}}>Semesters Taken: {semesters}</Text>
         <Text style={{color:"#fff", paddingRight: 10}}>Credits Taken: {credits}</Text>
-        <Text style={{color:"#fff", paddingRight: 10}}>Semesters Left: {8 - (academicYear * 2)}</Text>
+        <Text style={{color:"#fff", paddingRight: 10}}>  Semesters Left: {majorSems ? 8 - majorSems.length : 0}</Text>
       </View>
 
       {/* // what is the point of this? */}
