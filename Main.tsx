@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView, Platform, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,7 +19,6 @@ import SinglePost from "./screens/SinglePost";
 import Transcript from "./screens/Transcript";
 import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import EditPost from "./screens/EditPost";
 
 const Stack = createNativeStackNavigator();
