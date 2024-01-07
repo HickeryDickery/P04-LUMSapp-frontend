@@ -8,6 +8,7 @@ import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
 import Comments from "./screens/Comments";
+import Schedular from "./screens/Schedular";
 
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";

@@ -11,7 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
 
-const Home = () => {
+const Home = ({ navigation }: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <CarouselCard />
@@ -36,12 +36,45 @@ const Home = () => {
             // borderColor: "red",
           }}
         >
-          {buttons.map((button) => (
-            <HomeButtons
-              key={button.name}
-              name={button.name}
-              icon={button.icon}
-            />
+          {buttons.map((button, index) => (
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  button.name == "Schedular"
+                    ? navigation.navigate("Schedular")
+                    : null
+                }
+                style={{
+                  shadowColor: "#2B2B2B",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.36,
+                  shadowRadius: 6.68,
+
+                  elevation: 11,
+                }}
+              >
+                <HomeButtons
+                  key={button.name}
+                  name={button.name}
+                  icon={button.icon}
+                />
+              </TouchableOpacity>
+              <Text
+                key={index}
+                style={{
+                  color: "white",
+                  paddingBottom: 10,
+                  alignSelf: "center",
+                  // borderWidth: 1,
+                  // borderColor: "red",
+                }}
+              >
+                {button.name}
+              </Text>
+            </View>
           ))}
         </View>
         <TouchableOpacity
