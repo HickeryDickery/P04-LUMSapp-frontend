@@ -64,6 +64,7 @@ const UploadTranscript = (props: any) => {
           .catch((error) => {
               setFile(null);
               console.log(error);
+              alert("Invalid Transcript file!")
           })
       };
     
