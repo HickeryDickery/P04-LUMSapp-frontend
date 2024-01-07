@@ -1,6 +1,7 @@
 import { SafeAreaView, Platform, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet } from "react-native";
 
 import Signup from "./screens/Signup";
 import Login from "./screens/Login";
@@ -17,6 +18,8 @@ import SinglePost from "./screens/SinglePost";
 import Transcript from "./screens/Transcript";
 import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import EditPost from "./screens/EditPost";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +37,7 @@ const Main = () => {
   return loading ? (
     <Loader />
   ) : (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaView
       style={{
         flex: 1,
@@ -55,6 +59,7 @@ const Main = () => {
               <Stack.Screen name="Transcript" component={Transcript} />
               <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
               <Stack.Screen name="GpaPredictor" component={GpaPredictor}  />
+              <Stack.Screen name="EditPost" component={EditPost} />
             </Stack.Group>
           ) : (
             <Stack.Group>
@@ -72,6 +77,9 @@ const Main = () => {
 
       {/* <BottomTabs /> */}
     </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };
 export default Main;
+
+const styles = StyleSheet.create({});

@@ -3,18 +3,29 @@ import {
   TouchableOpacity,
   FlatList,
   SafeAreaView,
+  View,
 } from "react-native";
 
-import Post from "../components/components_LDF/Post";
+import Post from "../components/Post";
 import React, { useState } from "react";
 import { IP } from "../constants/ip";
 import axios from "axios";
 import { useEffect } from "react";
+import {
+  GestureHandlerRootView,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import PostMenu from "../components/PostMenu";
+import { useCallback } from "react";
+import { useRef } from "react";
+import { PostMenuRefProps } from "../components/PostMenu";
 
 const LdfHomePage = ({ navigation }: any) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [refresh, setRefresh] = useState(false);
+
+  const ref = useRef<PostMenuRefProps>(null);
 
   const getData = async (page: number) => {
     try {
@@ -45,28 +56,26 @@ const LdfHomePage = ({ navigation }: any) => {
         refreshing={false}
         onEndReachedThreshold={0.9}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("SinglePost", { postProps: item });
-            }}
-          >
-            <Post
-              key={item._id}
-              name={item.postedBy?.fullname || "Deleted User"}
-              profileImage={"https://picsum.photos/200"}
-              body={item.text}
-              image={"https://picsum.photos/200"} // make this an array
-              likes={item.likeCount}
-              dislikes={item.dislikeCount}
-              comments={item.commentCount}
-              liked={item.isLikedbyUser}
-              disliked={item.isDislikedbyUser}
-              postID={item._id}
-            />
-          </TouchableOpacity>
+          <Post
+            key={item._id}
+            name={item.postedBy?.fullname || "Deleted User"}
+            profileImage={"https://picsum.photos/201"}
+            body={item.text}
+            image={"https://picsum.photos/300"} // make this an array
+            likes={item.likeCount}
+            dislikes={item.dislikeCount}
+            comments={item.commentCount}
+            liked={item.isLikedbyUser}
+            disliked={item.isDislikedbyUser}
+            postID={item._id}
+            postMenuRef={ref}
+          />
         )}
         extraData={posts}
       />
+      <View style={styles.postMenu}>
+        <PostMenu ref={ref} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -81,4 +90,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrollPost: {},
+  postMenu: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
 });
