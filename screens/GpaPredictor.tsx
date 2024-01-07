@@ -78,9 +78,9 @@ const GpaPredictorHome = ({ navigation }: any) => {
     if (minorChecker != "NA") {
       fullCredits = 150;
     }
-    creditsLeft = majorSems.length * sliderCredits;
+    creditsLeft = majorSems?.length * sliderCredits;
     var tempEst: number = (creditsLeft * sliderGPA + credits * gpa) / fullCredits;
-    setEstimatedGPA(parseFloat(tempEst.toFixed(2)));
+    setEstimatedGPA(parseFloat(tempEst?.toFixed(2)));
   }, [sliderCredits, sliderGPA]);
 
   useEffect(() => {
