@@ -16,12 +16,14 @@ import { IP } from "../constants/ip";
 import axios from "axios";
 
 import HomeButtons from "../components/HomeButtons"; //
+import UploadTranscript from "../components/UploadTranscript";
 
 const GpaPredictorHome = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
-  const [gpa, setGpa] = useState(0.0);
-  const [file, setFile]: any = useState();
+  const [gpa, setGpa] = useState(0);
   const [transcript, setTranscript]: any = useState(null);
+  const [fill, setFill]: any = useState();
+  const [uploaded, setUploaded]: any = useState(false);
 
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
@@ -31,71 +33,14 @@ const GpaPredictorHome = ({ navigation }: any) => {
       const updateTranscript = async () => {
           try {
               const jsonValue = await AsyncStorage.getItem('transcript');
-              setTranscript(jsonValue != null ? JSON.parse(jsonValue) : []);
+              const jsonParsed = jsonValue != null ? JSON.parse(jsonValue) : [];
+              setTranscript(jsonParsed); 
           } catch (e) {
               console.log(e)
           }
       }
-
       updateTranscript()
-  }, [])
-
-  const selectTranscript = async () => {
-    try {
-        const docRes = await DocumentPicker.getDocumentAsync({
-            type: "application/pdf",
-        });
-
-        const assets = docRes.assets;
-        if (!assets) return;
-        const fileInfo = assets[0];
-
-        let { name, size, uri } = fileInfo;
-        let nameParts = name.split(".");
-        let fileType = nameParts[nameParts.length - 1];
-
-        var fileToUpload = {
-            name: name,
-            size: size,
-            uri: uri,
-            type: "application/" + fileType,
-        };
-        setFile(fileToUpload);
-    } catch (error) {
-        console.log(error)
-    }
-  };
-  const uploadTranscript = async () => {
-      try {
-          const formData = new FormData();
-          formData.append("file", file);
-          console.log(formData);
-
-          const { data } = await axios.post(
-              `${IP}/transcript/parse`,
-              formData,
-              {
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "multipart/form-data",
-                  },
-              }
-          );
-          console.log(data)
-          try {
-              await AsyncStorage.setItem('transcript', JSON.stringify(data.parsedData));
-          } catch (e) {
-              console.log(e)
-          }
-      } catch (error) {
-          console.log("Error while selecting file: ", error);
-      }
-  };
-
-  useEffect(() => {
-    if (transcript)
-      setGpa(transcript.cgpa);
-  }, [transcript]);
+  }, [uploaded])
 
   return (
     <View style={styles.container}>
@@ -106,7 +51,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
         size={190}
         width={7}
         delay={3}
-        fill={(gpa / 4) * 100}
+        fill={((transcript?.cgpa != null ? transcript?.cgpa : 0)/4)*100}
         rotation={360}
         tintColor="#35C2C1"
         backgroundColor="#2A3C44"
@@ -114,20 +59,16 @@ const GpaPredictorHome = ({ navigation }: any) => {
       >
         {(fill) => (
           <View>
-            <Text style={styles.pointsValue}>{gpa}</Text>
+            <Text style={styles.pointsValue}>{transcript?.cgpa != null ? transcript?.cgpa : 0}</Text>
             <Text style={styles.pointsGPA}>CPGA</Text>
           </View>
         )}
       </AnimatedCircularProgress>
 
-      <TouchableOpacity style={styles.uploadTranscriptBttn} onPress={() => {file ? uploadTranscript() : selectTranscript()}}>
-        <Text style={{ color: "#000", fontWeight: "bold" }}>
-          {file ? "Upload Transcript" : "Select Transcript"}
-        </Text>
-      </TouchableOpacity>
+      <UploadTranscript uploadState={setUploaded} />
 
       <View style={styles.buttonContainer}>
-        
+
         <TouchableOpacity style={styles.actionBttns}
           onPress={() => navigation.navigate("GpaPredictor")}>
           <HomeButtons name={"GPA"} icon={"trending-up"} />
