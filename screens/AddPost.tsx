@@ -36,7 +36,6 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,3 +72,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default AddPost;
