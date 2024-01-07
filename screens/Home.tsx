@@ -10,13 +10,15 @@ import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
+import { useNavigation } from "@react-navigation/native";
 
-const Home = ({ navigation }: any) => {
+const Home = () => {
+    const navigation = useNavigation();
     const handleButtonPress = (buttonName:string) => {
       if (buttonName === 'GPA Predictor') {
         navigation.navigate('GpaPredictorHome');
-      } else if (buttonName === 'Schedular') {
-        navigation.navigate('Schedular');
+      } else if (buttonName === 'Scheduler') {
+        navigation.navigate('Scheduler');
       }
     };
     
