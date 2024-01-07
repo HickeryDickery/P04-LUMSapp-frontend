@@ -1,20 +1,30 @@
-import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
-
-import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { TextInput, Pressable } from "react-native";
+import React from "react";
 import axios from "axios";
+import { useState } from "react";
 import { IP } from "../constants/ip";
+import { useNavigation } from "@react-navigation/native";
 
-const AddPost = () => {
-  const [text, onChangeText] = useState("");
+const EditPost = ({ route }: any) => {
+  const { postProps } = route.params;
+  const navigation = useNavigation();
 
+  const [text, onChangeText] = useState(postProps.body);
   // const [pressed, setPressed] = useState(false);
 
-  const addPost = async () => {
+  const editPost = async () => {
     onChangeText("");
     try {
-      const resp = await axios.post(`${IP}/post/create`, {
+      const res = await axios.post(`${IP}/post/edit`, {
+        postId: postProps.postID,
         text: text,
       });
+      if (res.data.success) {
+        navigation.goBack();
+      } else {
+        alert(res.data.message);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -22,7 +32,7 @@ const AddPost = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}> Add a post</Text>
+      <Text style={styles.header}> Edit your Post </Text>
       <TextInput
         style={styles.inputText}
         onChangeText={onChangeText}
@@ -30,14 +40,12 @@ const AddPost = () => {
         multiline={true} // ios fix for centering it at the top-left corner
         numberOfLines={10}
       />
-      <Pressable onPress={addPost} style={styles.button}>
-        <Text style={{ color: "white", textAlign: "center" }}>Add Post</Text>
+      <Pressable onPress={editPost} style={styles.button}>
+        <Text style={{ color: "white", textAlign: "center" }}>Edit Post</Text>
       </Pressable>
     </View>
   );
 };
-
-export default AddPost;
 
 const styles = StyleSheet.create({
   container: {
@@ -74,3 +82,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default EditPost;
