@@ -125,12 +125,7 @@ const Comments = ({ route }: any) => {
       console.error("Error submitting reply:", error);
     }
   };
-  const [showRepliesInside, setShowReplies] = useState(false);
-  const toggleReplies = () => {
-    setShowReplies(!showRepliesInside);
-  };
-
-
+ 
   const [commentsData, setCommentsData] = useState<any[]>()
 
 
@@ -153,6 +148,12 @@ const Comments = ({ route }: any) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <Text style={{ color: "grey", fontSize: 17 }}>Comments</Text>
+        {/* <TouchableOpacity onPress={( ) => { }}>
+          <Text style={{ color: "white", fontSize: 16 }}>Close</Text>
+        </TouchableOpacity> */}
+      </View>
     
       <FlatList
       data={commentsData}
@@ -165,7 +166,7 @@ const Comments = ({ route }: any) => {
     />
   {additionalData.name !== 'nan' && (
      <View style={{...styles.userInfoContainer, marginBottom:0}}>
-     <Text style={{color: "white"}}>Replying to {additionalData.name}</Text>
+     <Text style={{color: "white"}}>Replying to </Text><Text style={{color: "white",fontWeight: "bold" }}>{additionalData.name}</Text>
     <TouchableOpacity onPress={() => setAdditionalData({ id: "-1", name: "nan" })}>
       <Text style={{ color: "grey", opacity: 50, paddingLeft: 30 }}>Cancel</Text>
     </TouchableOpacity>
@@ -195,7 +196,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 6,
+    paddingTop: 0,
     backgroundColor: "black",
+  },
+  
+  topContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+    padding:0
+    // borderColor: "white",
+    // borderWidth: 1,
   },
   
   
@@ -216,6 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
   },
+ 
 
   newCommentContainer: {
     flexDirection: "row",
