@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { WeekViewEvent } from "react-native-week-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { generateEvent } from "../utils/schedularHelpers";
+import { generateEvent } from "../utils/schedulerHelpers";
 import { useState } from "react";
 
 export type CourseSummaryProps = {

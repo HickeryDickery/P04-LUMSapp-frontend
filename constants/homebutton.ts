@@ -15,7 +15,7 @@ const buttons: Button[] = [
   {
     name: "Scheduler",
     icon: "calendar-today",
-    route: "Schedular",
+    route: "Scheduler",
   },
   {
     name: "GPA Predictor",

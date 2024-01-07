@@ -19,7 +19,7 @@ import {
   createFixedWeekDate,
   generateColor,
   getMondayDate,
-} from "../utils/schedularHelpers";
+} from "../utils/schedulerHelpers";
 
 import CourseEvent from "../components/CourseEvent";
 import CourseSummary from "../components/CourseSummary";
@@ -38,7 +38,7 @@ interface Course {
   id: number;
 }
 
-const Schedular = () => {
+const Scheduler = () => {
   useEffect(() => {
     const getData = async () => {
       try {
@@ -359,7 +359,7 @@ const Schedular = () => {
   );
 };
 
-export default Schedular;
+export default Scheduler;
 
 // styling for the screen
 const styles = StyleSheet.create({
