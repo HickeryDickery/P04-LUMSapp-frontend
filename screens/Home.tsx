@@ -4,20 +4,19 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
-    Button,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
 
-const Home = () => {
-    const navigation = useNavigation();
+const Home = ({ navigation }: any) => {
     const handleButtonPress = (buttonName:string) => {
       if (buttonName === 'GPA Predictor') {
         navigation.navigate('GpaPredictorHome');
+      } else if (buttonName === 'Schedular') {
+        navigation.navigate('Schedular');
       }
     };
     
@@ -84,6 +83,7 @@ const Home = () => {
         </SafeAreaView>
     );
 }
+
 
 export default Home;
 
