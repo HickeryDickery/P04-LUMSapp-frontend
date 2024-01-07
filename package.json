@@ -19,7 +19,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "@reduxjs/toolkit": "^1.9.7",
-    "axios": "^1.6.2",
+    "axios": "^1.6.5",
     "eas-cli": "^5.9.3",
     "expo": "^49.0.21",
     "expo-cli": "^6.3.10",
