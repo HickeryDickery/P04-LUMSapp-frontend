@@ -278,6 +278,7 @@ const Scheduler = () => {
             height: "100%",
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
+            paddingTop: 30,
           }}
         >
           <View
