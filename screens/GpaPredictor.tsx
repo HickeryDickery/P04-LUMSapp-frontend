@@ -74,12 +74,11 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   useEffect(() => {
     let fullCredits = 130;
-    var creditsLeft
     if (minorChecker != "NA") {
       fullCredits = 150;
     }
-    creditsLeft = majorSems?.length * sliderCredits;
-    var tempEst: number = (creditsLeft * sliderGPA + credits * gpa) / fullCredits;
+    let creditsLeft = sliderCredits * (8 - majorSems?.length);
+    let tempEst: number = ((gpa * credits) + (sliderGPA * creditsLeft)) / (credits + creditsLeft);
     setEstimatedGPA(parseFloat(tempEst?.toFixed(2)));
   }, [sliderCredits, sliderGPA]);
 
@@ -128,8 +127,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
         <Text style={{color:"#fff", paddingRight: 10}}>  Semesters Left: {majorSems ? 8 - majorSems.length : 0}</Text>
       </View>
 
-      {/* // what is the point of this? */}
-      {estimatedGPA === 0 ?
+      {estimatedGPA === 0 || Number.isNaN(estimatedGPA) ?
         <Text style={{color: "#fff", fontSize: 20, padding: 20, alignSelf: "flex-start"}}> CGPA by Graduation: </Text>
         : 
         <Text style={{color: "#fff", fontSize: 20, padding: 20, alignSelf: "flex-start"}}> CGPA by Graduation: {estimatedGPA}</Text>  
