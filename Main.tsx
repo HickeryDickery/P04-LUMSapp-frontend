@@ -11,6 +11,7 @@ import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
 import Comments from "./screens/Comments";
 import Scheduler from "./screens/Scheduler";
+import CampusInfo from "./screens/CampusInfo";
 
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
@@ -61,16 +62,15 @@ const Main = () => {
               <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
               <Stack.Screen name="GpaPredictor" component={GpaPredictor}  />
               <Stack.Screen name="EditPost" component={EditPost} />
+              <Stack.Screen name="Scheduler" component={Scheduler} />
+              <Stack.Screen name="CampusInfo" component={CampusInfo} />
             </Stack.Group>
           ) : (
             <Stack.Group>
               <Stack.Screen name="Signup" component={Signup} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="PIN" component={SignupPIN} />
-              <Stack.Screen
-                name="ProfilePicture"
-                component={SignupProfilePicture}
-              />
+              <Stack.Screen name="ProfilePicture" component={SignupProfilePicture}/>
             </Stack.Group>
           )}
         </Stack.Navigator>

@@ -57,6 +57,7 @@ const Home = ({ navigation }: any) => {
           ))}
         </View>
         <TouchableOpacity
+          onPress={() => navigation.navigate("CampusInfo")}
           style={{
             display: "flex",
             flexDirection: "row",

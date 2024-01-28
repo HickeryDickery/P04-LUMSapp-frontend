@@ -5,7 +5,6 @@ import {
   View,
   Dimensions 
 } from "react-native";
-import { useFonts } from "expo-font";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';

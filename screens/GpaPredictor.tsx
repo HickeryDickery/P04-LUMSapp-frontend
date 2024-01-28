@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
