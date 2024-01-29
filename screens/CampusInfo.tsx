@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 const CampusInfo = () => {
-
+    const navigation = useNavigation();
     const openLink = () => {
         Linking.openURL("https://alumni.lums.edu.pk/corporate-discount")
           .catch(err => console.error('Error opening URL:', err));
@@ -12,7 +13,7 @@ const CampusInfo = () => {
         <View style={styles.container}>
             <Text style={styles.heading}>Campus Information</Text>
             
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("InstructorInfo")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Admin Office </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicButton}>
