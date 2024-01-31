@@ -1,4 +1,4 @@
-export const instructor_array = 
+export const instructor_array : string[][]  = 
 [['Ahsan Shamim Chaudhri', 'SDSB', 'ACF'],
 ['Saira Rizwan', 'SDSB', 'ACF'],
 ['Mahin Moazzam', 'SDSB', 'ACF'],
