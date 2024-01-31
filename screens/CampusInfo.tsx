@@ -3,10 +3,14 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Button } from "react-native-paper";
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from "react";
+
+import Loader from "../components/Loader";
 
 
 const CampusInfo = () => {
     const navigation = useNavigation();
+    const [loading, setLoading] = useState(false);
     const openLink = () => {
         Linking.openURL("https://alumni.lums.edu.pk/corporate-discount")
           .catch(err => console.error('Error opening URL:', err));
@@ -48,7 +52,8 @@ const CampusInfo = () => {
                 <Text style={{ color: "#35C2C1", fontWeight: "bold"}}> Saved </Text>
             </TouchableOpacity>
 
-
+         {loading && <Loader />}
+    
         </View>
     );
 };

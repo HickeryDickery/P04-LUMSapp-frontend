@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from "react-native-paper";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import Loader from "../components/Loader";
+
 
 import { instructor_array } from '../components/DepartmentSchoolPairs';
 
@@ -57,6 +59,7 @@ const RenderInstructors = ({ groupedData, navigation }) => {
 const InstructorInfo = () => {
   const navigation = useNavigation();
   const groupedData = groupInstructors(instructor_array);
+  const [loading, setLoading] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,8 +94,10 @@ const InstructorInfo = () => {
           <RenderInstructors groupedData={groupedData} navigation={navigation} />
         </View>
 
+      {loading && <Loader />}
       </ScrollView>
     </SafeAreaView>
+
   );
 };
 
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "left",
     paddingLeft: 20,
-    padding: 10
+    padding: 10,
   },
   deptHeading: {
     color: "white",
