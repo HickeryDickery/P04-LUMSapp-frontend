@@ -1,6 +1,9 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { Button } from "react-native-paper";
+import { Ionicons } from '@expo/vector-icons';
+
 
 const CampusInfo = () => {
     const navigation = useNavigation();
@@ -11,6 +14,16 @@ const CampusInfo = () => {
 
     return (
         <View style={styles.container}>
+            <Button
+                onPress={() => { navigation.goBack() }}
+                style={{
+                position: 'absolute',
+                left: '4%',
+                top: "5.3%",
+                }}
+            >
+                <Ionicons name="chevron-back" size={24} color="white" />
+            </Button>
             <Text style={styles.heading}>Campus Information</Text>
             
             <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("InstructorInfo")}>
@@ -56,6 +69,14 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 50,
       }, 
+      backbutton: {
+        color: "#fff",
+        fontFamily: "Roboto",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 50,
+        marginBottom: 50,
+      },
       topicButton: {
         fontFamily: "Roboto",
         display: "flex",
