@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
       },
       heading: {
         color: "#fff",
-        fontFamily: "Roboto",
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
@@ -76,14 +75,12 @@ const styles = StyleSheet.create({
       }, 
       backbutton: {
         color: "#fff",
-        fontFamily: "Roboto",
         fontSize: 20,
         fontWeight: "bold",
         marginTop: 50,
         marginBottom: 50,
       },
       topicButton: {
-        fontFamily: "Roboto",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#111111",

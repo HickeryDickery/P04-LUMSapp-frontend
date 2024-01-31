@@ -32,10 +32,6 @@ const Login = ({ navigation }: any) => {
     }
   }, [error, dispatch, alert]);
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
-
   return (
     <View style={styles.container}>
       <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
@@ -119,7 +115,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Roboto",
   },
   dividerContainer: {
     flexDirection: "row",
@@ -139,7 +134,6 @@ const styles = StyleSheet.create({
   },
 
   outlookButton: {
-    fontFamily: "Roboto",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#146987",

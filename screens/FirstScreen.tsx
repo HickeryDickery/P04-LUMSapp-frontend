@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: "white",
-    fontFamily: "RobotoBold",
+    fontWeight: "bold"
   },
   registerButtonText: {
     color: "white",
-    fontFamily: "RobotoRegular",
+    fontWeight: "normal",
   },
 });
 

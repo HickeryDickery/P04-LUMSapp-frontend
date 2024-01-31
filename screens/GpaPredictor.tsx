@@ -29,10 +29,6 @@ const GpaPredictorHome = ({ navigation }: any) => {
   const [semesters, setSemesters] = useState(0);
   const [majorSems, setMajorSems]:any = useState();
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
-
   const handleSliderChange = (value:number) => {
     if (value > 4) {
       setSliderValue(value);
@@ -187,7 +183,6 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
@@ -200,13 +195,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontSize: 30,
-    fontFamily: "Roboto",
   },
   pointsGPA: {
     textAlign: 'center',
     color: '#35C2C1',
     fontSize: 25,
-    fontFamily: "Roboto",
   },
   infoContainer: {
     flexDirection: 'row',
@@ -227,7 +220,6 @@ const styles = StyleSheet.create({
   },
   backbutton: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 50,

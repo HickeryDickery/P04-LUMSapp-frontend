@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
@@ -113,16 +112,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontSize: 30,
-    fontFamily: "Roboto",
   },
   pointsGPA: {
     textAlign: 'center',
     color: '#35C2C1',
     fontSize: 25,
-    fontFamily: "Roboto",
   },
   uploadTranscriptBttn: {
-    fontFamily: "Roboto",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#35C2C1",
@@ -134,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   actionBttns: {
-    fontFamily: "Roboto",
     display: "flex",
     flexDirection: "row",
     padding: 20,
@@ -147,7 +142,6 @@ const styles = StyleSheet.create({
   },
   backbutton: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 50,
