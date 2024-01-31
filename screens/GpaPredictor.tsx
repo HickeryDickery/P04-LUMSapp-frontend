@@ -9,6 +9,8 @@ import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Slider from '@react-native-community/slider';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native-paper";
+import { Ionicons } from '@expo/vector-icons';
 
 const minor = "NA";
 // get gpa, admissionyear, credits, minor from backend and then set the usestate for gpa
@@ -97,6 +99,16 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
+      <Button
+          onPress={() => { navigation.goBack() }}
+          style={{
+          position: 'absolute',
+          left: '4%',
+          top: "5.3%",
+          }}
+      >
+          <Ionicons name="chevron-back" size={24} color="white" />
+      </Button>
       <Text style = {styles.heading}>GPA Predictor</Text>
 
 
@@ -213,4 +225,13 @@ const styles = StyleSheet.create({
     width: "auto",
     backgroundColor: "#35C2C1",
   },
+  backbutton: {
+    color: "#fff",
+    fontFamily: "Roboto",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 50,
+    marginBottom: 50,
+  },
+
 });

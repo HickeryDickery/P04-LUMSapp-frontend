@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native-paper";
+import { Ionicons } from '@expo/vector-icons';
 
 import HomeButtons from "../components/HomeButtons"; //
 import UploadTranscript from "../components/UploadTranscript";
@@ -36,6 +38,16 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
+      <Button
+          onPress={() => { navigation.goBack() }}
+          style={{
+          position: 'absolute',
+          left: '4%',
+          top: "5.3%",
+          }}
+      >
+          <Ionicons name="chevron-back" size={24} color="white" />
+      </Button>
       <Text style = {styles.heading}>GPA Predictor</Text>
 
 
@@ -85,7 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
     alignItems: "center",
-    // justifyContent: "center",
   },
   heading: {
     color: "#fff",
@@ -93,7 +104,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    // height: "80%",
     textAlignVertical:'top',
     marginTop: 50,
     marginBottom: 50,
@@ -135,5 +145,12 @@ const styles = StyleSheet.create({
     width: "80%", 
     marginTop: 50,
   },
-
+  backbutton: {
+    color: "#fff",
+    fontFamily: "Roboto",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 50,
+    marginBottom: 50,
+  },
 });
