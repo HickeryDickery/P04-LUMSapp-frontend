@@ -8,8 +8,8 @@ import Loader from "../components/Loader";
 
 import { instructor_array } from '../components/DepartmentSchoolPairs';
 
-const groupInstructors = (instructors) => {
-  const groupedData = {};
+const groupInstructors = (instructors:string[]) => {
+  const groupedData = {} as Record<string, Record<string, string[]>>;
   instructors.forEach(([name, school, department]) => {
     if (!groupedData[school]) {
       groupedData[school] = {};
@@ -22,12 +22,11 @@ const groupInstructors = (instructors) => {
   return groupedData;
 };
 
-const custompage = (name, school, department, navigation) => {
-  console.log("custom page", name, school, department);
+const custompage = (name:string, school:string, department:string, navigation:any) => {
   navigation.navigate("InstructorDetails", {name: name, school: school, dept: department});    
 };
 
-const RenderInstructors = ({ groupedData, navigation }) => {
+const RenderInstructors = ({ groupedData, navigation }: { groupedData: Record<string, Record<string, string[]>>, navigation: any }) => {
   return (
     <View>
       {/* mapping schools ie. sse, sdsb etc */}
@@ -58,8 +57,8 @@ const RenderInstructors = ({ groupedData, navigation }) => {
 
 const InstructorInfo = () => {
   const navigation = useNavigation();
-  const groupedData = groupInstructors(instructor_array);
   const [loading, setLoading] = useState(false);
+  const groupedData = groupInstructors(instructor_array);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,7 +109,6 @@ const styles = StyleSheet.create({
   },
   backbutton: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 50,
@@ -119,7 +117,6 @@ const styles = StyleSheet.create({
   heading: {
     alignItems: "center",
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -128,7 +125,6 @@ const styles = StyleSheet.create({
   },
   schoolHeading: {
     color: "white",
-    fontFamily: "Roboto",
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "left",
@@ -137,7 +133,6 @@ const styles = StyleSheet.create({
   },
   deptHeading: {
     color: "white",
-    fontFamily: "Roboto",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "left",
@@ -146,7 +141,6 @@ const styles = StyleSheet.create({
   },
   instructorHeading: {
     color: "#35C2C1",
-    fontFamily: "Roboto",
     fontSize: 13,
     fontWeight: "bold",
     textAlign: "left",
