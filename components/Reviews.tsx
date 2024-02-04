@@ -1,43 +1,40 @@
 import React from 'react';
-import {
-  StyleSheet, View, Text, Image} from 'react-native';
+import { StyleSheet, View, Text, Image} from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const Reviews: React.FC<{ username: string, profilePicture: string, ratingGiven: number, reviewDescription: string
     }> = ({ username, profilePicture, ratingGiven, reviewDescription }) => {
-    return (
+      return (
         <View style={styles.container}>
-            <Text style={{ color: "white" }}>Username: {username}</Text>
-            <Image source={{ uri: profilePicture }} style={{ width: 100, height: 100 }} />
-            <Text style={{ color: "white" }}>Rating Given: {ratingGiven}</Text>
-            <Text style={{ color: "white" }}>Review Description: {reviewDescription}</Text>
+
+          <View style={styles.header}>
+            <Image source={{ uri: profilePicture }} style={{ width: 30, height: 30, borderRadius: 50 }} />
+            <Text style={{ color: "white", paddingLeft: 20 }}>{username}</Text>
+            <View style={[styles.header, { marginLeft: "auto" }]}>
+              <Text style={{ color: "white", paddingRight: 5 }}>{ratingGiven}</Text>
+              <MaterialIcons name={"star"} size={30} color={"white"} />
+            </View>
+          </View>
+          <Text style={{ color: "white", marginTop: 20 }}>{reviewDescription}</Text>
         </View>
-    )
-}
-  
+      )
+    }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#000",
+      backgroundColor: "#1D1D1D",
+      padding: 15,
+      marginHorizontal: 10,
+      borderRadius: 8,
+      borderBottomWidth: 2,
+      borderBottomColor: "#35C2C1", 
+      paddingBottom: 30, 
+    },
+    header: {
+      flexDirection: "row",
       alignItems: "center",
-    },
-    heading: {
-      color: "#fff",
-      fontSize: 20,
-      fontWeight: "bold",
-      textAlign: "center",
-      textAlignVertical: 'top',
-      marginTop: 50,
-      marginBottom: 20,
-    },
-    instructorTitle: {
-      color: "white", 
-      fontWeight: "bold",
-      fontSize: 20,
-      position: "absolute",
-      left: "9%",
-      top: "43%"
     },
   });
 

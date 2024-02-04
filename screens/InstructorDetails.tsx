@@ -11,9 +11,9 @@ import Loader from "../components/Loader";
 
 import StarRating from "../components/StarRating";
 import Reviews from "../components/Reviews";
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 // TO IMPORT
+const instructorImage = "https://picsum.photos/225"
 const reviewsCount = 10
 const reviewRating = 4
 const zambeelRating = 3.88
@@ -41,8 +41,7 @@ const DATA = [
 // END TO IMPORT
 
 
-
-// tabview
+// tabview 1
 const DetailsTab = () => (
   <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={{ flex: 1}}>
@@ -61,17 +60,23 @@ const DetailsTab = () => (
   </ScrollView>
 );
 
+// tabview 2
 const ReviewsTab = () => {
   const navigation = useNavigation();
 
   // Render item function for FlatList
   const renderItem = ({ item }) => {
-    return <Reviews 
-      username={item.username} 
-      profilePicture={item.profilePicture}
-      ratingGiven = {item.ratingGiven}
-      reviewDescription = {item.reviewDescription}
-      />;
+    return (
+      <>
+        <Reviews 
+          username={item.username} 
+          profilePicture={item.profilePicture}
+          ratingGiven={item.ratingGiven}
+          reviewDescription={item.reviewDescription}
+        />
+        <View style={{ margin: 10}}></View>
+      </>
+    );
   };
 
   return (
@@ -83,22 +88,19 @@ const ReviewsTab = () => {
         </TouchableOpacity>
       </View>
 
-      <Text style={{color: "white", padding:20}}>ADD THE COMPONENT HERE</Text>
+      <View style={{padding:5}}></View>
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={item => item.id} 
+        keyExtractor={item => item.username} 
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        
       </FlatList>
     </View>
   );
 }; 
 
-
-
-
+// tab view scene map
 const renderScene = SceneMap({
   first: DetailsTab,
   second: ReviewsTab,
@@ -111,7 +113,6 @@ const InstructorDetails = ({ route }) => {
   const windowHeight = Dimensions.get('window').height;
   const { name, school, department } = route.params;
 
-  //
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Details' },
@@ -140,7 +141,7 @@ const InstructorDetails = ({ route }) => {
       </View>
       <View>
         <View>
-          <Image style={{ width: windowWidth, height: 300}} source={{ uri: "https://picsum.photos/225" }} />
+          <Image style={{ width: windowWidth, height: 300}} source={{ uri: instructorImage }} />
         </View>
         <LinearGradient
           colors={['transparent','rgba(0,0,0,1.0)']}
