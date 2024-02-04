@@ -30,7 +30,7 @@ import {
     const [page, setPage] = useState(0);
     const [refresh, setRefresh] = useState(false);
 
-    const { user } = useAppSelector((state) => state.auth);
+    const { user }: any = useAppSelector((state) => state.auth);
   
     const ref = useRef<PostMenuRefProps>(null);
   
