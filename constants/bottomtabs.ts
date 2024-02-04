@@ -3,6 +3,7 @@ import Home from "../screens/Home";
 import LdfHomePage from "../screens/LdfHomePage";
 import AddPost from "../screens/AddPost";
 import HomeStack from "../components/HomeStack";
+import Profile from "../screens/Profile";
 interface BottomTab {
   name: string;
   icon: keyof typeof Ionicons.glyphMap;
@@ -15,7 +16,7 @@ const bottomTabs: BottomTab[] = [
   { name: "HomeStack", icon: "home", component: HomeStack },
   { name: "AddPost", icon: "add-circle", component: AddPost },
   // { name: "Donations", icon: "fitness" },
-  // { name: "Profile", icon: "person" },
+  { name: "Profile", icon: "person", component: Profile },
 ];
 
 export default bottomTabs;
