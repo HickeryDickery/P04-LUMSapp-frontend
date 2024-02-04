@@ -14,6 +14,7 @@ import Scheduler from "./screens/Scheduler";
 import CampusInfo from "./screens/CampusInfo";
 import InstructorInfo from "./screens/InstructorInfo";
 import InstructorDetails from "./screens/InstructorDetails";
+import AddInstructorReview from "./screens/AddInstructorReview";
 
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
@@ -68,6 +69,7 @@ const Main = () => {
               <Stack.Screen name="CampusInfo" component={CampusInfo} />
               <Stack.Screen name="InstructorInfo" component={InstructorInfo} />
               <Stack.Screen name="InstructorDetails" component={InstructorDetails} />
+              <Stack.Screen name="AddInstructorReview" component={AddInstructorReview} />
             </Stack.Group>
           ) : (
             <Stack.Group>

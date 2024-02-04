@@ -30,7 +30,7 @@ const CampusInfo = () => {
             </Button>
             <Text style={styles.heading}>Campus Information</Text>
             
-            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("InstructorInfo")}>
+            <TouchableOpacity style={styles.topicButton}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Admin Office </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicButton}>
@@ -39,7 +39,7 @@ const CampusInfo = () => {
             <TouchableOpacity style={styles.topicButton}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Eateries </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("InstructorInfo")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Instructor Details </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicButton}>
