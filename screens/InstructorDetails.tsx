@@ -10,7 +10,8 @@ import Loader from "../components/Loader";
 import StarRating from "../components/StarRating";
 
 // TO IMPORT
-const reviewsCount = 10;
+const reviewsCount = 10
+const reviewRating = 4
 const zambeelRating = 3.88
 const profileDescription = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit quos dignissimos id qui eligendi facilis reprehenderit, repudiandae optio at consequatur, labore impedit earum fugiat ea ipsa laborum autem vero omnis?"
 // END TO IMPORT
@@ -24,7 +25,7 @@ const DetailsTab = () => (
       <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Overall Rating</Text>
     
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{paddingLeft: 20}}><StarRating initialValue={2} /></View>
+        <View style={{paddingLeft: 20}}><StarRating initialValue={reviewRating} /></View>
         <Text style={{ color: 'white', marginLeft: 5, marginTop: 10, fontSize: 10}}>({reviewsCount})</Text>
         <Text  style={{ color: 'white', marginLeft: 100, fontSize: 25, fontWeight: "bold"}}>{zambeelRating}/5</Text>
       </View>
