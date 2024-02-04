@@ -10,8 +10,6 @@ import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
 import Comments from "./screens/Comments";
-import Scheduler from "./screens/Scheduler";
-
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
@@ -21,6 +19,7 @@ import Transcript from "./screens/Transcript";
 import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
+import EditProfile from "./screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,9 +57,10 @@ const Main = () => {
               <Stack.Screen name="Comments" component={Comments} />
               <Stack.Screen name="SinglePost" component={SinglePost} />
               <Stack.Screen name="Transcript" component={Transcript} />
-              <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
-              <Stack.Screen name="GpaPredictor" component={GpaPredictor}  />
+              <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome} />
+              <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
               <Stack.Screen name="EditPost" component={EditPost} />
+              <Stack.Screen name="EditProfile" component={EditProfile} />
             </Stack.Group>
           ) : (
             <Stack.Group>
