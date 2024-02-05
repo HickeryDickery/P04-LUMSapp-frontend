@@ -72,19 +72,25 @@ const Comments = ({ route }: any) => {
         if (commentToReplyTo) {
 
           try{
-            const { data } = await axios.post(`${IP}/comment/reply`, {
-              commentId: additionalData.id,
-              text: newComment,
-            });
-  
+
             // const newReply = {
-            //   _id: data.commentId,
+            //   _id: Math.random().toString(),
             //   fullname: 'John Doe',
             //   text: newComment,
             //   replies: [],
             //   level: commentToReplyTo.level + 1,
             // };
+          
+            // commentToReplyTo.replies.push(newReply);
+            // setNewComment("");
+
+            const { data } = await axios.post(`${IP}/comment/reply`, {
+              commentId: additionalData.id,
+              text: newComment,
+            });
   
+          
+            // commentToReplyTo.replies.pop();
             commentToReplyTo.replies.push(data.reply);
             setNewComment("");
             
@@ -155,7 +161,7 @@ const Comments = ({ route }: any) => {
         </TouchableOpacity> */}
       </View>
     
-      <FlatList
+      {/* <FlatList
       data={commentsData}
       keyExtractor={(item, _) => item._id.toString()}
        renderItem={({ item }) => 
@@ -163,7 +169,16 @@ const Comments = ({ route }: any) => {
       <Comment comment={item} showReplies={false} onPress={handlePress} onDataChange={handleDataChange} />
   }
     
-    />
+    /> */}
+     {commentsData?.map(item => (
+        <Comment
+          key={item._id.toString()} // Ensure each item has a unique key
+          comment={item}
+          showReplies={false}
+          onPress={handlePress}
+          onDataChange={handleDataChange}
+        />
+      ))}
   {additionalData.name !== 'nan' && (
      <View style={{...styles.userInfoContainer, marginBottom:0}}>
      <Text style={{color: "white"}}>Replying to </Text><Text style={{color: "white",fontWeight: "bold" }}>{additionalData.name}</Text>

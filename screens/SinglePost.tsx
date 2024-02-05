@@ -2,12 +2,13 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Post from "../components/Post";
 import Comments from "./Comments";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SinglePost = ({ route }: any) => {
   const { postProps } = route.params;
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Post
         name={postProps.name}
         profileImage={postProps.profileImage}
@@ -27,7 +28,7 @@ const SinglePost = ({ route }: any) => {
           params: { ...route.params, postId: postProps.postID },
         }}
       />
-    </View>
+    </ScrollView>
   );
 };
 
