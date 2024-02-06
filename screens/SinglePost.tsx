@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 // import Comments from "./Comments";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { IP } from "../constants/ip";
 import { useAppSelector } from "../redux/hooks";
 import Comment from "../components/Comment";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 
@@ -154,8 +155,10 @@ const SinglePost = ({ route }: any) => {
   }, [postID]);
 
   return (
-    <View style={{flex:1}}>
-    <ScrollView style={styles.container}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" :undefined}>
+     
+        {/* <View style={{flex:1}}> */}
+    <ScrollView contentContainerStyle={styles.container}>
       <Post
         name={postProps.name}
         profileImage={postProps.profileImage}
@@ -207,8 +210,9 @@ const SinglePost = ({ route }: any) => {
       
     </View>
     </ScrollView>
+    
 
-
+   <View style={{flexDirection:"column"}}>
     {additionalData.name !== 'nan' && (
      <View style={{...styles.userInfoContainer, marginBottom:0}}>
      <Text style={{color: "white"}}>Replying to </Text><Text style={{color: "white",fontWeight: "bold" }}>{additionalData.name}</Text>
@@ -217,6 +221,7 @@ const SinglePost = ({ route }: any) => {
     </TouchableOpacity>
      </View>)
     }
+     
     <View style={styles.newCommentContainer}>
       
     <TextInput
@@ -227,15 +232,30 @@ const SinglePost = ({ route }: any) => {
       placeholderTextColor={"#8e8e8e"}
       ref= {inputRef}
     />
-    <Button title="Submit"  onPress={submitHandler}/>
+    <TouchableOpacity onPress={submitHandler}>
+      <View  style={styles.buttonStyle}>
+      <MaterialCommunityIcons
+                name="send"
+                size={35}
+                color={ "#35C2C1"}
+                
+              />
+                </View>
+    </TouchableOpacity>
+  
   </View>
+ 
   </View>
+  </KeyboardAvoidingView>
+
+  
+
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 0,
     backgroundColor: "black",
   },
@@ -248,33 +268,50 @@ const styles = StyleSheet.create({
   newCommentInput: {
     flex: 1,
     height: 40,
-    borderColor: "#ddd",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginRight: 8,
+    // borderColor: "#ddd",
+    // borderWidth: 1,
+    backgroundColor:"#272727",
+    borderRadius: 100,
+    marginRight: 10,
+    marginLeft:10,
     paddingHorizontal: 8,
     color: "white",
+  }, 
+  buttonStyle: {
+    backgroundColor: "#272727",
+    justifyContent: "center",
+    // flexDirection:"row",
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+    padding:8,
+    height:50,
+    width:50,
+    borderRadius: 100, // Adjust the value as needed for rounded corners
+    marginLeft:0,
+    marginRight: 10,
+    // transform: [{ rotate: '310deg' }]
   },
   userInfoContainer: {
+ 
     flexDirection: "row",
-    alignItems: "center",
-    // borderColor: "white",
-    // paddingLeft: 10,
+   
     backgroundColor: "black",
    borderWidth: 1,
-  //  borderColor: "white",
-    paddingLeft: 0,
-    marginBottom: 8,
+   
+  
+    paddingLeft: 10,
+   
   },
   newCommentContainer: {
+    // position:"absolute",
     flexDirection: "row",
-    flex:0,
+
     backgroundColor:"black",
     
     alignItems: "center",
   
-    paddingTop: 16,
-    paddingBottom: 16,
+    paddingTop: 5,
+    paddingBottom: 0,
   },
   topContainer: {
     flexDirection: "row",

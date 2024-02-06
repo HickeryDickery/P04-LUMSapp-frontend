@@ -552,7 +552,8 @@ const styles = StyleSheet.create({
     // borderColor: "grey",
   },
   commentText: {
-    fontSize: 12,
+    fontSize: 14,
+    lineHeight:20,
     color: "white",
   },
   buttonStyle: {
