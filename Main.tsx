@@ -9,7 +9,7 @@ import Login from "./screens/Login";
 import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
-import Comments from "./screens/Comments";
+// import Comments from "./screens/Comments";
 import Scheduler from "./screens/Scheduler";
 
 import { loadUser } from "./redux/action";
@@ -55,7 +55,7 @@ const Main = () => {
           {isAuthenticated ? (
             <Stack.Group>
               <Stack.Screen name="BottomTabs" component={BottomTabs} />
-              <Stack.Screen name="Comments" component={Comments} />
+              {/* <Stack.Screen name="Comments" component={Comments} /> */}
               <Stack.Screen name="SinglePost" component={SinglePost} />
               <Stack.Screen name="Transcript" component={Transcript} />
               <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
