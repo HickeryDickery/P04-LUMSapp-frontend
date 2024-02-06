@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from "react-native-paper";
@@ -8,16 +8,13 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Avatar } from "react-native-paper";
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import Loader from "../components/Loader";
+import axios from "axios";
+import { IP } from "../constants/ip";
 
 import StarRating from "../components/StarRating";
 import Reviews from "../components/Reviews";
 
 // TO IMPORT
-const instructorImage = "https://picsum.photos/225"
-const reviewsCount = 10
-const reviewRating = 4
-const zambeelRating = 3.88
-const profileDescription = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit quos dignissimos id qui eligendi facilis reprehenderit, repudiandae optio at consequatur, labore impedit earum fugiat ea ipsa laborum autem vero omnis?"
 const DATA = [
   {
     username: 'Nauman',
@@ -42,8 +39,10 @@ const DATA = [
 
 
 // tabview 1
-const DetailsTab = () => (
-  <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+const DetailsTab = (extraProp:any) => {
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription } = extraProp.extraProp;
+  return (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={{ flex: 1}}>
       <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Overall Rating</Text>
     
@@ -58,14 +57,16 @@ const DetailsTab = () => (
       <Text style={{color: "white", fontSize: 15, paddingHorizontal: 20}}>{profileDescription}</Text>
     </View>
   </ScrollView>
-);
+)
+  };
 
 // tabview 2
-const ReviewsTab = () => {
+const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription } = extraProp.extraProp;
 
   // Render item function for FlatList
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item }: any) => {
     return (
       <>
         <Reviews 
@@ -82,7 +83,7 @@ const ReviewsTab = () => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar.Image style={{marginLeft:20, marginTop:10}} size={30} source={require("../assets/adaptive-icon.png")} />
+        <Avatar.Image style={{marginLeft: 20, marginTop: 10}} size={30} source={require("../assets/adaptive-icon.png")} />
         <TouchableOpacity onPress={() => {navigation.navigate("AddInstructorReview")}}> 
           <View style={{marginLeft: 5, marginTop:10}}><StarRating initialValue={reviewRating}/></View>
         </TouchableOpacity>
@@ -100,18 +101,54 @@ const ReviewsTab = () => {
   );
 }; 
 
-// tab view scene map
-const renderScene = SceneMap({
-  first: DetailsTab,
-  second: ReviewsTab,
-});
+const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, profileDescription }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string }) => {
+  switch (route.key) {
+    case 'first':
+      return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
+    case 'second':
+      return <ReviewsTab extraProp={{reviewRating}} />;
+    default:
+      return null;
+  }
+};
 
-const InstructorDetails = ({ route }) => {
+const InstructorDetails = ({ route }: any) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const { name, school, department } = route.params;
+
+  const [instructorImage, setInstructorImage] = useState("https://picsum.photos/202");
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [zambeelRating, setZambeelRating] = useState(0.0);
+  const [profileDescription, setProfileDescription] = useState("junk");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.post(`${IP}/instructor/get`, {
+          body: name,
+        });
+        if (res.data.success && res.data.instructor) {
+          const { instructor } = res.data;
+          setInstructorImage(instructor.instructorImage);
+          setProfileDescription(instructor.profileDescription);
+          setReviewsCount(instructor.reviewCount);
+          setReviewRating(instructor.reviewRating);
+          setZambeelRating(instructor.zambeelRating);
+        } else {
+          console.log("Error: Success is false or no instructor data found.");
+        }
+      } catch (err) {
+        console.log("Error fetching instructor data:", err);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -119,7 +156,7 @@ const InstructorDetails = ({ route }) => {
     { key: 'second', title: 'Reviews' },
   ]);
 
-  return (
+  return  loading? (<View><Text>Loading</Text></View>):(
     <View style={styles.container}>
       <Button
         onPress={() => { navigation.goBack() }}
@@ -154,7 +191,7 @@ const InstructorDetails = ({ route }) => {
         <TabView
           lazy
           navigationState={{ index, routes }}
-          renderScene={renderScene}
+          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, profileDescription })}
           onIndexChange={setIndex}
           initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
           renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black'}} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
