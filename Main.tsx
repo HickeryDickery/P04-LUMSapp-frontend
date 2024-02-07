@@ -20,66 +20,109 @@ import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
 import EditProfile from "./screens/EditProfile";
+import PostImageScroll from "./screens/PostImageScroll";
+import VideoPlayer from "./screens/VideoPlayer";
 
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(loadUser());
+    }, [dispatch]);
 
-  const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
-  // const isAuthenticated = false;
-  // const loading = false;
+    const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
+    // const isAuthenticated = false;
+    // const loading = false;
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: "black",
-        // paddingHorizontal: 20,
-      }}
-    >
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={isAuthenticated ? "BottomTabs" : "Login"}
-          screenOptions={{ headerShown: false }}
-        >
-          {isAuthenticated ? (
-            <Stack.Group>
-              <Stack.Screen name="BottomTabs" component={BottomTabs} />
-              <Stack.Screen name="Comments" component={Comments} />
-              <Stack.Screen name="SinglePost" component={SinglePost} />
-              <Stack.Screen name="Transcript" component={Transcript} />
-              <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome} />
-              <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
-              <Stack.Screen name="EditPost" component={EditPost} />
-              <Stack.Screen name="EditProfile" component={EditProfile} />
-            </Stack.Group>
-          ) : (
-            <Stack.Group>
-              <Stack.Screen name="Signup" component={Signup} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="PIN" component={SignupPIN} />
-              <Stack.Screen
-                name="ProfilePicture"
-                component={SignupProfilePicture}
-              />
-            </Stack.Group>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+    return loading ? (
+        <Loader />
+    ) : (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    paddingTop:
+                        Platform.OS === "android" ? StatusBar.currentHeight : 0,
+                    backgroundColor: "black",
+                    // paddingHorizontal: 20,
+                }}
+            >
+                <NavigationContainer>
+                    <Stack.Navigator
+                        initialRouteName={
+                            isAuthenticated ? "BottomTabs" : "Login"
+                        }
+                        screenOptions={{ headerShown: false }}
+                    >
+                        {isAuthenticated ? (
+                            <Stack.Group>
+                                <Stack.Screen
+                                    name="BottomTabs"
+                                    component={BottomTabs}
+                                />
+                                <Stack.Screen
+                                    name="Comments"
+                                    component={Comments}
+                                />
+                                <Stack.Screen
+                                    name="SinglePost"
+                                    component={SinglePost}
+                                />
+                                <Stack.Screen
+                                    name="PostImageScroll"
+                                    component={PostImageScroll}
+                                />
+                                <Stack.Screen
+                                    name="VideoPlayer"
+                                    component={VideoPlayer}
+                                />
+                                <Stack.Screen
+                                    name="Transcript"
+                                    component={Transcript}
+                                />
+                                <Stack.Screen
+                                    name="GpaPredictorHome"
+                                    component={GpaPredictorHome}
+                                />
+                                <Stack.Screen
+                                    name="GpaPredictor"
+                                    component={GpaPredictor}
+                                />
+                                <Stack.Screen
+                                    name="EditPost"
+                                    component={EditPost}
+                                />
+                                <Stack.Screen
+                                    name="EditProfile"
+                                    component={EditProfile}
+                                />
+                            </Stack.Group>
+                        ) : (
+                            <Stack.Group>
+                                <Stack.Screen
+                                    name="Signup"
+                                    component={Signup}
+                                />
+                                <Stack.Screen name="Login" component={Login} />
+                                <Stack.Screen
+                                    name="PIN"
+                                    component={SignupPIN}
+                                />
+                                <Stack.Screen
+                                    name="ProfilePicture"
+                                    component={SignupProfilePicture}
+                                />
+                            </Stack.Group>
+                        )}
+                    </Stack.Navigator>
+                </NavigationContainer>
 
-      {/* <BottomTabs /> */}
-    </SafeAreaView>
-    </GestureHandlerRootView>
-  );
+                {/* <BottomTabs /> */}
+            </SafeAreaView>
+        </GestureHandlerRootView>
+    );
 };
 export default Main;
 
