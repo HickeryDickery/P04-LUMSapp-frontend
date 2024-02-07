@@ -68,8 +68,10 @@ const AddInstructorReview = ({ route }: any) => {
         academicSession: value,
         reviewDescription: multilineValue,
       });
+      alert('Review submitted successfully!');
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      alert('You have already submitted a review for this instructor.');
     }
   };
 
@@ -83,7 +85,6 @@ const AddInstructorReview = ({ route }: any) => {
     } else if (multilineValue === '') {
       alert('Please write a review.');
     } else {
-      alert('Review submitted successfully!');
       submitReview();
     }
   };
