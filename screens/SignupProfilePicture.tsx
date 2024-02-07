@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 // import * as SplashScreen from 'expo-splash-screen';
 import * as ImagePicker from "expo-image-picker";
@@ -16,10 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 const profilepicturePlaceholder = require("../assets/profilepicture_placeholder.png");
 
 const SignupProfilePicture = ({ navigation }: any) => {
-  const [fontsLoaded, error] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
-
   const [image, setImage] = useState<null | string>(null);
   const [bio, setBio] = useState("");
 
@@ -35,18 +30,6 @@ const SignupProfilePicture = ({ navigation }: any) => {
       console.log(image);
     }
   };
-
-  // useEffect(() => {
-  //   const hideSplash = async () => {
-  //     await SplashScreen.hideAsync();
-  //   };
-
-  //   hideSplash();
-  // }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   // const continueOnPress = () => {
   //   if (image && bio) {
@@ -111,7 +94,7 @@ const SignupProfilePicture = ({ navigation }: any) => {
         }}
       >
         <Text
-          style={{ fontWeight: "bold", color: "#35C2C1", fontFamily: "Roboto" }}
+          style={{ fontWeight: "bold", color: "#35C2C1"}}
         >
           Skip for now
         </Text>
@@ -133,7 +116,6 @@ const styles = StyleSheet.create({
   },
   centerText: {
     color: "#35C2C1",
-    fontFamily: "Roboto",
     fontSize: 36,
     paddingBottom: 20,
   },
@@ -171,7 +153,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Roboto",
   },
   skipButton: {
     marginTop: "5%",
@@ -181,6 +162,5 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Roboto",
   },
 });

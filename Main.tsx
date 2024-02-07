@@ -10,6 +10,12 @@ import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
 import Comments from "./screens/Comments";
+import Scheduler from "./screens/Scheduler";
+import CampusInfo from "./screens/CampusInfo";
+import InstructorInfo from "./screens/InstructorInfo";
+import InstructorDetails from "./screens/InstructorDetails";
+import AddInstructorReview from "./screens/AddInstructorReview";
+
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
@@ -97,6 +103,22 @@ const Main = () => {
                                 <Stack.Screen
                                     name="EditProfile"
                                     component={EditProfile}
+                                />
+                                <Stack.Screen
+                                    name="CampusInfo"
+                                    component={CampusInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorInfo"
+                                    component={InstructorInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorDetails"
+                                    component={InstructorDetails}
+                                />
+                                <Stack.Screen
+                                    name="AddInstructorReview"
+                                    component={AddInstructorReview}
                                 />
                             </Stack.Group>
                         ) : (

@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
@@ -10,6 +9,8 @@ import Loader from "../components/Loader";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Slider from '@react-native-community/slider';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native-paper";
+import { Ionicons } from '@expo/vector-icons';
 
 const minor = "NA";
 // get gpa, admissionyear, credits, minor from backend and then set the usestate for gpa
@@ -27,10 +28,6 @@ const GpaPredictorHome = ({ navigation }: any) => {
   const [transcript, setTranscript]: any = useState(null);
   const [semesters, setSemesters] = useState(0);
   const [majorSems, setMajorSems]:any = useState();
-
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
 
   const handleSliderChange = (value:number) => {
     if (value > 4) {
@@ -98,6 +95,16 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
+      <Button
+          onPress={() => { navigation.goBack() }}
+          style={{
+          position: 'absolute',
+          left: '4%',
+          top: "5.3%",
+          }}
+      >
+          <Ionicons name="chevron-back" size={24} color="white" />
+      </Button>
       <Text style = {styles.heading}>GPA Predictor</Text>
 
 
@@ -176,7 +183,6 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "#fff",
-    fontFamily: "Roboto",
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
@@ -189,13 +195,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontSize: 30,
-    fontFamily: "Roboto",
   },
   pointsGPA: {
     textAlign: 'center',
     color: '#35C2C1',
     fontSize: 25,
-    fontFamily: "Roboto",
   },
   infoContainer: {
     flexDirection: 'row',
@@ -214,4 +218,12 @@ const styles = StyleSheet.create({
     width: "auto",
     backgroundColor: "#35C2C1",
   },
+  backbutton: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 50,
+    marginBottom: 50,
+  },
+
 });

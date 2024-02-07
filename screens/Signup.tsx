@@ -21,18 +21,6 @@ const Signup = ({ navigation }: any) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
-
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
-  // const { loading, error, isSignedUp } = useAppSelector((state) => state.auth);
-
-  // const dispatch = useAppDispatch();
-
   const signupHandler = async () => {
     try {
       setLoading(true);
@@ -161,10 +149,8 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Roboto",
   },
   outlookButton: {
-    fontFamily: "Roboto",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#146987",

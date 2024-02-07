@@ -15,10 +15,6 @@ const SignupPIN = ({ navigation }: any) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const lumsLogo = require("../assets/Lums.png");
 
-  const [fontsLoaded] = useFonts({
-    Roboto: require("../assets/Roboto/Roboto-Black.ttf"),
-  });
-
   const dispatch = useAppDispatch();
 
   const handleSubmit = async () => {
@@ -40,10 +36,6 @@ const SignupPIN = ({ navigation }: any) => {
     // const otp = code.join("");
     // dispatch(verifyOtp(otp));
   };
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>
@@ -81,7 +73,6 @@ const styles = StyleSheet.create({
   },
   centerText: {
     color: "#35C2C1",
-    fontFamily: "Roboto",
     fontSize: 36,
     marginBottom: "5%",
   },
@@ -100,6 +91,5 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Roboto",
   },
 });
