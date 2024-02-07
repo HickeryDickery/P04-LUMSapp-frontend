@@ -10,7 +10,6 @@ import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
 import Comments from "./screens/Comments";
-import Scheduler from "./screens/Scheduler";
 
 import { loadUser } from "./redux/action";
 import { useEffect } from "react";
@@ -39,45 +38,48 @@ const Main = () => {
     <Loader />
   ) : (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: "black",
-        // paddingHorizontal: 20,
-      }}
-    >
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={isAuthenticated ? "BottomTabs" : "Login"}
-          screenOptions={{ headerShown: false }}
-        >
-          {isAuthenticated ? (
-            <Stack.Group>
-              <Stack.Screen name="BottomTabs" component={BottomTabs} />
-              <Stack.Screen name="Comments" component={Comments} />
-              <Stack.Screen name="SinglePost" component={SinglePost} />
-              <Stack.Screen name="Transcript" component={Transcript} />
-              <Stack.Screen name="GpaPredictorHome" component={GpaPredictorHome}  />
-              <Stack.Screen name="GpaPredictor" component={GpaPredictor}  />
-              <Stack.Screen name="EditPost" component={EditPost} />
-            </Stack.Group>
-          ) : (
-            <Stack.Group>
-              <Stack.Screen name="Signup" component={Signup} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="PIN" component={SignupPIN} />
-              <Stack.Screen
-                name="ProfilePicture"
-                component={SignupProfilePicture}
-              />
-            </Stack.Group>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+          backgroundColor: "black",
+          // paddingHorizontal: 20,
+        }}
+      >
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName={isAuthenticated ? "BottomTabs" : "Login"}
+            screenOptions={{ headerShown: false }}
+          >
+            {isAuthenticated ? (
+              <Stack.Group>
+                <Stack.Screen name="BottomTabs" component={BottomTabs} />
+                <Stack.Screen name="Comments" component={Comments} />
+                <Stack.Screen name="SinglePost" component={SinglePost} />
+                <Stack.Screen name="Transcript" component={Transcript} />
+                <Stack.Screen
+                  name="GpaPredictorHome"
+                  component={GpaPredictorHome}
+                />
+                <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
+                <Stack.Screen name="EditPost" component={EditPost} />
+              </Stack.Group>
+            ) : (
+              <Stack.Group>
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Signup" component={Signup} />
+                <Stack.Screen name="PIN" component={SignupPIN} />
+                <Stack.Screen
+                  name="ProfilePicture"
+                  component={SignupProfilePicture}
+                />
+              </Stack.Group>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
 
-      {/* <BottomTabs /> */}
-    </SafeAreaView>
+        {/* <BottomTabs /> */}
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 };

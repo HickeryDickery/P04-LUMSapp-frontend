@@ -12,7 +12,7 @@ const BottomTabs = () => {
     <View style={{ flex: 1, backgroundColor: "black" }}>
       <Header />
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="HomeStack"
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           tabBarStyle: { backgroundColor: "black" },
