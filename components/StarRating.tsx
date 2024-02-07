@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const StarRating = ({ initialValue }: { initialValue?: number }) => {
+const StarRating = ({ initialValue, onRatingChange }: { initialValue?: number, onRatingChange?: (rating: number) => void }) => {
   const starRatingOptions = [1, 2, 3, 4, 5];
 
   const [starRating, setStarRating] = useState<number | null>(initialValue || null);
@@ -38,6 +38,11 @@ const StarRating = ({ initialValue }: { initialValue?: number }) => {
     }).start();
   };
 
+  const handleStarPress = (rating: number) => {
+    setStarRating(rating);
+    onRatingChange(rating); // Pass the selected rating to the parent component
+  };
+
   const animatedScaleStyle = {
     transform: [{ scale: animatedButtonScale }],
   };
@@ -50,7 +55,7 @@ const StarRating = ({ initialValue }: { initialValue?: number }) => {
             key={option}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
-            onPress={() => setStarRating(option)}
+            onPress={() => handleStarPress(option)}
             disabled={initialValue !== undefined}
           >
             <Animated.View style={animatedScaleStyle}>

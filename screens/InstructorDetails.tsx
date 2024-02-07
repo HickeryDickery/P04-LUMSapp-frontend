@@ -14,32 +14,35 @@ import { IP } from "../constants/ip";
 import StarRating from "../components/StarRating";
 import Reviews from "../components/Reviews";
 
+// IMPORT PROFILE PICTURE WHEN INTEGRATED
+const profilepicture = "../assets/adaptive-icon.png"
+
 // tabview 1
 const DetailsTab = (extraProp:any) => {
   const { reviewRating, reviewsCount, zambeelRating, profileDescription } = extraProp.extraProp;
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-    <View style={{ flex: 1}}>
-      <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Overall Rating</Text>
-    
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{paddingLeft: 20}}><StarRating initialValue={reviewRating} /></View>
-        <Text style={{ color: 'white', marginLeft: 5, marginTop: 10, fontSize: 10}}>({reviewsCount})</Text>
-        <Text  style={{ color: 'white', marginLeft: 100, fontSize: 25, fontWeight: "bold"}}>{zambeelRating}/5</Text>
-      </View>
-      <Text  style={{ color: '#047CD2', marginLeft: "80%", fontSize: 15}}>Zambeel</Text>
-     
-      <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Profile</Text>
-      <Text style={{color: "white", fontSize: 15, paddingHorizontal: 20}}>{profileDescription}</Text>
-    </View>
-  </ScrollView>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={{ flex: 1}}>
+          <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Overall Rating</Text>
+        
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{paddingLeft: 20}}><StarRating initialValue={reviewRating}/></View>
+            <Text style={{ color: 'white', marginLeft: 5, marginTop: 10, fontSize: 10}}>({reviewsCount})</Text>
+            <Text  style={{ color: 'white', marginLeft: 100, fontSize: 25, fontWeight: "bold"}}>{zambeelRating}/5</Text>
+          </View>
+          <Text  style={{ color: '#047CD2', marginLeft: "80%", fontSize: 15}}>Zambeel</Text>
+         
+          <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Profile</Text>
+          <Text style={{color: "white", fontSize: 15, paddingHorizontal: 20}}>{profileDescription}</Text>
+        </View>
+      </ScrollView>
 )
   };
 
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews } = extraProp.extraProp;
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
@@ -55,8 +58,8 @@ const ReviewsTab = (extraProp: any) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar.Image style={{marginLeft: 20, marginTop: 10}} size={30} source={require("../assets/adaptive-icon.png")} />
-        <TouchableOpacity onPress={() => {navigation.navigate("AddInstructorReview")}}> 
+        <Avatar.Image style={{marginLeft: 20, marginTop: 10}} size={30} source={require(profilepicture)} />
+        <TouchableOpacity onPress={() => {navigation.navigate("AddInstructorReview", {name: name, instructorImage: instructorImage})}}> 
           <View style={{marginLeft: 5, marginTop:10}}><StarRating initialValue={reviewRating}/></View>
         </TouchableOpacity>
       </View>
@@ -73,12 +76,13 @@ const ReviewsTab = (extraProp: any) => {
 }; 
 
 // tab changer for details and reviews
-const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, profileDescription, reviews }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any }) => {
+const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, 
+    profileDescription, reviews, name, instructorImage }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating, reviews}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage}} />;
     default:
       return null;
   }
@@ -168,7 +172,8 @@ const InstructorDetails = ({ route }: any) => {
         <TabView
           lazy
           navigationState={{ index, routes }}
-          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, profileDescription, reviews})}
+          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, 
+                                                    profileDescription, reviews, name, instructorImage})}
           onIndexChange={setIndex}
           initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
           renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black'}} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
