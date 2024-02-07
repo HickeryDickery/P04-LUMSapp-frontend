@@ -9,8 +9,7 @@ import Login from "./screens/Login";
 import BottomTabs from "./components/BottomTabs";
 import SignupPIN from "./screens/SignupPIN";
 import SignupProfilePicture from "./screens/SignupProfilePicture";
-import Comments from "./screens/Comments";
-import Scheduler from "./screens/Scheduler";
+// import Comments from "./screens/Comments";
 import CampusInfo from "./screens/CampusInfo";
 import InstructorInfo from "./screens/InstructorInfo";
 import InstructorDetails from "./screens/InstructorDetails";
@@ -68,10 +67,10 @@ const Main = () => {
                                     name="BottomTabs"
                                     component={BottomTabs}
                                 />
-                                <Stack.Screen
+                                {/* <Stack.Screen
                                     name="Comments"
                                     component={Comments}
-                                />
+                                /> */}
                                 <Stack.Screen
                                     name="SinglePost"
                                     component={SinglePost}
