@@ -55,15 +55,9 @@ const Scheduler = () => {
 
         setEvents(temp);
         // console.log("events", temp);
-      } catch (e) {
-        console.log(e);
-      }
-    };
 
-    const fetchCourses = async () => {
-      try {
         const res = await axios.get(`${IP}/course/get`);
-        const temp = res.data.courses.map((course: any) => {
+        temp = res.data.courses.map((course: any) => {
           return {
             ...course,
             courseName: course.name,
@@ -81,7 +75,13 @@ const Scheduler = () => {
             return { ...course, selected: false };
           });
         });
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
+    const fetchCourses = async () => {
+      try {
         // console.log("Courses", courses);
         // console.log("Events", events);
       } catch (error) {
@@ -330,11 +330,12 @@ const Scheduler = () => {
             <TextInput
               placeholder="Search Courses"
               placeholderTextColor={"#414141"}
-              style={{ fontSize: 13, color: "white" }}
+              style={{ fontSize: 13, color: "white", flex: 1 }}
             />
           </View>
           <FlatList
             data={courses}
+            extraData={events}
             renderItem={({ item }) => (
               <CourseSummary
                 id={item.id}
