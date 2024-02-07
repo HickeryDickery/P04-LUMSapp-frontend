@@ -14,30 +14,6 @@ import { IP } from "../constants/ip";
 import StarRating from "../components/StarRating";
 import Reviews from "../components/Reviews";
 
-// TO IMPORT
-const DATA = [
-  {
-    username: 'Nauman',
-    profilePicture: 'https://picsum.photos/200',
-    ratingGiven: 4,
-    reviewDescription: 'Very Cool Very Nice',
-  },
-  {
-    username: 'Muneeb',
-    profilePicture: 'https://picsum.photos/201',
-    ratingGiven: 3,
-    reviewDescription: 'Lovely',
-  },
-  {
-    username: 'Khizar',
-    profilePicture: 'https://picsum.photos/202',
-    ratingGiven: 5,
-    reviewDescription: 'It is what it is',
-  },
-];
-// END TO IMPORT
-
-
 // tabview 1
 const DetailsTab = (extraProp:any) => {
   const { reviewRating, reviewsCount, zambeelRating, profileDescription } = extraProp.extraProp;
@@ -63,20 +39,16 @@ const DetailsTab = (extraProp:any) => {
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription } = extraProp.extraProp;
-
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
-      <>
-        <Reviews 
-          username={item.username} 
-          profilePicture={item.profilePicture}
-          ratingGiven={item.ratingGiven}
-          reviewDescription={item.reviewDescription}
-        />
-        <View style={{ margin: 10}}></View>
-      </>
+      <Reviews 
+        username={item.username} 
+        profilePicture={item.profilePicture}
+        ratingGiven={item.ratingGiven}
+        reviewDescription={item.reviewDescription}
+      />
     );
   };
 
@@ -91,22 +63,22 @@ const ReviewsTab = (extraProp: any) => {
 
       <View style={{padding:5}}></View>
       <FlatList
-        data={DATA}
+        data={reviews}
         renderItem={renderItem}
-        keyExtractor={item => item.username} 
+        keyExtractor={item => item._id.toString()} 
         contentContainerStyle={{ flexGrow: 1 }}
-      >
-      </FlatList>
+      />
     </View>
   );
 }; 
 
-const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, profileDescription }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string }) => {
+// tab changer for details and reviews
+const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, profileDescription, reviews }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews}} />;
     default:
       return null;
   }
@@ -119,11 +91,16 @@ const InstructorDetails = ({ route }: any) => {
   const windowHeight = Dimensions.get('window').height;
   const { name, school, department } = route.params;
 
+  // instructor details
   const [instructorImage, setInstructorImage] = useState("https://picsum.photos/202");
   const [reviewsCount, setReviewsCount] = useState(0);
   const [reviewRating, setReviewRating] = useState(0);
-  const [zambeelRating, setZambeelRating] = useState(0.0);
-  const [profileDescription, setProfileDescription] = useState("junk");
+  const [zambeelRating, setZambeelRating] = useState(0);
+  const [profileDescription, setProfileDescription] = useState(null);
+
+  // instructor reviews
+  const [reviews, setReviews] = useState<any[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -131,13 +108,14 @@ const InstructorDetails = ({ route }: any) => {
         const res = await axios.post(`${IP}/instructor/get`, {
           body: name,
         });
-        if (res.data.success && res.data.instructor) {
-          const { instructor } = res.data;
-          setInstructorImage(instructor.instructorImage);
-          setProfileDescription(instructor.profileDescription);
-          setReviewsCount(instructor.reviewCount);
-          setReviewRating(instructor.reviewRating);
-          setZambeelRating(instructor.zambeelRating);
+        if (res.data.success && res.data.instructorInformation) {
+          const { instructorInformation, reviewsInformation } = res.data;
+          setInstructorImage(instructorInformation.instructorImage);
+          setProfileDescription(instructorInformation.profileDescription);
+          setReviewsCount(instructorInformation.reviewCount);
+          setReviewRating(instructorInformation.reviewRating);
+          setZambeelRating(instructorInformation.zambeelRating);
+          setReviews(reviewsInformation);
         } else {
           console.log("Error: Success is false or no instructor data found.");
         }
@@ -154,9 +132,8 @@ const InstructorDetails = ({ route }: any) => {
   const [routes] = React.useState([
     { key: 'first', title: 'Details' },
     { key: 'second', title: 'Reviews' },
-  ]);
-
-  return  loading? (<View><Text>Loading</Text></View>):(
+  ]); 
+  return profileDescription === null ? (<Loader />) : (
     <View style={styles.container}>
       <Button
         onPress={() => { navigation.goBack() }}
@@ -191,7 +168,7 @@ const InstructorDetails = ({ route }: any) => {
         <TabView
           lazy
           navigationState={{ index, routes }}
-          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, profileDescription })}
+          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, profileDescription, reviews})}
           onIndexChange={setIndex}
           initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
           renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black'}} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
