@@ -12,14 +12,14 @@ const SinglePost = ({ route }: any) => {
         name={postProps.name}
         profileImage={postProps.profileImage}
         body={postProps.body}
-        image={postProps.image} // make this an array
+        media={postProps.media} // make this an array
         likes={postProps.likeCountUpdated}
         dislikes={postProps.dislikeCountUpdated}
         comments={postProps.comments}
         liked={postProps.likedUpdated}
         disliked={postProps.dislikedUpdated}
         postID={postProps.postID}
-        postMenuRef={postProps.ref}
+        toggleSheet={() => {}}
       />
       <Comments
         route={{

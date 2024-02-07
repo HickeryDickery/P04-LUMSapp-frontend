@@ -4,6 +4,7 @@ import {
   FlatList,
   SafeAreaView,
   View,
+  Pressable,
 } from "react-native";
 
 import Post from "../components/Post";
@@ -11,21 +12,36 @@ import React, { useState } from "react";
 import { IP } from "../constants/ip";
 import axios from "axios";
 import { useEffect } from "react";
-import {
-  GestureHandlerRootView,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
-import PostMenu from "../components/PostMenu";
-import { useCallback } from "react";
-import { useRef } from "react";
-import { PostMenuRefProps } from "../components/PostMenu";
+import NewPostMenu from "../components/NewPostMenu";
+import { HEIGHT, OVERDRAG } from "../constants/size";
+import { BACKDROP_COLOR, PRIMARY_COLOR } from "../constants/color";
+import Animated, {
+  SlideInDown,
+  SlideOutDown,
+  FadeIn,
+  FadeOut,
+} from "react-native-reanimated";
+import { PostProps } from "../components/Post";
+
+const media = [
+  "https://images.pexels.com/photos/139038/pexels-photo-139038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  "https://picsum.photos/306",
+];
 
 const LdfHomePage = ({ navigation }: any) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<any>();
 
-  const ref = useRef<PostMenuRefProps>(null);
+  const toggleSheet = (post: PostProps) => {
+    setIsOpen(!isOpen);
+    setSelectedPost(post);
+  };
+  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+  // const ref = useRef<PostMenuRefProps>(null);
 
   const getData = async (page: number) => {
     try {
@@ -61,21 +77,47 @@ const LdfHomePage = ({ navigation }: any) => {
             name={item.postedBy?.fullname || "Deleted User"}
             profileImage={"https://picsum.photos/201"}
             body={item.text}
-            image={"https://picsum.photos/300"} // make this an array
+            media={media}
             likes={item.likeCount}
             dislikes={item.dislikeCount}
             comments={item.commentCount}
             liked={item.isLikedbyUser}
             disliked={item.isDislikedbyUser}
             postID={item._id}
-            postMenuRef={ref}
+            toggleSheet={toggleSheet}
+            // postMenuRef={ref}
           />
         )}
         extraData={posts}
       />
-      <View style={styles.postMenu}>
-        <PostMenu ref={ref} />
-      </View>
+      {isOpen && (
+        <>
+          <AnimatedPressable
+            style={styles.backdrop}
+            entering={FadeIn}
+            exiting={FadeOut}
+            onPress={() => toggleSheet(selectedPost)}
+          />
+          <Animated.View
+            style={styles.sheet}
+            entering={SlideInDown.springify().damping(15)}
+            exiting={SlideOutDown}
+          >
+            <NewPostMenu
+              name={selectedPost.name}
+              profileImage={selectedPost.profileImage}
+              body={selectedPost.body}
+              media={selectedPost.media}
+              likes={selectedPost.likes}
+              dislikes={selectedPost.dislikes}
+              comments={selectedPost.comments}
+              liked={selectedPost.liked}
+              disliked={selectedPost.disliked}
+              postID={selectedPost.postID}
+            />
+          </Animated.View>
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -90,10 +132,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrollPost: {},
-  postMenu: {
+  // postMenu: {
+  //   position: "absolute",
+  //   left: 0,
+  //   right: 0,
+  //   bottom: 0,
+  // },
+  sheet: {
+    backgroundColor: "#272727",
+    opacity: 1,
+    padding: 16,
+    height: HEIGHT,
+    width: "100%",
     position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
+    bottom: -OVERDRAG * 1.1,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    zIndex: 1,
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: BACKDROP_COLOR,
+    zIndex: 1,
   },
 });
