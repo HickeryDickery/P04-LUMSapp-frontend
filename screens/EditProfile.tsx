@@ -9,7 +9,8 @@ import {
     TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { reloadUser } from "../redux/action";
 import { Button } from "react-native-paper";
 import { Feather } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
@@ -18,6 +19,7 @@ import { IP } from "../constants/ip";
 
 const EditProfile = ({ navigation }: any) => {
     const { user }: any = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
 
     const [username, setUsername] = useState("");
     const [bio, setBio] = useState("");
@@ -26,6 +28,7 @@ const EditProfile = ({ navigation }: any) => {
     useEffect(() => {
         setUsername(user?.name);
         setBio(user?.bio);
+        setIcon(user?.profile_picture);
     }, [user]);
 
     const selectImage = async () => {
@@ -61,7 +64,7 @@ const EditProfile = ({ navigation }: any) => {
         formData.append("icon", icon);
         formData.append("username", username);
         formData.append("bio", bio);
-        console.log(formData);
+        console.log(icon);
 
         axios
             .post(`${IP}/user/update`, formData, {
@@ -71,23 +74,18 @@ const EditProfile = ({ navigation }: any) => {
                 },
             })
             .then(async (response) => {
+                console.log(response.data.message);
                 if (!response.data.success) {
                     alert(response.data.message);
                 } else {
-                    //   try {
-                    //       await AsyncStorage.setItem('transcript', JSON.stringify(response.data.parsedData));
-                    //   } catch (e) {
-                    //       console.log(e)
-                    //   } finally {
-                    //       props.uploadState(true);
-                    //       setFile(null);
-                    //   }
-                    console.log(response);
+                    console.log("success");
+                    dispatch(reloadUser());
+                    navigation.goBack();
                 }
             })
             .catch((error) => {
                 console.log(error);
-                alert("Invalid Transcript!");
+                alert("Invalid input!");
             });
     };
 
@@ -164,7 +162,11 @@ const EditProfile = ({ navigation }: any) => {
                             opacity: 0.55,
                         }}
                         source={{
-                            uri: icon ? icon!.uri : "https://picsum.photos/201",
+                            uri: icon
+                                ? icon!.url
+                                    ? icon!.url
+                                    : icon!.uri
+                                : "https://picsum.photos/201",
                         }} /*require path is for static images only*/
                     >
                         <Feather
