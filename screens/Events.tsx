@@ -5,26 +5,24 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Modal,
-  ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import DropDownPicker from "react-native-dropdown-picker";
 import { useState, useEffect } from "react";
 import EventDetails from "../components/EventDetails";
 import { Event } from "../types/eventtypes";
-import { all } from "axios";
 
 const tags = [
-  "All",
-  "Religion",
-  "Culture",
-  "Music",
-  "Workshop",
-  "Art",
-  "Food",
-  "Sports",
-  "Education",
-  "Health",
+  { label: "All", value: "All" },
+  { label: "Religion", value: "Religion" },
+  { label: "Culture", value: "Culture" },
+  { label: "Music", value: "Music" },
+  { label: "Workshop", value: "Workshop" },
+  { label: "Art", value: "Art" },
+  { label: "Food", value: "Food" },
+  { label: "Sports", value: "Sports" },
+  { label: "Education", value: "Education" },
+  { label: "Health", value: "Health" },
 ];
 
 const allEvents: Event[] = [
@@ -79,18 +77,20 @@ const allEvents: Event[] = [
 ];
 
 const Events = ({ navigation }: any) => {
-  const [selectedTag, setSelectedTag] = useState("All");
+  const [selectedTag, setSelectedTag] = useState([]);
   const [events, setEvents] = useState<Event[]>(allEvents);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(allEvents);
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
-  const filterEvents = (tag: string) => {
-    setSelectedTag(tag);
-    if (tag == "All") {
-      setFilteredEvents(events);
-    } else {
-      setFilteredEvents(events.filter((event) => event.category == tag));
-    }
-  };
+  // const filterEvents = (tag: string) => {
+  //   setSelectedTag(tag);
+  //   if (tag == "All") {
+  //     setFilteredEvents(events);
+  //   } else {
+  //     setFilteredEvents(events.filter((event) => event.category == tag));
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -107,8 +107,78 @@ const Events = ({ navigation }: any) => {
           style={{ fontSize: 13, color: "white", flex: 1 }}
         />
       </View>
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <ScrollView
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 10,
+          width: "100%",
+        }}
+      >
+        <DropDownPicker
+          style={{
+            backgroundColor: "#000",
+            borderColor: "#ffffff",
+            borderWidth: 1,
+          }}
+          containerStyle={{ flex: 1 }}
+          zIndex={3000}
+          zIndexInverse={1000}
+          items={tags}
+          open={open}
+          onOpen={() => setOpen2(false)}
+          multiple={true}
+          value={selectedTag}
+          setOpen={setOpen}
+          setValue={setSelectedTag}
+          searchable={true}
+          theme="DARK"
+          mode="BADGE"
+          badgeTextStyle={{ color: "white" }}
+          badgeColors={["#000"]}
+          dropDownContainerStyle={{
+            backgroundColor: "#000",
+            borderWidth: 1,
+            borderColor: "#ffffff",
+            height: 500,
+          }}
+          closeOnBackPressed={true}
+        />
+
+        <DropDownPicker
+          style={{
+            backgroundColor: "#000",
+            borderColor: "#ffffff",
+            borderWidth: 1,
+          }}
+          containerStyle={{
+            flex: 1,
+          }}
+          zIndex={1000}
+          zIndexInverse={3000}
+          items={tags}
+          open={open2}
+          onOpen={() => setOpen(false)}
+          multiple={true}
+          value={selectedTag}
+          setOpen={setOpen2}
+          setValue={setSelectedTag}
+          searchable={true}
+          theme="DARK"
+          mode="BADGE"
+          badgeTextStyle={{ color: "white" }}
+          badgeColors={["#000"]}
+          dropDownContainerStyle={{
+            backgroundColor: "#000",
+            borderWidth: 1,
+            borderColor: "#ffffff",
+            height: 500,
+          }}
+          closeOnBackPressed={true}
+        />
+
+        {/* <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -139,7 +209,7 @@ const Events = ({ navigation }: any) => {
               </Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </ScrollView> */}
       </View>
       <FlatList
         style={{ width: "100%", marginTop: 10 }}
@@ -178,7 +248,7 @@ const Events = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0E0E0E",
+    backgroundColor: "#000",
     alignItems: "center",
     color: "#fff",
     paddingHorizontal: 15,

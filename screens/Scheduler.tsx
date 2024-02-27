@@ -45,6 +45,7 @@ const Scheduler = () => {
         // await AsyncStorage.removeItem("events");
         const jsonValue = await AsyncStorage.getItem("events");
         let temp = JSON.parse(jsonValue || "[]");
+        
         temp = temp.map((event: any) => {
           return {
             ...event,

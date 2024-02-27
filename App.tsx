@@ -5,12 +5,10 @@ import Main from "./Main";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import * as NavigationBar from "expo-navigation-bar";
-import { Platform } from "react-native";
+// import { Platform } from "react-native";
 
 export default function App() {
-  if (Platform.OS === "android") {
-    NavigationBar.setBackgroundColorAsync("black");
-  }
+  NavigationBar.setBackgroundColorAsync("black");
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

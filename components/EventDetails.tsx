@@ -17,10 +17,12 @@ const EventDetails = ({
     <View style={styles.container}>
       <View style={{ borderRightWidth: 1, borderColor: "#2B2B2B" }}>
         <Image
-          source={imageUrl != "" ? imageUrl : require("../assets/splash.png")}
+          source={{
+            uri: imageUrl ? imageUrl : "https://picsum.photos/201",
+          }}
           style={{
             width: 110,
-            height: 120,
+            height: 114,
           }}
           resizeMode="cover"
         />
@@ -102,7 +104,8 @@ const styles = StyleSheet.create({
     borderColor: "#2B2B2B",
     marginBottom: 10,
     borderRadius: 10,
-    backgroundColor: "#111111",
+    backgroundColor: "#0E0E0E",
+    overflow: "hidden",
   },
 });
 

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import mapStyle from "../utils/mapStyling";
 
@@ -14,6 +14,10 @@ const Map = () => {
           latitudeDelta: 0.001,
           longitudeDelta: 0.003,
         }}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        loadingEnabled={true}
+        loadingBackgroundColor="#0E0E0E"
         customMapStyle={mapStyle}
       />
     </View>
