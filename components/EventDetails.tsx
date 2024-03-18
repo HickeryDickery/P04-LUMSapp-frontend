@@ -18,7 +18,9 @@ const EventDetails = ({
       <View style={{ borderRightWidth: 1, borderColor: "#2B2B2B" }}>
         <Image
           source={{
-            uri: imageUrl ? imageUrl : "https://picsum.photos/201",
+            uri: imageUrl
+              ? imageUrl
+              : "https://i.ytimg.com/vi/WQ3oYtIG1Ho/maxresdefault.jpg",
           }}
           style={{
             width: 110,

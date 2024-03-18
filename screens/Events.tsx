@@ -74,6 +74,54 @@ const allEvents: Event[] = [
     imageUrl: "",
     category: "Food",
   },
+  {
+    title: "Qawali Night",
+    postedBy: "John Doe",
+    date: "12/12/2021",
+    startTime: "12:00 PM",
+    endTime: "3:00 PM",
+    coordinates: [12.9716, 77.5946],
+    location: "REDC",
+    description: "Food festival with local cuisines",
+    imageUrl: "",
+    category: "Food",
+  },
+  {
+    title: "Food Street",
+    postedBy: "John Doe",
+    date: "12/12/2021",
+    startTime: "12:00 PM",
+    endTime: "3:00 PM",
+    coordinates: [12.9716, 77.5946],
+    location: "REDC",
+    description: "Food festival with local cuisines",
+    imageUrl: "",
+    category: "Food",
+  },
+  {
+    title: "Subway Court",
+    postedBy: "John Doe",
+    date: "12/12/2021",
+    startTime: "12:00 PM",
+    endTime: "3:00 PM",
+    coordinates: [12.9716, 77.5946],
+    location: "REDC",
+    description: "Food festival with local cuisines",
+    imageUrl: "",
+    category: "Food",
+  },
+  {
+    title: "Food Festival",
+    postedBy: "John Doe",
+    date: "12/12/2021",
+    startTime: "12:00 PM",
+    endTime: "3:00 PM",
+    coordinates: [12.9716, 77.5946],
+    location: "REDC",
+    description: "Food festival with local cuisines",
+    imageUrl: "",
+    category: "Food",
+  },
 ];
 
 const Events = ({ navigation }: any) => {
@@ -83,6 +131,7 @@ const Events = ({ navigation }: any) => {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
 
+  
   // const filterEvents = (tag: string) => {
   //   setSelectedTag(tag);
   //   if (tag == "All") {
@@ -102,7 +151,7 @@ const Events = ({ navigation }: any) => {
           style={{ alignSelf: "center" }}
         />
         <TextInput
-          placeholder="Search Courses"
+          placeholder="Search Events"
           placeholderTextColor={"#414141"}
           style={{ fontSize: 13, color: "white", flex: 1 }}
         />

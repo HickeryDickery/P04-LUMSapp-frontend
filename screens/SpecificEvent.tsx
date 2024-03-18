@@ -39,7 +39,7 @@ const SpecificEvent = ({ route, navigation }: any) => {
           source={{
             uri: route.params.event.imageUrl
               ? route.imageUrl
-              : "https://picsum.photos/201",
+              : "https://i.ytimg.com/vi/WQ3oYtIG1Ho/maxresdefault.jpg",
           }}
           style={{
             height: "100%",
@@ -67,9 +67,13 @@ const SpecificEvent = ({ route, navigation }: any) => {
         }}
       >
         <View>
-          <Text style={{ color: "#868686" }}>Hosted By</Text>
+          <Text style={{ color: "#868686" }}>Hosted By: LCSS</Text>
         </View>
-        <View></View>
+        <View>
+          <Text style={{ color: "white" }}>
+            {route.params.event.description}
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
