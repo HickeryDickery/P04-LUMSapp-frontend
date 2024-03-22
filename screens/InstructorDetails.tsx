@@ -101,6 +101,7 @@ const InstructorDetails = ({ route }: any) => {
   const [reviewRating, setReviewRating] = useState(0);
   const [zambeelRating, setZambeelRating] = useState(0);
   const [profileDescription, setProfileDescription] = useState(null);
+  const [timeup, setTimeup] = useState(false);
 
   // instructor reviews
   const [reviews, setReviews] = useState<any[]>([]);
@@ -123,10 +124,13 @@ const InstructorDetails = ({ route }: any) => {
         } else {
           console.log("Error: Success is false or no instructor data found.");
         }
-      } catch (err) {
+      } catch (err:any) {
         console.log("Error fetching instructor data:", err);
       }
     };
+    setTimeout(() => {
+      setTimeup(true); // set timeup to true after 3.5 seconds
+    }, 3500);
   
     fetchData();
   }, []);
@@ -137,10 +141,20 @@ const InstructorDetails = ({ route }: any) => {
     { key: 'first', title: 'Details' },
     { key: 'second', title: 'Reviews' },
   ]); 
-  return profileDescription === null ? (<Loader />) : (
+  return profileDescription === null ? (
+    timeup ? (  // if both timeup and data is null, show coming soon
+      <View style={[styles.container, {justifyContent: 'center'}]}>
+        <Text style={styles.comingSoon}>Coming soon</Text>
+      </View>
+    ) : (  // if timeup is false but data is null, show loader
+      <Loader />
+    )
+  ) : (  // if data exits show the data
     <View style={styles.container}>
       <Button
-        onPress={() => { navigation.goBack() }}
+        onPress={() => {
+          navigation.goBack();
+        }}
         style={{
           position: 'absolute',
           left: '4%',
@@ -157,28 +171,28 @@ const InstructorDetails = ({ route }: any) => {
             fontSize: 18,
           }}>Instructor Details</Text>
       </View>
-      <View>
-        <View>
-          <Image style={{ width: windowWidth, height: 300}} source={{ uri: instructorImage }} />
-        </View>
-        <LinearGradient
-          colors={['transparent','rgba(0,0,0,1.0)']}
-          style={{position: 'absolute', width: '100%', height: '100%'}}
-        />
-      </View>
-      <Text style={styles.instructorTitle}>{name}</Text>
-      
-      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "black" }}>
-        <TabView
-          lazy
-          navigationState={{ index, routes }}
-          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, 
-                                                    profileDescription, reviews, name, instructorImage})}
-          onIndexChange={setIndex}
-          initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
-          renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black'}} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
-        />
-      </View>
+          <View>
+            <View>
+              <Image style={{ width: windowWidth, height: windowHeight / 3 }} source={{ uri: instructorImage }} />
+            </View>
+            <LinearGradient
+              colors={['transparent', 'rgba(0,0,0,1.0)']}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
+          </View>
+          <Text style={styles.instructorTitle}>{name}</Text>
+
+          <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "black" }}>
+            <TabView
+              lazy
+              navigationState={{ index, routes }}
+              renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
+                profileDescription, reviews, name, instructorImage })}
+              onIndexChange={setIndex}
+              initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
+              renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
+            />
+          </View>
       {loading && <Loader />}
     </View>
   );
@@ -207,6 +221,13 @@ const styles = StyleSheet.create({
     left: "9%",
     top: "43%"
   },
+  comingSoon: {
+    backgroundColor: "#000",
+    color: "#35C2C1",
+    fontSize: 20,
+  },
 });
 
 export default InstructorDetails;
+
+
