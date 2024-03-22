@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from "react-native-paper";
 import { useNavigation } from '@react-navigation/native';
@@ -42,7 +42,7 @@ const DetailsTab = (extraProp:any) => {
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage } = extraProp.extraProp;
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
@@ -51,6 +51,9 @@ const ReviewsTab = (extraProp: any) => {
         profilePicture={item.profilePicture}
         ratingGiven={item.ratingGiven}
         reviewDescription={item.reviewDescription}
+        reviewedBy={item.reviewedBy}
+        userID={userID}
+        reviewID={item._id}
       />
     );
   };
@@ -77,12 +80,12 @@ const ReviewsTab = (extraProp: any) => {
 
 // tab changer for details and reviews
 const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, 
-    profileDescription, reviews, name, instructorImage }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string }) => {
+    profileDescription, reviews, name, instructorImage, userID }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID}} />;
     default:
       return null;
   }
@@ -106,6 +109,9 @@ const InstructorDetails = ({ route }: any) => {
   // instructor reviews
   const [reviews, setReviews] = useState<any[]>([]);
 
+  // userID
+  const [userID, setUserID] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,13 +120,14 @@ const InstructorDetails = ({ route }: any) => {
           body: name,
         });
         if (res.data.success && res.data.instructorInformation) {
-          const { instructorInformation, reviewsInformation } = res.data;
+          const { instructorInformation, userID, reviewsInformation } = res.data;
           setInstructorImage(instructorInformation.instructorImage);
           setProfileDescription(instructorInformation.profileDescription);
           setReviewsCount(instructorInformation.reviewCount);
           setReviewRating(instructorInformation.reviewRating);
           setZambeelRating(instructorInformation.zambeelRating);
           setReviews(reviewsInformation);
+          setUserID(userID);
         } else {
           console.log("Error: Success is false or no instructor data found.");
         }
@@ -135,6 +142,11 @@ const InstructorDetails = ({ route }: any) => {
     fetchData();
   }, []);
   
+  
+  // dismiss the keyboard
+  const handleKeyboardDismiss = () => {
+    Keyboard.dismiss();
+  };
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -162,6 +174,7 @@ const InstructorDetails = ({ route }: any) => {
       <Loader />
     )
   ) : (  // if data exits show the data
+  <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
     <View style={styles.container}>
       <Button
         onPress={() => {
@@ -199,7 +212,7 @@ const InstructorDetails = ({ route }: any) => {
               lazy
               navigationState={{ index, routes }}
               renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
-                profileDescription, reviews, name, instructorImage })}
+                profileDescription, reviews, name, instructorImage, userID })}
               onIndexChange={setIndex}
               initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
               renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
@@ -207,6 +220,7 @@ const InstructorDetails = ({ route }: any) => {
           </View>
       {loading && <Loader />}
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
