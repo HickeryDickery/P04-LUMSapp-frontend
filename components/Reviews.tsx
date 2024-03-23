@@ -6,9 +6,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from 'axios';
 import {IP} from "../constants/ip";
 
-
-const Reviews: React.FC<{ username: string, profilePicture: string, ratingGiven: number, reviewDescription: string, reviewedBy: string, userID: string, reviewID: string }> 
-  = ({ username, profilePicture, ratingGiven, reviewDescription, reviewedBy, userID, reviewID }) => {
+const Reviews: React.FC<{ username: string, profilePicture: string, ratingGiven: number, reviewDescription: string, reviewedBy: string, userID: string, reviewID: string, onDeleteSuccess: () => void }> 
+  = ({ username, profilePicture, ratingGiven, reviewDescription, reviewedBy, userID, reviewID, onDeleteSuccess }) => {
 
   const [editMode, setEditMode] = useState(false);
   const [editedText, setEditedText] = useState(reviewDescription);
@@ -65,7 +64,7 @@ const Reviews: React.FC<{ username: string, profilePicture: string, ratingGiven:
           reviewID: reviewID,
         });
         console.log("Review deleted:", res.data.success);
-        // Removed the review from the view with usestate
+        onDeleteSuccess(); // Call the callback function provided by parent component
   
       } catch (error) {
         console.error("Error deleting review:", error);

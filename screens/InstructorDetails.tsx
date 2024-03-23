@@ -42,7 +42,7 @@ const DetailsTab = (extraProp:any) => {
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID } = extraProp.extraProp;
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
@@ -54,6 +54,7 @@ const ReviewsTab = (extraProp: any) => {
         reviewedBy={item.reviewedBy}
         userID={userID}
         reviewID={item._id}
+        onDeleteSuccess={onDeleteSuccess} // Pass onDeleteSuccess prop
       />
     );
   };
@@ -80,12 +81,12 @@ const ReviewsTab = (extraProp: any) => {
 
 // tab changer for details and reviews
 const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, 
-    profileDescription, reviews, name, instructorImage, userID }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string }) => {
+    profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string, onDeleteSuccess:any }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID, onDeleteSuccess}} />;
     default:
       return null;
   }
@@ -137,7 +138,7 @@ const InstructorDetails = ({ route }: any) => {
 
   // runs once
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(() => {  // wait for data to come
       setTimeup(true);
     }, 3500);
 
@@ -146,15 +147,17 @@ const InstructorDetails = ({ route }: any) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const onDeleteSuccess = () => {  // callback function to refresh reviews
+    fetchData();
+  };
+
   // runs everytime the screen is focused
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-      console.log("running useFocusEffect")
     }, [])
   );
 
-  
   // dismiss the keyboard
   const handleKeyboardDismiss = () => {
     Keyboard.dismiss();
@@ -224,7 +227,7 @@ const InstructorDetails = ({ route }: any) => {
               lazy
               navigationState={{ index, routes }}
               renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
-                profileDescription, reviews, name, instructorImage, userID })}
+                profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess })}
               onIndexChange={setIndex}
               initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
               renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}

@@ -23,7 +23,8 @@ const groupInstructors = (instructors:string[]) => {
 };
 
 const custompage = (name:string, school:string, department:string, navigation:any) => {
-  navigation.navigate("InstructorDetails", {name: name, school: school, dept: department});    
+  // navigation.navigate("InstructorDetails", {name: name, school: school, dept: department});    
+  navigation.navigate("InstructorDetails", {name: name});    
 };
 
 const RenderInstructors = ({ groupedData, navigation }: { groupedData: Record<string, Record<string, string[]>>, navigation: any }) => {
