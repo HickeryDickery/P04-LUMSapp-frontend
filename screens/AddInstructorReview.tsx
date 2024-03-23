@@ -73,6 +73,7 @@ const AddInstructorReview = ({ route }: any) => {
     } catch (err) {
       // console.log(err);
       alert('You have already submitted a review for this instructor.');
+      navigation.goBack();
     }
   };
 
