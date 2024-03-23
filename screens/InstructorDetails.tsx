@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from "react-native-paper";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Avatar } from "react-native-paper";
@@ -112,36 +112,48 @@ const InstructorDetails = ({ route }: any) => {
   // userID
   const [userID, setUserID] = useState(null);
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.post(`${IP}/instructor/get`, {
-          body: name,
-        });
-        if (res.data.success && res.data.instructorInformation) {
-          const { instructorInformation, userID, reviewsInformation } = res.data;
-          setInstructorImage(instructorInformation.instructorImage);
-          setProfileDescription(instructorInformation.profileDescription);
-          setReviewsCount(instructorInformation.reviewCount);
-          setReviewRating(instructorInformation.reviewRating);
-          setZambeelRating(instructorInformation.zambeelRating);
-          setReviews(reviewsInformation);
-          setUserID(userID);
-        } else {
-          console.log("Error: Success is false or no instructor data found.");
-        }
-      } catch (err:any) {
-        console.log("Error fetching instructor data:", err);
+  // fetching data from backend
+  const fetchData = async () => {
+    try {
+      const res = await axios.post(`${IP}/instructor/get`, {
+        body: name,
+      });
+      if (res.data.success && res.data.instructorInformation) {
+        const { instructorInformation, userID, reviewsInformation } = res.data;
+        setInstructorImage(instructorInformation.instructorImage);
+        setProfileDescription(instructorInformation.profileDescription);
+        setReviewsCount(instructorInformation.reviewCount);
+        setReviewRating(instructorInformation.reviewRating);
+        setZambeelRating(instructorInformation.zambeelRating);
+        setReviews(reviewsInformation);
+        setUserID(userID);
+      } else {
+        console.log("Error: Success is false or no instructor data found.");
       }
-    };
-    setTimeout(() => {
-      setTimeup(true); // set timeup to true after 3.5 seconds
+    } catch (err) {
+      console.log("Error fetching instructor data:", err);
+    }
+  };
+
+  // runs once
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeup(true);
     }, 3500);
-  
+
     fetchData();
+
+    return () => clearTimeout(timer);
   }, []);
-  
+
+  // runs everytime the screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+      console.log("running useFocusEffect")
+    }, [])
+  );
+
   
   // dismiss the keyboard
   const handleKeyboardDismiss = () => {

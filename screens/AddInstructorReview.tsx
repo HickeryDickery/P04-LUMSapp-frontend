@@ -62,13 +62,14 @@ const AddInstructorReview = ({ route }: any) => {
   // send data to backend
   const submitReview = async () => {
     try {
-      const resp = await axios.post(`${IP}/review/create`, {
+      const res = await axios.post(`${IP}/review/create`, {
         instructorName: instructorName,
         ratingGiven: selectedStars,
         academicSession: value,
         reviewDescription: multilineValue,
       });
       alert('Review submitted successfully!');
+      navigation.goBack()
     } catch (err) {
       // console.log(err);
       alert('You have already submitted a review for this instructor.');
