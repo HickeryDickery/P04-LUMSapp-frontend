@@ -86,7 +86,7 @@ const EventNotifications = (props: any) => {
                                         paddingHorizontal: 10,
                                     }}
                                 >
-                                    {item.society}
+                                    {item.venue}
                                 </Text>
                                 <Text
                                     style={{
