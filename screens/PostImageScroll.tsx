@@ -15,7 +15,7 @@ function PostImageScroll({ route }: any) {
         horizontal={true}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <MediaCard url={item} />}
+        renderItem={({ item }) => <MediaCard media={item} />}
       />
       <FooterPostDetails
         likes={postProps.likeCountUpdated}

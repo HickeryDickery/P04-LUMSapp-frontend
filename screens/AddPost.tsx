@@ -3,17 +3,61 @@ import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
 import { IP } from "../constants/ip";
+import { Image, Button } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { ScrollView } from "react-native-gesture-handler";
+
+import { BLUE_COLOR, PRIMARY_COLOR } from "../constants/color";
+import { AutoGrowTextInput } from "react-native-auto-grow-textinput";
+import { SCREEN_HEIGHT } from "../constants/size";
+
+//Icon imports
+import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const AddPost = () => {
   const [text, onChangeText] = useState("");
+  const [media, setMedia] = useState<any[]>([]);
+
+  const pickMedia = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsMultipleSelection: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setMedia([...media, ...result.assets.map((asset) => asset.uri)]);
+    }
+  };
+
+  const deleteMedia = (index: number) => {
+    const newMedia = [...media];
+    newMedia.splice(index, 1);
+    setMedia(newMedia);
+  };
 
   // const [pressed, setPressed] = useState(false);
 
   const addPost = async () => {
-    onChangeText("");
     try {
-      const resp = await axios.post(`${IP}/post/create`, {
-        text: text,
+      const formData = new FormData();
+      formData.append("text", text);
+      media.forEach((uri, index) => {
+        formData.append("media" + index, {
+          name: `media${index}.jpg`,
+          type: "image/jpg",
+          uri: uri,
+        });
+      });
+      const resp = await axios.post(`${IP}/post/create`, formData, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
       });
     } catch (err) {
       console.log(err);
@@ -22,55 +66,176 @@ const AddPost = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}> Add a post</Text>
-      <TextInput
-        style={styles.inputText}
-        onChangeText={onChangeText}
-        value={text}
-        multiline={true} // ios fix for centering it at the top-left corner
-        numberOfLines={10}
-      />
-      <Pressable onPress={addPost} style={styles.button}>
-        <Text style={{ color: "white", textAlign: "center" }}>Add Post</Text>
-      </Pressable>
+      <View style={styles.header}>
+        <Text style={styles.pageName}>Add a post</Text>
+        <Pressable onPress={addPost} style={styles.addPost}>
+          <Text style={{ color: "white", fontSize: 15, fontWeight: "bold" }}>
+            Post
+          </Text>
+        </Pressable>
+      </View>
+      {/* <View
+        style={{
+          borderBottomColor: "white",
+          borderBottomWidth: 0.3,
+          marginBottom: 10,
+          marginTop: 10,
+        }}
+      ></View> */}
+      <ScrollView style={styles.scrollBar}>
+        <View style={styles.profileComponent}>
+          {/* Image and Name are One Element so we have a separate View(div) for them */}
+          <Image
+            style={{ width: 60, height: 60, borderRadius: 100 }}
+            source={{
+              uri: "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
+            }} /*require path is for static images only*/
+          />
+          <Text style={styles.posterName}>Muneeb Akmal</Text>
+        </View>
+        <AutoGrowTextInput
+          style={styles.inputText}
+          onChangeText={onChangeText}
+          value={text}
+          multiline={true} // ios fix for centering it at the top-left corner
+          placeholder="Write something here..."
+          placeholderTextColor="gray"
+        />
+        {media[0] && (
+          <Image source={{ uri: media[0] }} style={styles.mainMediaTile} />
+        )}
+        <View style={styles.miniMediaTilesBox}>
+          {media.map(
+            (uri, index) =>
+              index > 0 && (
+                <View key={index} style={styles.miniMediaTiles}>
+                  <Entypo
+                    name="circle-with-cross"
+                    size={24}
+                    color="white"
+                    style={styles.cross}
+                    onPress={() => deleteMedia(index)}
+                  />
+                  <Image source={{ uri: uri }} style={styles.miniMedia} />
+                </View>
+              )
+          )}
+        </View>
+        <View style={styles.footer}>
+          <Pressable onPress={pickMedia} style={styles.attach}>
+            <Feather name="upload" size={40} color={PRIMARY_COLOR} />
+            <View style={styles.mediaText}>
+              <Text style={{ color: "gray", fontSize: 10 }}>Add</Text>
+              <Text style={{ color: "gray", fontSize: 10 }}>Media</Text>
+            </View>
+          </Pressable>
+        </View>
+      </ScrollView>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-    alignItems: "center",
-  },
-  inputText: {
-    height: "50%",
-    width: "90%",
-    margin: 12,
-    borderWidth: 1,
-    backgroundColor: "#111111",
-    padding: 10,
-    textAlignVertical: "top", // top fixes for android
-    color: "white",
-    borderRadius: 10,
-    fontSize: 20,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 10,
-    width: "50%",
-    backgroundColor: "#35C2C1",
-    marginVertical: 10,
   },
   header: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "bold",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+  },
+  pageName: {
+    color: BLUE_COLOR,
+    fontSize: 20,
+    fontWeight: "100",
     textAlign: "center",
-    padding: 20,
-    alignSelf: "center",
+  },
+
+  addPost: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
+    backgroundColor: PRIMARY_COLOR,
+    paddingVertical: 5,
+    borderRadius: 30,
+    width: "18%",
+  },
+  scrollBar: {
+    height: SCREEN_HEIGHT,
+  },
+
+  profileComponent: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 15,
+  },
+  inputText: {
+    width: "100%",
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginTop: 20,
+    textAlignVertical: "top", // top fixes for android
+    color: "white",
+    fontSize: 20,
+  },
+  posterName: { color: "white", fontWeight: "bold", fontSize: 16 },
+  miniMediaTilesBox: {
+    marginTop: 30,
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+    width: "100%",
+    flexWrap: "wrap",
+  },
+  mainMediaTile: {
+    width: "100%",
+    height: SCREEN_HEIGHT / 2.5,
+    borderRadius: 2,
+  },
+  miniMedia: {
+    width: 80,
+    height: 80,
+    borderWidth: 3,
+    borderRadius: 10,
+    opacity: 0.5,
+    backgroundColor: "gray",
+    zIndex: 1,
+  },
+  miniMediaTiles: {
+    position: "relative",
+    display: "flex",
+  },
+  cross: {
+    position: "absolute",
+    top: -8,
+    right: -8,
+    zIndex: 500,
+  },
+
+  attach: {
+    marginTop: 12,
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
+    alignItems: "center",
+  },
+  footer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    padding: 30,
+  },
+  mediaText: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -165,36 +165,43 @@ const Post = (
 
         <Text style={styles.bodyFont}>{props.body}</Text>
       </TouchableOpacity>
+      {props.media.length == 0 ? null : (
+        <View style={styles.imageFlatlist}>
+          <FlatList
+            refreshing={true}
+            style={styles.imageScroll}
+            data={props.media}
+            horizontal={true}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => {
+                  const { toggleSheet, ...rest } = props;
+                  navigation.navigate("PostImageScroll", {
+                    postProps: {
+                      ...rest,
+                      likedUpdated: liked,
+                      dislikedUpdated: disliked,
+                      likeCountUpdated: likeCount,
+                      dislikeCountUpdated: dislikeCount,
+                    },
+                  });
+                }}
+              >
+                <View style={styles.mediaBox}>
+                  <Text style={styles.mediaBadge}>
+                    {index + 1} / {props.media.length}
+                  </Text>
 
-      <View style={styles.imageFlatlist}>
-        <FlatList
-          refreshing={true}
-          style={styles.imageScroll}
-          data={props.media}
-          horizontal={true}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => {
-                const { toggleSheet, ...rest } = props;
-                navigation.navigate("PostImageScroll", {
-                  postProps: {
-                    ...rest,
-                    likedUpdated: liked,
-                    dislikedUpdated: disliked,
-                    likeCountUpdated: likeCount,
-                    dislikeCountUpdated: dislikeCount,
-                  },
-                });
-              }}
-            >
-              <MediaCard url={item} />
-            </TouchableOpacity>
-          )}
-        ></FlatList>
-      </View>
+                  <MediaCard media={item} />
+                </View>
+              </TouchableOpacity>
+            )}
+          ></FlatList>
+        </View>
+      )}
 
       <TouchableOpacity
         activeOpacity={1}
@@ -306,6 +313,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   bodyPost: {},
+  mediaBox: {
+    position: "relative",
+  },
+  mediaBadge: {
+    color: "white",
+    position: "absolute",
+    zIndex: 1,
+    top: 10,
+    right: 10,
+  },
   bodyFont: {
     color: "white",
     paddingHorizontal: 10,
