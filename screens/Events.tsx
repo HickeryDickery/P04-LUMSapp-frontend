@@ -5,86 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-<<<<<<< Updated upstream
-  Modal,
-  ScrollView,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
-import EventDetails from "../components/EventDetails";
-import { Event } from "../types/eventtypes";
-import { all } from "axios";
-
-const tags = [
-  "All",
-  "Religion",
-  "Culture",
-  "Music",
-  "Workshop",
-  "Art",
-  "Food",
-  "Sports",
-  "Education",
-  "Health",
-];
-
-const allEvents: Event[] = [
-  {
-    title: "Art and Craft",
-    postedBy: "John Doe",
-    date: "12/12/2021",
-    startTime: "12:00 PM",
-    endTime: "3:00 PM",
-    coordinates: [12.9716, 77.5946],
-    location: "REDC",
-    description: "Art and Craft workshop for kids",
-    imageUrl: "",
-    category: "Art",
-  },
-  {
-    title: "Music Concert",
-    postedBy: "Jane Doe",
-    date: "12/12/2021",
-    startTime: "5:00 PM",
-    endTime: "8:00 PM",
-    coordinates: [12.9716, 77.5946],
-    location: "REDC",
-    description: "Music concert by local artists",
-    imageUrl: "",
-    category: "Music",
-  },
-  {
-    title: "Food Festival",
-    postedBy: "John Doe",
-    date: "12/12/2021",
-    startTime: "12:00 PM",
-    endTime: "3:00 PM",
-    coordinates: [12.9716, 77.5946],
-    location: "REDC",
-    description: "Food festival with local cuisines",
-    imageUrl: "",
-    category: "Food",
-  },
-  {
-    title: "sndjkc skvj df vdhf df  dfjv dj hfb djf dhfb djhf djhfb",
-    postedBy: "John Doe",
-    date: "12/12/2021",
-    startTime: "12:00 PM",
-    endTime: "3:00 PM",
-    coordinates: [12.9716, 77.5946],
-    location: "REDC",
-    description: "Food festival with local cuisines",
-    imageUrl: "",
-    category: "Food",
-  },
-];
-
-const Events = ({ navigation }: any) => {
-  const [selectedTag, setSelectedTag] = useState("All");
-  const [events, setEvents] = useState<Event[]>(allEvents);
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>(allEvents);
-
-=======
   ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -107,17 +27,12 @@ const Events = ({ navigation }: any) => {
   const [selectedTag, setSelectedTag] = useState<String>("All");
   const [filteredEvents, setFilteredEvents] = useState<any[]>(events);
 
->>>>>>> Stashed changes
   const filterEvents = (tag: string) => {
     setSelectedTag(tag);
     if (tag == "All") {
       setFilteredEvents(events);
     } else {
-<<<<<<< Updated upstream
-      setFilteredEvents(events.filter((event) => event.category == tag));
-=======
       setFilteredEvents(events.filter((event: any) => event.category == tag));
->>>>>>> Stashed changes
     }
   };
 
@@ -136,9 +51,6 @@ const Events = ({ navigation }: any) => {
           style={{ fontSize: 13, color: "white", flex: 1 }}
         />
       </View>
-<<<<<<< Updated upstream
-      <View style={{ display: "flex", flexDirection: "row" }}>
-=======
       {user?.role === "admin" && (
         <TouchableOpacity
           style={{
@@ -171,7 +83,6 @@ const Events = ({ navigation }: any) => {
           width: "100%",
         }}
       >
->>>>>>> Stashed changes
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

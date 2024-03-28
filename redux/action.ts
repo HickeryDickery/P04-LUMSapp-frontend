@@ -21,14 +21,10 @@ export const login =
 
       dispatch({ type: "loginSuccess", payload: data });
     } catch (error: any) {
-<<<<<<< Updated upstream
-      dispatch({ type: "loginFailure", payload: error.response.data.message });
-=======
       dispatch({
         type: "loginFailure",
         payload: error.response.data.message,
       });
->>>>>>> Stashed changes
     }
   };
 
@@ -40,9 +36,6 @@ export const loadUser = () => async (dispatch: any) => {
 
     dispatch({ type: "loadUserSuccess", payload: data });
   } catch (error: any) {
-<<<<<<< Updated upstream
-    dispatch({ type: "loadUserFailure", payload: error.response.data.message });
-=======
     dispatch({
       type: "loadUserFailure",
       payload: error.response.data.message,
@@ -62,7 +55,6 @@ export const reloadUser = () => async (dispatch: any) => {
       type: "reloadUserFailure",
       payload: error.response.data.message,
     });
->>>>>>> Stashed changes
   }
 };
 
@@ -87,14 +79,10 @@ export const signup =
 
       dispatch({ type: "signupSuccess", payload: data });
     } catch (error: any) {
-<<<<<<< Updated upstream
-      dispatch({ type: "signupFailure", payload: error.response.data.message });
-=======
       dispatch({
         type: "signupFailure",
         payload: error.response.data.message,
       });
->>>>>>> Stashed changes
     }
   };
 
@@ -124,9 +112,6 @@ export const logout = () => async (dispatch: any) => {
 
     dispatch({ type: "logoutSuccess" });
   } catch (error: any) {
-<<<<<<< Updated upstream
-    dispatch({ type: "logoutFailure", payload: error.response.data.message });
-=======
     dispatch({
       type: "logoutFailure",
       payload: error.response.data.message,
@@ -158,6 +143,5 @@ export const getEvents = () => async (dispatch: any) => {
       type: "eventsFailure",
       payload: error.response.data.message,
     });
->>>>>>> Stashed changes
   }
 };

@@ -36,13 +36,9 @@ const EventDetails = ({
     <View style={styles.container}>
       <View style={{ borderRightWidth: 1, borderColor: "#2B2B2B" }}>
         <Image
-<<<<<<< Updated upstream
-          source={imageUrl != "" ? imageUrl : require("../assets/splash.png")}
-=======
           source={{
             uri: image.url ? image.url : "https://picsum.photos/201",
           }}
->>>>>>> Stashed changes
           style={{
             width: 110,
             height: 120,

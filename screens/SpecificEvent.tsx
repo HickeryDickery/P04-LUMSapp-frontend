@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
-import { View, Text, StyleSheet } from "react-native";
-
-const SpecificEvent = ({ route, navigation }: any) => {
-  return (
-    <View style={styles.container}>
-      <Text>SpecificEvent</Text>
-=======
 import {
   View,
   Text,
@@ -269,21 +261,12 @@ const SpecificEvent = ({ route, navigation }: any) => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
->>>>>>> Stashed changes
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-<<<<<<< Updated upstream
-    flex: 1,
-    backgroundColor: "#0E0E0E",
-    alignItems: "center",
-    color: "#fff",
-    paddingHorizontal: 15,
-    justifyContent: "flex-start",
-=======
     flexGrow: 1,
     alignItems: "center",
   },
@@ -304,7 +287,6 @@ const styles = StyleSheet.create({
     left: 20,
     paddingRight: 20,
     zIndex: 2,
->>>>>>> Stashed changes
   },
   detailsContainer: {
     display: "flex",

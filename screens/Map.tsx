@@ -1,10 +1,5 @@
-<<<<<<< Updated upstream
-import { View, Text, StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-=======
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
->>>>>>> Stashed changes
 import mapStyle from "../utils/mapStyling";
 import { useEffect, useRef } from "react";
 import * as Location from "expo-location";
@@ -57,20 +52,11 @@ const Map = ({ route, navigation }: any) => {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={StyleSheet.absoluteFillObject}
-<<<<<<< Updated upstream
-        initialRegion={{
-          latitude: 31.469897268732343,
-          longitude: 74.4094203493857,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.003,
-        }}
-=======
         initialRegion={INITIAL_REGION}
         showsUserLocation
         showsMyLocationButton
         loadingEnabled
         loadingBackgroundColor="#0E0E0E"
->>>>>>> Stashed changes
         customMapStyle={mapStyle}
         ref={mapRef}
         showsBuildings

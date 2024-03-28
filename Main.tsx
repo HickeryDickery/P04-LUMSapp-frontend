@@ -20,14 +20,11 @@ import Transcript from "./screens/Transcript";
 import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
-<<<<<<< Updated upstream
-=======
-import EditProfile from "./screens/EditProfile";
-import PostImageScroll from "./screens/PostImageScroll";
-import VideoPlayer from "./screens/VideoPlayer";
+// import EditProfile from "./screens/EditProfile";
+// import PostImageScroll from "./screens/PostImageScroll";
+// import VideoPlayer from "./screens/VideoPlayer";
 import SpecificEvent from "./screens/SpecificEvent";
 import AddEvent from "./screens/AddEvent";
->>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 
@@ -71,9 +68,7 @@ const Main = () => {
                 />
                 <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
                 <Stack.Screen name="EditPost" component={EditPost} />
-<<<<<<< Updated upstream
-=======
-                <Stack.Screen name="EditProfile" component={EditProfile} />
+                {/* <Stack.Screen name="EditProfile" component={EditProfile} />
                 <Stack.Screen name="CampusInfo" component={CampusInfo} />
                 <Stack.Screen
                   name="InstructorInfo"
@@ -85,8 +80,8 @@ const Main = () => {
                 />
                 <Stack.Screen
                   name="AddInstructorReview"
-                  component={AddInstructorReview}
-                />
+                  component={AddInstructorReview} */}
+                {/* /> */}
 
                 <Stack.Screen name="SpecificEvent" component={SpecificEvent} />
                 <Stack.Screen
@@ -106,7 +101,6 @@ const Main = () => {
                     headerTitleAlign: "center",
                   }}
                 />
->>>>>>> Stashed changes
               </Stack.Group>
             ) : (
               <Stack.Group>

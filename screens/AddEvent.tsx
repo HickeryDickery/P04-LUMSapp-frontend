@@ -12,7 +12,7 @@ import axios from "axios";
 import { IP } from "../constants/ip";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React from "react";
 
 type Location = {
   label: string;
