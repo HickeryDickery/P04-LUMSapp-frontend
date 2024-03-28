@@ -26,8 +26,8 @@ import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
 import EditProfile from "./screens/EditProfile";
 import PostImageScroll from "./screens/PostImageScroll";
-import VideoPlayer from "./screens/VideoPlayer";
 import SpecificEvent from "./screens/SpecificEvent";
+import AddPost from "./screens/AddPost";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,11 +65,11 @@ const Main = () => {
                                     component={Comments}
                                 /> */}
                 <Stack.Screen name="SinglePost" component={SinglePost} />
+                <Stack.Screen name="AddPost" component={AddPost} />
                 <Stack.Screen
                   name="PostImageScroll"
                   component={PostImageScroll}
                 />
-                <Stack.Screen name="VideoPlayer" component={VideoPlayer} />
                 <Stack.Screen name="Transcript" component={Transcript} />
                 <Stack.Screen
                   name="GpaPredictorHome"

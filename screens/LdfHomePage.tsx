@@ -22,12 +22,12 @@ import Animated, {
   FadeOut,
 } from "react-native-reanimated";
 import { PostProps } from "../components/Post";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const media = [
-  "https://images.pexels.com/photos/139038/pexels-photo-139038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-  "https://picsum.photos/306",
-];
+// const media = [
+//   "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
+//   "https://picsum.photos/306",
+// ];
 
 const LdfHomePage = ({ navigation }: any) => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -35,6 +35,7 @@ const LdfHomePage = ({ navigation }: any) => {
   const [refresh, setRefresh] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>();
+  const [visible, setVisible] = useState(false);
 
   const toggleSheet = (post: PostProps) => {
     setIsOpen(!isOpen);
@@ -77,7 +78,7 @@ const LdfHomePage = ({ navigation }: any) => {
             name={item.postedBy?.fullname || "Deleted User"}
             profileImage={"https://picsum.photos/201"}
             body={item.text}
-            media={media}
+            media={item.media}
             likes={item.likeCount}
             dislikes={item.dislikeCount}
             comments={item.commentCount}
@@ -118,6 +119,24 @@ const LdfHomePage = ({ navigation }: any) => {
           </Animated.View>
         </>
       )}
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          width: 60,
+          height: 60,
+          borderRadius: 100,
+          backgroundColor: "#35C2B0",
+          bottom: 15,
+          right: 20,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: visible ? -1 : 1000,
+        }}
+        onPress={() => navigation.navigate("AddPost")}
+      >
+        <MaterialCommunityIcons name="feather" size={30} color="black" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -127,11 +146,13 @@ export default LdfHomePage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
   },
-  scrollPost: {},
+  scrollPost: {
+    width: "100%",
+  },
   // postMenu: {
   //   position: "absolute",
   //   left: 0,
