@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from "react-native-paper";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Avatar } from "react-native-paper";
@@ -42,7 +42,7 @@ const DetailsTab = (extraProp:any) => {
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage } = extraProp.extraProp;
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
@@ -51,6 +51,10 @@ const ReviewsTab = (extraProp: any) => {
         profilePicture={item.profilePicture}
         ratingGiven={item.ratingGiven}
         reviewDescription={item.reviewDescription}
+        reviewedBy={item.reviewedBy}
+        userID={userID}
+        reviewID={item._id}
+        onDeleteSuccess={onDeleteSuccess} // Pass onDeleteSuccess prop
       />
     );
   };
@@ -77,12 +81,12 @@ const ReviewsTab = (extraProp: any) => {
 
 // tab changer for details and reviews
 const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, 
-    profileDescription, reviews, name, instructorImage }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string }) => {
+    profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string, onDeleteSuccess:any }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID, onDeleteSuccess}} />;
     default:
       return null;
   }
@@ -101,46 +105,96 @@ const InstructorDetails = ({ route }: any) => {
   const [reviewRating, setReviewRating] = useState(0);
   const [zambeelRating, setZambeelRating] = useState(0);
   const [profileDescription, setProfileDescription] = useState(null);
+  const [timeup, setTimeup] = useState(false);
 
   // instructor reviews
   const [reviews, setReviews] = useState<any[]>([]);
 
+  // userID
+  const [userID, setUserID] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.post(`${IP}/instructor/get`, {
-          body: name,
-        });
-        if (res.data.success && res.data.instructorInformation) {
-          const { instructorInformation, reviewsInformation } = res.data;
-          setInstructorImage(instructorInformation.instructorImage);
-          setProfileDescription(instructorInformation.profileDescription);
-          setReviewsCount(instructorInformation.reviewCount);
-          setReviewRating(instructorInformation.reviewRating);
-          setZambeelRating(instructorInformation.zambeelRating);
-          setReviews(reviewsInformation);
-        } else {
-          console.log("Error: Success is false or no instructor data found.");
-        }
-      } catch (err) {
-        console.log("Error fetching instructor data:", err);
+  // fetching data from backend
+  const fetchData = async () => {
+    try {
+      const res = await axios.post(`${IP}/instructor/get`, {
+        body: name,
+      });
+      if (res.data.success && res.data.instructorInformation) {
+        const { instructorInformation, userID, reviewsInformation } = res.data;
+        setInstructorImage(instructorInformation.instructorImage);
+        setProfileDescription(instructorInformation.profileDescription);
+        setReviewsCount(instructorInformation.reviewCount);
+        setReviewRating(instructorInformation.reviewRating);
+        setZambeelRating(instructorInformation.zambeelRating);
+        setReviews(reviewsInformation);
+        setUserID(userID);
+      } else {
+        console.log("Error: Success is false or no instructor data found.");
       }
-    };
-  
+    } catch (err) {
+      console.log("Error fetching instructor data:", err);
+    }
+  };
+
+  // runs once
+  useEffect(() => {
+    const timer = setTimeout(() => {  // wait for data to come
+      setTimeup(true);
+    }, 3500);
+
     fetchData();
+
+    return () => clearTimeout(timer);
   }, []);
-  
+
+  const onDeleteSuccess = () => {  // callback function to refresh reviews
+    fetchData();
+  };
+
+  // runs everytime the screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+  // dismiss the keyboard
+  const handleKeyboardDismiss = () => {
+    Keyboard.dismiss();
+  };
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Details' },
     { key: 'second', title: 'Reviews' },
   ]); 
-  return profileDescription === null ? (<Loader />) : (
+  return profileDescription === null ? (
+    timeup ? (  // if both timeup and data is null, show coming soon
+      <View style={[styles.container, {justifyContent: 'center'}]}>
+        <Button
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={{
+          position: 'absolute',
+          left: '4%',
+          top: "5.3%",
+        }}
+      >
+        <Ionicons name="chevron-back" size={24} color="white" />
+      </Button>
+        <Text style={styles.comingSoon}>Coming soon</Text>
+      </View>
+    ) : (  // if timeup is false but data is null, show loader
+      <Loader />
+    )
+  ) : (  // if data exits show the data
+  <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
     <View style={styles.container}>
       <Button
-        onPress={() => { navigation.goBack() }}
+        onPress={() => {
+          navigation.goBack();
+        }}
         style={{
           position: 'absolute',
           left: '4%',
@@ -157,30 +211,31 @@ const InstructorDetails = ({ route }: any) => {
             fontSize: 18,
           }}>Instructor Details</Text>
       </View>
-      <View>
-        <View>
-          <Image style={{ width: windowWidth, height: 300}} source={{ uri: instructorImage }} />
-        </View>
-        <LinearGradient
-          colors={['transparent','rgba(0,0,0,1.0)']}
-          style={{position: 'absolute', width: '100%', height: '100%'}}
-        />
-      </View>
-      <Text style={styles.instructorTitle}>{name}</Text>
-      
-      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "black" }}>
-        <TabView
-          lazy
-          navigationState={{ index, routes }}
-          renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating, 
-                                                    profileDescription, reviews, name, instructorImage})}
-          onIndexChange={setIndex}
-          initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
-          renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black'}} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
-        />
-      </View>
+          <View>
+            <View>
+              <Image style={{ width: windowWidth, height: windowHeight / 3 }} source={{ uri: instructorImage }} />
+            </View>
+            <LinearGradient
+              colors={['transparent', 'rgba(0,0,0,1.0)']}
+              style={{ position: 'absolute', width: '100%', height: '100%' }}
+            />
+          </View>
+          <Text style={styles.instructorTitle}>{name}</Text>
+
+          <View style={{ flex: 1, flexDirection: 'row', backgroundColor: "black" }}>
+            <TabView
+              lazy
+              navigationState={{ index, routes }}
+              renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
+                profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess })}
+              onIndexChange={setIndex}
+              initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
+              renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
+            />
+          </View>
       {loading && <Loader />}
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -207,6 +262,13 @@ const styles = StyleSheet.create({
     left: "9%",
     top: "43%"
   },
+  comingSoon: {
+    backgroundColor: "#000",
+    color: "#35C2C1",
+    fontSize: 20,
+  },
 });
 
 export default InstructorDetails;
+
+
