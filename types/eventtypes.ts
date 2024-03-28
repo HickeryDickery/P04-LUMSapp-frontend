@@ -1,13 +1,15 @@
 type Event = {
   title: string;
   postedBy: string;
-  date: string;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   coordinates: number[];
-  location: string;
+  locationName: string;
   description: string;
-  imageUrl: string;
+  image: {
+    public_id: string;
+    url: string;
+  };
   category: string;
 };
 

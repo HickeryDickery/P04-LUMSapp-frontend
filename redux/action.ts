@@ -21,7 +21,14 @@ export const login =
 
       dispatch({ type: "loginSuccess", payload: data });
     } catch (error: any) {
+<<<<<<< Updated upstream
       dispatch({ type: "loginFailure", payload: error.response.data.message });
+=======
+      dispatch({
+        type: "loginFailure",
+        payload: error.response.data.message,
+      });
+>>>>>>> Stashed changes
     }
   };
 
@@ -33,7 +40,29 @@ export const loadUser = () => async (dispatch: any) => {
 
     dispatch({ type: "loadUserSuccess", payload: data });
   } catch (error: any) {
+<<<<<<< Updated upstream
     dispatch({ type: "loadUserFailure", payload: error.response.data.message });
+=======
+    dispatch({
+      type: "loadUserFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const reloadUser = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: "reloadUserRequest" });
+
+    const { data } = await axios.get(`${IP}/user/me`);
+
+    dispatch({ type: "reloadUserSuccess", payload: data });
+  } catch (error: any) {
+    dispatch({
+      type: "reloadUserFailure",
+      payload: error.response.data.message,
+    });
+>>>>>>> Stashed changes
   }
 };
 
@@ -58,7 +87,14 @@ export const signup =
 
       dispatch({ type: "signupSuccess", payload: data });
     } catch (error: any) {
+<<<<<<< Updated upstream
       dispatch({ type: "signupFailure", payload: error.response.data.message });
+=======
+      dispatch({
+        type: "signupFailure",
+        payload: error.response.data.message,
+      });
+>>>>>>> Stashed changes
     }
   };
 
@@ -88,6 +124,40 @@ export const logout = () => async (dispatch: any) => {
 
     dispatch({ type: "logoutSuccess" });
   } catch (error: any) {
+<<<<<<< Updated upstream
     dispatch({ type: "logoutFailure", payload: error.response.data.message });
+=======
+    dispatch({
+      type: "logoutFailure",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getEvents = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: "eventsRequest" });
+
+    const { data } = await axios.post(`${IP}/event/get`);
+
+    data.events = data.events.map((event: any) => {
+      event.startTime = event.startTime.toString();
+      event.endTime = event.endTime.toString();
+      return event;
+    });
+
+    // console.log(data.events);
+
+    const tags = data.events.map((event: any) => event.category);
+
+    dispatch({ type: "eventsSuccess", payload: { data, tags } });
+    // dispatch({ type: "eventsSuccess", payload: data  });
+  } catch (error: any) {
+    console.log(error.response.data);
+    dispatch({
+      type: "eventsFailure",
+      payload: error.response.data.message,
+    });
+>>>>>>> Stashed changes
   }
 };

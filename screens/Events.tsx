@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+<<<<<<< Updated upstream
   Modal,
   ScrollView,
 } from "react-native";
@@ -83,12 +84,40 @@ const Events = ({ navigation }: any) => {
   const [events, setEvents] = useState<Event[]>(allEvents);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(allEvents);
 
+=======
+  ScrollView,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import EventDetails from "../components/EventDetails";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import Loader from "../components/Loader";
+import { getEvents } from "../redux/action";
+
+const Events = ({ navigation }: any) => {
+  const dispatch = useAppDispatch();
+  const { events, tags, loading } = useAppSelector(
+    (state: any) => state.events
+  );
+
+  const { user } = useAppSelector((state: any) => state.auth);
+
+  const allTags = ["All", ...tags];
+
+  const [selectedTag, setSelectedTag] = useState<String>("All");
+  const [filteredEvents, setFilteredEvents] = useState<any[]>(events);
+
+>>>>>>> Stashed changes
   const filterEvents = (tag: string) => {
     setSelectedTag(tag);
     if (tag == "All") {
       setFilteredEvents(events);
     } else {
+<<<<<<< Updated upstream
       setFilteredEvents(events.filter((event) => event.category == tag));
+=======
+      setFilteredEvents(events.filter((event: any) => event.category == tag));
+>>>>>>> Stashed changes
     }
   };
 
@@ -107,7 +136,42 @@ const Events = ({ navigation }: any) => {
           style={{ fontSize: 13, color: "white", flex: 1 }}
         />
       </View>
+<<<<<<< Updated upstream
       <View style={{ display: "flex", flexDirection: "row" }}>
+=======
+      {user?.role === "admin" && (
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            width: "100%",
+            // height: 35,
+            backgroundColor: "#35C2C1",
+            borderRadius: 10,
+            marginBottom: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            paddingVertical: 5,
+            gap: 5,
+          }}
+          onPress={() => {
+            navigation.navigate("AddEvent");
+          }}
+        >
+          <MaterialIcons name="add" size={24} color="white" />
+          <Text style={{ color: "white" }}>Add Event</Text>
+        </TouchableOpacity>
+      )}
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 10,
+          width: "100%",
+        }}
+      >
+>>>>>>> Stashed changes
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -118,7 +182,7 @@ const Events = ({ navigation }: any) => {
             alignItems: "flex-start",
           }}
         >
-          {tags.map((tag, index) => (
+          {allTags.map((tag, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => {
@@ -141,35 +205,40 @@ const Events = ({ navigation }: any) => {
           ))}
         </ScrollView>
       </View>
-      <FlatList
-        style={{ width: "100%", marginTop: 10 }}
-        onRefresh={() => {}}
-        refreshing={false}
-        data={filteredEvents}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("SpecificEvent", { event: item });
-              }}
-            >
-              <EventDetails
-                title={item.title}
-                postedBy={item.postedBy}
-                date={item.date}
-                startTime={item.startTime}
-                endTime={item.endTime}
-                coordinates={item.coordinates}
-                location={item.location}
-                description={item.description}
-                imageUrl={item.imageUrl}
-                category={item.category}
-              />
-            </TouchableOpacity>
-          );
-        }}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <FlatList
+          style={{ width: "100%", marginTop: 10 }}
+          onRefresh={() => {
+            dispatch(getEvents());
+          }}
+          refreshing={false}
+          data={filteredEvents}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("SpecificEvent", { event: item });
+                }}
+              >
+                <EventDetails
+                  title={item?.title}
+                  postedBy={item?.postedBy}
+                  startTime={item?.startTime}
+                  endTime={item?.endTime}
+                  coordinates={item?.coordinates}
+                  locationName={item?.locationName}
+                  description={item?.description}
+                  image={item?.image}
+                  category={item?.category}
+                />
+              </TouchableOpacity>
+            );
+          }}
+        />
+      )}
     </View>
   );
 };

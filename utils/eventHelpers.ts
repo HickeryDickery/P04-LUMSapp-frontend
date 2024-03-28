@@ -1,32 +1,36 @@
-const getMonth = (monthNumber: string): string => {
-  switch (monthNumber) {
-    case "1":
-      return "January";
-    case "2":
-      return "February";
-    case "3":
-      return "March";
-    case "4":
-      return "April";
-    case "5":
-      return "May";
-    case "6":
-      return "June";
-    case "7":
-      return "July";
-    case "8":
-      return "August";
-    case "9":
-      return "September";
-    case "10":
-      return "October";
-    case "11":
-      return "November";
-    case "12":
-      return "December";
-    default:
-      return "";
-  }
+export const getMonth = (month: number) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return months[month];
 };
 
-export default getMonth;
+export const amToPm = (hour: number) => {
+  if (hour === 0) {
+    return { hour: 12, period: "AM" };
+  } else if (hour === 12) {
+    return { hour: 12, period: "PM" };
+  } else if (hour < 12) {
+    return { hour, period: "AM" };
+  }
+  return { hour: hour - 12, period: "PM" };
+};
+
+export const minutePadding = (minute: number) => {
+  if (minute < 10) {
+    return `0${minute}`;
+  }
+  return minute;
+};

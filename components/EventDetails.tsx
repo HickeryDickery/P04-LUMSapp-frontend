@@ -1,23 +1,48 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Event } from "../types/eventtypes";
-import getMonth from "../utils/eventHelpers";
+import { amToPm, minutePadding } from "../utils/eventHelpers";
 
 const EventDetails = ({
   title,
   postedBy,
-  date,
   startTime,
   endTime,
-  location,
+  locationName,
   description,
-  imageUrl,
+  image,
   category,
 }: Event) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  startTime = new Date(startTime);
+  endTime = new Date(endTime);
+  const parsedStartTime = amToPm(startTime.getHours());
+  const parsedEndTime = amToPm(endTime.getHours());
+
   return (
     <View style={styles.container}>
       <View style={{ borderRightWidth: 1, borderColor: "#2B2B2B" }}>
         <Image
+<<<<<<< Updated upstream
           source={imageUrl != "" ? imageUrl : require("../assets/splash.png")}
+=======
+          source={{
+            uri: image.url ? image.url : "https://picsum.photos/201",
+          }}
+>>>>>>> Stashed changes
           style={{
             width: 110,
             height: 120,
@@ -65,7 +90,7 @@ const EventDetails = ({
               fontWeight: "bold",
             }}
           >
-            {location}
+            {locationName}
           </Text>
           <Text
             numberOfLines={1}
@@ -74,7 +99,8 @@ const EventDetails = ({
               fontSize: 12,
             }}
           >
-            {date.split("/")[0]} {getMonth(date.split("/")[1])}
+            {startTime.getDate()} {months[startTime.getMonth()]}{" "}
+            {startTime.getFullYear()}
           </Text>
           <Text
             numberOfLines={1}
@@ -83,7 +109,9 @@ const EventDetails = ({
               fontSize: 12,
             }}
           >
-            {startTime} - {endTime}
+            {parsedStartTime.hour}:{minutePadding(startTime.getMinutes())}{" "}
+            {parsedStartTime.period} - {parsedEndTime.hour}:
+            {minutePadding(endTime.getMinutes())} {parsedEndTime.period}
           </Text>
         </View>
       </View>
