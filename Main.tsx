@@ -106,29 +106,30 @@ const Main = () => {
                                     name="EditProfile"
                                     component={EditProfile}
                                 />
-                                {/* <Stack.Screen name="EditProfile" component={EditProfile} />
-                <Stack.Screen name="CampusInfo" component={CampusInfo} />
-                <Stack.Screen
-                  name="InstructorInfo"
-                  component={InstructorInfo}
-                />
-                <Stack.Screen
-                  name="InstructorDetails"
-                  component={InstructorDetails}
-                />
-                <Stack.Screen
-                  name="AddInstructorReview"
-                  component={AddInstructorReview}
-                />
-
-                <Stack.Screen name="SpecificEvent" component={SpecificEvent} />
-                  component={AddInstructorReview} */}
-                                {/* /> */}
+                                <Stack.Screen
+                                    name="CampusInfo"
+                                    component={CampusInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorInfo"
+                                    component={InstructorInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorDetails"
+                                    component={InstructorDetails}
+                                />
+                                <Stack.Screen
+                                    name="AddInstructorReview"
+                                    component={AddInstructorReview}
+                                />
 
                                 <Stack.Screen
                                     name="SpecificEvent"
                                     component={SpecificEvent}
                                 />
+                                {/* component={AddInstructorReview} */}
+                                {/* /> */}
+
                                 <Stack.Screen
                                     name="AddEvent"
                                     component={AddEvent}
