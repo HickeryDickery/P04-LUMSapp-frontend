@@ -119,3 +119,30 @@ export const logout = () => async (dispatch: any) => {
         });
     }
 };
+
+export const getEvents = () => async (dispatch: any) => {
+    try {
+        dispatch({ type: "eventsRequest" });
+
+        const { data } = await axios.post(`${IP}/event/get`);
+
+        data.events = data.events.map((event: any) => {
+            event.startTime = event.startTime.toString();
+            event.endTime = event.endTime.toString();
+            return event;
+        });
+
+        // console.log(data.events);
+
+        const tags = data.events.map((event: any) => event.category);
+
+        dispatch({ type: "eventsSuccess", payload: { data, tags } });
+        // dispatch({ type: "eventsSuccess", payload: data  });
+    } catch (error: any) {
+        console.log(error.response.data);
+        dispatch({
+            type: "eventsFailure",
+            payload: error.response.data.message,
+        });
+    }
+};

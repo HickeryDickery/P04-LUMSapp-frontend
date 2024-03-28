@@ -116,3 +116,26 @@ export const postsReducer = createReducer(
         },
     }
 );
+
+export const eventsReducer = createReducer(
+    {
+        loading: false,
+        error: null,
+        events: <any>[],
+        tags: <any>[],
+    },
+    {
+        eventsRequest: (state) => {
+            state.loading = true;
+        },
+        eventsSuccess: (state, action) => {
+            state.loading = false;
+            state.events = action.payload.data.events;
+            state.tags = action.payload.tags;
+        },
+        eventsFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+    }
+);

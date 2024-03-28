@@ -2,10 +2,20 @@ import { View, Text } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Events from "../screens/Events";
 import Map from "../screens/Map";
+import { useEffect } from "react";
+// import { IP } from "../constants/ip";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getEvents } from "../redux/action";
 
 const TopTabs = createMaterialTopTabNavigator();
 
 const EventTopTabs = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
+
   return (
     <TopTabs.Navigator
       screenOptions={{
