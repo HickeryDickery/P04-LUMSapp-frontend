@@ -12,7 +12,7 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 import StarRating from '../components/StarRating';
@@ -85,7 +85,7 @@ const AddInstructorReview = ({ route }: any) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Button
           onPress={() => {
             navigation.goBack();
@@ -154,7 +154,7 @@ const AddInstructorReview = ({ route }: any) => {
         <TouchableOpacity style={styles.topicButton} onPress={submitPressed}>
           <Text style={{ color: '#000', fontWeight: 'bold' }}>Submit</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
