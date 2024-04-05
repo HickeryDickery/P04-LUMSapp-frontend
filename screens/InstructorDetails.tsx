@@ -28,9 +28,9 @@ const DetailsTab = (extraProp:any) => {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{paddingLeft: 20}}><StarRating initialValue={reviewRating}/></View>
             <Text style={{ color: 'white', marginLeft: 5, marginTop: 10, fontSize: 10}}>({reviewsCount})</Text>
-            <Text  style={{ color: 'white', marginLeft: 100, fontSize: 25, fontWeight: "bold"}}>{zambeelRating}/5</Text>
+            <Text  style={{ color: 'white', marginLeft: zambeelRating === 0 ? 100 : 80, fontSize: 25, fontWeight: "bold"}}>{zambeelRating === 0 ? "NA" : `${zambeelRating}/5`}</Text>
           </View>
-          <Text  style={{ color: '#047CD2', marginLeft: "80%", fontSize: 15}}>Zambeel</Text>
+          <Text  style={{ color: '#047CD2', marginLeft: 300, fontSize: 15}}>Zambeel</Text>
          
           <Text style={{color: "#35C2C1", fontSize: 15, fontWeight: "bold", padding: 20}}>Profile</Text>
           <Text style={{color: "white", fontSize: 15, paddingHorizontal: 20}}>{profileDescription}</Text>
