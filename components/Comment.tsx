@@ -245,8 +245,8 @@ const Comment = ({
           }}
           style={{
             ...styles.profile_picture,
-            width: comment.level !== 0 ? 30 : 40,
-            height: comment.level !== 0 ? 30 : 40,
+            width: comment.level !== 0 ? 20 : 30,
+            height: comment.level !== 0 ? 20 : 30,
           }}
         />
         <Text

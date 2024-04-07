@@ -172,7 +172,7 @@ const SinglePost = ({ route }: any) => {
         postID={postProps.postID}
         toggleSheet={() => {}}
       />
-      <View style={styles.container}>
+      <View style={{...styles.container ,paddingLeft:10}}>
       <View style={styles.topContainer}>
         <Text style={{ color: "grey", fontSize: 17 }}>Comments</Text>
       </View>

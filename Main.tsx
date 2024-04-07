@@ -147,6 +147,7 @@ const Main = () => {
                                         headerTitleAlign: "center",
                                     }}
                                 />
+                                 <Stack.Screen name="Login" component={Login} />
                             </Stack.Group>
                         ) : (
                             <Stack.Group>

@@ -6,7 +6,9 @@ import {
   View,
   Image,
   Text,
+
 } from "react-native";
+import Modal from "react-native-modal"; 
 
 import Post from "../components/Post";
 import React, { useState } from "react";
@@ -18,6 +20,7 @@ import PostMenu from "../components/PostMenu";
 import { useRef } from "react";
 import { PostMenuRefProps } from "../components/PostMenu";
 import { Feather } from "@expo/vector-icons";
+import AccountMenu from "../components/AccountsModal";
 
 const Profile = ({ navigation }: any) => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -29,6 +32,17 @@ const Profile = ({ navigation }: any) => {
   const [icon, setIcon]: any = useState();
 
   const { user }: any = useAppSelector((state) => state.auth);
+
+  const [isAccountMenuVisible, setIsAccountMenuVisible] = useState(false);
+
+  const openAccountMenu = () => {
+    setIsAccountMenuVisible(true);
+  };
+
+  const closeAccountMenu = () => {
+    setIsAccountMenuVisible(false);
+  };
+
 
   const ref = useRef<PostMenuRefProps>(null);
 
@@ -45,12 +59,12 @@ const Profile = ({ navigation }: any) => {
     setUsername(user?.name);
     setBio(user?.bio);
     setIcon(user?.profile_picture);
-    console.log(user?.profile_picture);
+    // console.log(user?.profile_picture);
   }, [user]);
   // will run every time page changes
   useEffect(() => {
     getData(page);
-    console.log(user);
+    // console.log(user);
   }, [page, refresh]);
 
   return (
@@ -266,6 +280,7 @@ const Profile = ({ navigation }: any) => {
           borderBottomWidth: 1,
         }}
       />
+     
       <FlatList
         style={styles.scrollPost}
         data={posts}
@@ -300,6 +315,18 @@ const Profile = ({ navigation }: any) => {
       <View style={styles.postMenu}>
         <PostMenu ref={ref} />
       </View>
+
+      <TouchableOpacity
+        style={styles.menuIcon}
+        onPress={() => setIsAccountMenuVisible(true)}
+      >
+        <Feather name="menu" size={30} color="white" />
+      </TouchableOpacity>
+      <AccountMenu
+        isVisible={isAccountMenuVisible}
+        onClose={() => setIsAccountMenuVisible(false)}
+      />
+      
     </SafeAreaView>
   );
 };
@@ -307,6 +334,13 @@ const Profile = ({ navigation }: any) => {
 export default Profile;
 
 const styles = StyleSheet.create({
+  menuIcon: {
+    position: 'absolute',
+    top: 44, // Adjust top margin to match your status bar height
+    right: 16, // Keep the icon on the right side
+    zIndex: 10, // Ensure the icon is above other elements
+  },
+  
   container: {
     flex: 1,
     backgroundColor: "#000",
