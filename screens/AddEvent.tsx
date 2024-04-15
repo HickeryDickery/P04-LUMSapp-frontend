@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
@@ -56,11 +49,7 @@ const AddEvent = ({ navigation }: any) => {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
-    >
+    <View style={styles.container}>
       <View style={{ gap: 10 }}>
         <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
           Title
@@ -220,7 +209,7 @@ const AddEvent = ({ navigation }: any) => {
             padding: 10,
             color: "white",
             fontSize: 14,
-            // height: 150,
+            height: 150,
             textAlignVertical: "top",
             flexGrow: 1,
           }}
@@ -247,7 +236,7 @@ const AddEvent = ({ navigation }: any) => {
       >
         <Text style={{ fontWeight: "bold" }}>Done</Text>
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
