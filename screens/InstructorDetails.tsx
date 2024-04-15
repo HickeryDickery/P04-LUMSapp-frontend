@@ -15,7 +15,7 @@ import StarRating from "../components/StarRating";
 import Reviews from "../components/Reviews";
 
 // IMPORT PROFILE PICTURE WHEN INTEGRATED
-const profilepicture = "../assets/adaptive-icon.png"
+const profilepicture: string = "../assets/adaptive-icon.png";
 
 // tabview 1
 const DetailsTab = (extraProp:any) => {
@@ -42,7 +42,7 @@ const DetailsTab = (extraProp:any) => {
 // tabview 2
 const ReviewsTab = (extraProp: any) => {
   const navigation = useNavigation();
-  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess } = extraProp.extraProp;
+  const { reviewRating, reviewsCount, zambeelRating, profileDescription, reviews, name, instructorImage, userID, userImageURL, onDeleteSuccess } = extraProp.extraProp;
   // Render item function for FlatList
   const renderItem = ({ item }: any) => {
     return (
@@ -62,7 +62,7 @@ const ReviewsTab = (extraProp: any) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar.Image style={{marginLeft: 20, marginTop: 10}} size={30} source={require(profilepicture)} />
+        <Avatar.Image style={{marginLeft: 20, marginTop: 10}} size={30} source={{uri: userImageURL}} />
         <TouchableOpacity onPress={() => {navigation.navigate("AddInstructorReview", {name: name, instructorImage: instructorImage})}}> 
           <View style={{marginLeft: 5, marginTop:10}}><StarRating initialValue={reviewRating}/></View>
         </TouchableOpacity>
@@ -81,12 +81,12 @@ const ReviewsTab = (extraProp: any) => {
 
 // tab changer for details and reviews
 const renderScene = ({ route, reviewRating, reviewsCount, zambeelRating, 
-    profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string, onDeleteSuccess:any }) => {
+    profileDescription, reviews, name, instructorImage, userID, userImageURL, onDeleteSuccess }: { route: any, reviewRating: number, reviewsCount: number, zambeelRating: number, profileDescription: string, reviews: any, name: string, instructorImage: string, userID: string, userImageURL:string, onDeleteSuccess:any }) => {
   switch (route.key) {
     case 'first':
       return <DetailsTab extraProp={{reviewRating, reviewsCount, zambeelRating, profileDescription}} />;
     case 'second':
-      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID, onDeleteSuccess}} />;
+      return <ReviewsTab extraProp={{reviewRating, reviews, name, instructorImage, userID, userImageURL, onDeleteSuccess}} />;
     default:
       return null;
   }
@@ -112,6 +112,7 @@ const InstructorDetails = ({ route }: any) => {
 
   // userID
   const [userID, setUserID] = useState(null);
+  const [userImageURL, setUserImageURL] = useState(profilepicture);
 
   // fetching data from backend
   const fetchData = async () => {
@@ -120,7 +121,7 @@ const InstructorDetails = ({ route }: any) => {
         body: name,
       });
       if (res.data.success && res.data.instructorInformation) {
-        const { instructorInformation, userID, reviewsInformation } = res.data;
+        const { instructorInformation, userID, requesteduserImageURL, reviewsInformation } = res.data;
         setInstructorImage(instructorInformation.instructorImage);
         setProfileDescription(instructorInformation.profileDescription);
         setReviewsCount(instructorInformation.reviewCount);
@@ -128,6 +129,7 @@ const InstructorDetails = ({ route }: any) => {
         setZambeelRating(instructorInformation.zambeelRating);
         setReviews(reviewsInformation);
         setUserID(userID);
+        setUserImageURL(requesteduserImageURL);
       } else {
         console.log("Error: Success is false or no instructor data found.");
       }
@@ -143,7 +145,6 @@ const InstructorDetails = ({ route }: any) => {
     }, 3500);
 
     fetchData();
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -227,7 +228,7 @@ const InstructorDetails = ({ route }: any) => {
               lazy
               navigationState={{ index, routes }}
               renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
-                profileDescription, reviews, name, instructorImage, userID, onDeleteSuccess })}
+                profileDescription, reviews, name, instructorImage, userID, userImageURL, onDeleteSuccess })}
               onIndexChange={setIndex}
               initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
               renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
