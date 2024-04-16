@@ -139,3 +139,25 @@ export const eventsReducer = createReducer(
         },
     }
 );
+
+export const donationsReducer = createReducer(
+    {
+        loading: false,
+        error: null,
+        donations: [],
+    },
+    {
+        donationsRequest: (state) => {
+            state.loading = true;
+            state.error = null; // Reset error state when making a new request
+        },
+        donationsSuccess: (state, action) => {
+            state.loading = false;
+            state.donations = action.payload.data.donation;
+        },
+        donationsFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+    }
+);

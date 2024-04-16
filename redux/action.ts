@@ -146,3 +146,25 @@ export const getEvents = () => async (dispatch: any) => {
         });
     }
 };
+
+export const getDonations = () => async (dispatch: any) => {
+    try {
+        dispatch({ type: "donationsRequest" });
+
+        const { data } = await axios.post(`${IP}/donations/get`);
+
+        data.donation = data.donation.map((donation: any) => {
+            donation.createdAt = donation.createdAt.toString();
+            donation.updatedAt = donation.updatedAt.toString();
+            return donation;
+        });
+
+        dispatch({ type: "donationsSuccess", payload: { data } });
+    } catch (error: any) {
+        console.log(error.response.data);
+        dispatch({
+            type: "donationsFailure",
+            payload: error.response.data.message,
+        });
+    }
+};
