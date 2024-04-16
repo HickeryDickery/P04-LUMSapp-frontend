@@ -6,9 +6,12 @@ import {
     FlatList,
     ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PostNotifications from "../components/PostNotifications";
 import EventNotifications from "../components/EventNotifications";
+
+import { IP } from "../constants/ip";
+import axios from "axios";
 
 let post_notifs = [
     {
@@ -108,6 +111,22 @@ let event_notifs = [
 ];
 
 const Notifications = ({ navigation }: any) => {
+    const [refresh, setRefresh] = useState(false);
+    const [notifs, setNotifs] = useState<any[]>([]);
+
+    const getData = async () => {
+        try {
+            const res = await axios.post(`${IP}/notification/get`);
+            console.log(res);
+            setNotifs((notifs) => [...notifs, ...res.data.notifs]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    // will run every time page changes
+    useEffect(() => {
+        getData();
+    }, [refresh]);
     return (
         <SafeAreaView style={styles.container}>
             <Text
@@ -125,7 +144,7 @@ const Notifications = ({ navigation }: any) => {
                     height: "45%",
                 }}
             >
-                <PostNotifications post_notifs={post_notifs} />
+                <PostNotifications post_notifs={notifs} />
             </View>
             <View
                 style={{
