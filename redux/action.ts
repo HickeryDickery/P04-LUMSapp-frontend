@@ -146,3 +146,20 @@ export const getEvents = () => async (dispatch: any) => {
         });
     }
 };
+
+export const registerPushToken = (token: string) => async (dispatch: any) => {
+    try {
+        dispatch({ type: "registerPushTokenRequest" });
+
+        await axios.post(`${IP}/notification/register`, {
+            token,
+        });
+
+        dispatch({ type: "registerPushTokenSuccess" });
+    } catch (error: any) {
+        dispatch({
+            type: "registerPushTokenFailure",
+            payload: error.response.data.message,
+        });
+    }
+};

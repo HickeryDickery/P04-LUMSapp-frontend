@@ -15,7 +15,7 @@ import InstructorInfo from "./screens/InstructorInfo";
 import InstructorDetails from "./screens/InstructorDetails";
 import AddInstructorReview from "./screens/AddInstructorReview";
 
-import { loadUser } from "./redux/action";
+import { loadUser, registerPushToken } from "./redux/action";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import Loader from "./components/Loader";
@@ -32,15 +32,29 @@ import AddPost from "./screens/AddPost";
 // import PostImageScroll from "./screens/PostImageScroll";
 // import VideoPlayer from "./screens/VideoPlayer";
 import AddEvent from "./screens/AddEvent";
+import { usePushNotifications } from "./hooks/usePushNotifications";
 
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
     const dispatch = useAppDispatch();
-
+    const { expoPushToken, notification } = usePushNotifications();
+    let token: string | undefined = expoPushToken?.data;
     useEffect(() => {
         dispatch(loadUser());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(registerPushToken(token));
+        }
+    }, [token]);
+
+    // useEffect(() => {
+    //     const subscription =
+    //         Notifications.addPushTokenListener(registerPushToken);
+    //     return () => subscription.remove();
+    // }, []);
 
     const { isAuthenticated, loading } = useAppSelector((state) => state.auth);
 

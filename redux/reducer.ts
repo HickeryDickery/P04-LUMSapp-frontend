@@ -139,3 +139,20 @@ export const eventsReducer = createReducer(
         },
     }
 );
+
+export const notifReducer = createReducer(
+    { loading: false, registered: false, error: null },
+    {
+        registerPushTokenRequest: (state) => {
+            state.loading = true;
+        },
+        registerPushTokenSuccess: (state) => {
+            state.loading = false;
+            state.registered = true;
+        },
+        registerPushTokenFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+    }
+);
