@@ -7,7 +7,6 @@ import {
     FlatList,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-// import EventDetails from "../components/EventDetails"; implement donation details
 import DonationDetails from "../components/DonationDetails";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import Loader from "../components/Loader";
@@ -56,7 +55,6 @@ const Donations = ({ navigation }: any) => {
                             style={{
                                 display: "flex",
                                 width: "100%",
-                                // height: 35,
                                 backgroundColor: "#35C2C1",
                                 borderRadius: 10,
                                 marginBottom: 10,
@@ -67,8 +65,7 @@ const Donations = ({ navigation }: any) => {
                                 gap: 5,
                             }}
                             onPress={() => {
-                                /////////////// navigate to add donations
-                                navigation.navigate("AddEvent");
+                                navigation.navigate("AddDonation");
                             }}
                         >
                             <MaterialIcons name="add" size={24} color="white" />
@@ -97,22 +94,20 @@ const Donations = ({ navigation }: any) => {
                             data={donations}
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) => {
-                                // console.log("item", item)
                                 return (
                                     <TouchableOpacity
-                                        ////////// navigate to specific donations screen
                                         onPress={() => {
-                                            navigation.navigate("SpecificEvent", {
-                                                event: item,
+                                            navigation.navigate("SpecificDonation", {
+                                                donation: item,
                                             });
                                         }}
                                     >
                                     <DonationDetails
-                                        category={item.category} // Assuming category as the title
-                                        description={item.details} // Assuming details as the description
-                                        date={item.createdAt} // Format createdAt date as per your requirement
-                                        amountPending={item.pendingAmount} // Assuming accountNumber as one of the account details
-                                        issuedBy={item.accountDetails.issuedBy} // Assuming issuedBy as one of the account details
+                                        category={item.category} 
+                                        description={item.details} 
+                                        date={item.createdAt} 
+                                        amountPending={item.pendingAmount} 
+                                        issuedBy={item.accountDetails.issuedBy} 
                                     />
                                     </TouchableOpacity>
                                 );

@@ -32,6 +32,10 @@ import AddPost from "./screens/AddPost";
 // import PostImageScroll from "./screens/PostImageScroll";
 // import VideoPlayer from "./screens/VideoPlayer";
 import AddEvent from "./screens/AddEvent";
+import SpecificDonation from "./screens/SpecificDonation";
+import AddDonation from "./screens/AddDonation";
+import EditDonation from "./screens/EditDonation";
+import Donation from "./screens/Donations"
 
 const Stack = createNativeStackNavigator();
 
@@ -126,6 +130,74 @@ const Main = () => {
                                 <Stack.Screen
                                     name="SpecificEvent"
                                     component={SpecificEvent}
+                                />
+                                <Stack.Screen
+                                    name="Donation"
+                                    component={Donation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="SpecificDonation"
+                                    component={SpecificDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="EditDonation"
+                                    component={EditDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Edit Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="AddDonation"
+                                    component={AddDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Add Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
                                 />
                                 {/* component={AddInstructorReview} */}
                                 {/* /> */}
