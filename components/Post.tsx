@@ -27,6 +27,7 @@ export type PostProps = {
     liked: boolean;
     disliked: boolean;
     postID: string;
+    bookmarked: boolean;
     toggleSheet?: (post: PostProps) => void | null;
 };
 
@@ -39,6 +40,7 @@ const Post = (
     const [likeCount, setLikeCount] = useState<any>(props.likes);
     const [dislikeCount, setDislikeCount] = useState<any>(props.dislikes);
     const [update, setUpdate] = useState(false);
+    const [bookmarked, setBookmarked] = useState(props.bookmarked);
 
     // const ref = props.postMenuRef;
 
@@ -54,6 +56,17 @@ const Post = (
     //     ref?.current?.scrollTo(250);
     //   }
     // }, []);
+
+    const bookmarkHandler = async () => {
+        try {
+            const res = await axios.post(`${IP}/post/bookmark`, {
+                postId: props.postID,
+            });
+            setBookmarked(!bookmarked);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const likePressed = async () => {
         try {
@@ -288,12 +301,18 @@ const Post = (
                         </View>
                     </View>
                     <View style={styles.rightFooter}>
-                        {/* <View style={styles.footerComponent}>
-              <Feather name="send" size={24} color="grey" />
-            </View> */}
-                        <View style={styles.footerComponent}>
-                            <Feather name="bookmark" size={24} color="grey" />
-                        </View>
+                        <TouchableOpacity
+                            style={styles.footerComponent}
+                            onPress={() => {
+                                bookmarkHandler();
+                            }}
+                        >
+                            <FontAwesome
+                                name={bookmarked ? "bookmark" : "bookmark-o"}
+                                size={24}
+                                color={bookmarked ? "#35C2C1" : "grey"}
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableOpacity>

@@ -34,6 +34,7 @@ import AddPost from "./screens/AddPost";
 import AddEvent from "./screens/AddEvent";
 import Settings from "./screens/Settings";
 import { usePushNotifications } from "./hooks/usePushNotifications";
+import SavedPosts from "./screens/SavedPosts";
 
 const Stack = createNativeStackNavigator();
 
@@ -146,6 +147,10 @@ const Main = () => {
                                     name="SpecificEvent"
                                     component={SpecificEvent}
                                 />
+                                <Stack.Screen
+                                    name="SavedPosts"
+                                    component={SavedPosts}
+                                />
                                 {/* component={AddInstructorReview} */}
                                 {/* /> */}
 
@@ -166,6 +171,7 @@ const Main = () => {
                                         headerTitleAlign: "center",
                                     }}
                                 />
+                                <Stack.Screen name="Login" component={Login} />
                             </Stack.Group>
                         ) : (
                             <Stack.Group>

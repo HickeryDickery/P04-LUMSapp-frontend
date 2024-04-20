@@ -6,6 +6,7 @@ import {
     Image,
     Text,
 } from "react-native";
+import Modal from "react-native-modal";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { IP } from "../constants/ip";
@@ -18,6 +19,7 @@ import { UserCommentProps } from "../types/userPostTypes";
 import ProfileBurger from "../components/ProfileBurger";
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { useBottomSheet } from "@gorhom/bottom-sheet";
+import AccountMenu from "../components/AccountsModal";
 
 const Profile = ({ navigation }: any) => {
     const [posts, setPosts] = useState<any[]>([]);
@@ -39,6 +41,15 @@ const Profile = ({ navigation }: any) => {
         setIcon(user?.profile_picture);
         console.log(user?.profile_picture);
     }, [user]);
+    const [isAccountMenuVisible, setIsAccountMenuVisible] = useState(false);
+
+    const openAccountMenu = () => {
+        setIsAccountMenuVisible(true);
+    };
+
+    const closeAccountMenu = () => {
+        setIsAccountMenuVisible(false);
+    };
 
     const ref = useRef<PostMenuRefProps>(null);
 
@@ -272,6 +283,26 @@ const Profile = ({ navigation }: any) => {
             >
                 {bio}
             </Text>
+            <Text
+                style={{
+                    color: "white",
+                    width: "90%",
+                    marginTop: 8,
+                    fontWeight: "600",
+                    fontSize: 16,
+                }}
+            >
+                {username}
+            </Text>
+            <Text
+                style={{
+                    color: "white",
+                    width: "90%",
+                    marginTop: 8,
+                }}
+            >
+                {bio}
+            </Text>
             <TouchableOpacity
                 style={styles.editProfileBttn}
                 onPress={() => {
@@ -284,6 +315,16 @@ const Profile = ({ navigation }: any) => {
             </TouchableOpacity>
             <ProfileTabs ref={ref} {...ProfileTabProps} />
             <ProfileBurger ref={sheetRef} />
+            <TouchableOpacity
+                style={styles.menuIcon}
+                onPress={() => setIsAccountMenuVisible(true)}
+            >
+                <Feather name="menu" size={30} color="white" />
+            </TouchableOpacity>
+            <AccountMenu
+                isVisible={isAccountMenuVisible}
+                onClose={() => setIsAccountMenuVisible(false)}
+            />
         </SafeAreaView>
     );
 };
@@ -311,5 +352,18 @@ const styles = StyleSheet.create({
     },
     pagerView: {
         flex: 1,
+    },
+    menuIcon: {
+        position: "absolute",
+        top: 44, // Adjust top margin to match your status bar height
+        right: 16, // Keep the icon on the right side
+        zIndex: 10, // Ensure the icon is above other elements
+    },
+    scrollPost: {},
+    postMenu: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
 });

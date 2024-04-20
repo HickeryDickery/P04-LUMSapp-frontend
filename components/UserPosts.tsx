@@ -43,6 +43,7 @@ const UserPosts = forwardRef<UserPostRef, UserPostProps>((props, ref) => {
                         liked={item.isLikedbyUser}
                         disliked={item.isDislikedbyUser}
                         postID={item._id}
+                        bookmarked={item.isBookmarkedByUser}
                         // postMenuRef={ref}
                     />
                 )}
