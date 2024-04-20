@@ -32,6 +32,7 @@ import AddPost from "./screens/AddPost";
 // import PostImageScroll from "./screens/PostImageScroll";
 // import VideoPlayer from "./screens/VideoPlayer";
 import AddEvent from "./screens/AddEvent";
+import Settings from "./screens/Settings";
 import { usePushNotifications } from "./hooks/usePushNotifications";
 
 const Stack = createNativeStackNavigator();
@@ -80,6 +81,10 @@ const Main = () => {
                     >
                         {isAuthenticated ? (
                             <Stack.Group>
+                                <Stack.Screen
+                                    name="Settings"
+                                    component={Settings}
+                                />
                                 <Stack.Screen
                                     name="BottomTabs"
                                     component={BottomTabs}
