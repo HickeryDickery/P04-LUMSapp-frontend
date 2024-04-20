@@ -29,14 +29,23 @@ const PostNotifications = (props: any) => {
     // useEffect(() => {
     //     setNotifications(groupNotifications(props.post_notifs));
     // }, [props.post_notifs]);
+    console.log(props);
 
     return (
         <FlatList
             style={{
                 width: "100%",
             }}
-            data={groupNotifications(props.post_notifs)}
+            data={groupNotifications(props.notifs).sort(
+                (a, b) =>
+                    new Date(b.group[0].timestamp).getTime() -
+                    new Date(a.group[0].timestamp).getTime()
+            )}
             // keyExtractor={(item) => item.id.toString()}
+            onRefresh={() => {
+                props.setRefresh(true);
+            }}
+            refreshing={props.refresh}
             renderItem={({ item }) => (
                 <View
                     key={item.group[0]._id}
