@@ -2,8 +2,8 @@ import axios from "axios";
 import { IP } from "../constants/ip";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-    export const login = (email: string, password: string) => async (dispatch: any) => {
+export const login =
+    (email: string, password: string) => async (dispatch: any) => {
         try {
             dispatch({ type: "loginRequest" });
 
@@ -24,12 +24,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
             const existingData = await AsyncStorage.getItem("userData");
             const userData = { email, password, data };
             let newData = existingData ? JSON.parse(existingData) : [];
-            const existingUser = newData.find((user: any) => user.email === email);
+            const existingUser = newData.find(
+                (user: any) => user.email === email
+            );
             if (!existingUser) {
                 newData.push(userData);
             }
             await AsyncStorage.setItem("userData", JSON.stringify(newData));
-     
 
             dispatch({ type: "loginSuccess", payload: data });
         } catch (error: any) {
@@ -171,6 +172,27 @@ export const registerPushToken = (token: string) => async (dispatch: any) => {
     } catch (error: any) {
         dispatch({
             type: "registerPushTokenFailure",
+            payload: error.response.data.message,
+        });
+    }
+};
+export const getDonations = () => async (dispatch: any) => {
+    try {
+        dispatch({ type: "donationsRequest" });
+
+        const { data } = await axios.post(`${IP}/donations/get`);
+
+        data.donation = data.donation.map((donation: any) => {
+            donation.createdAt = donation.createdAt.toString();
+            donation.updatedAt = donation.updatedAt.toString();
+            return donation;
+        });
+
+        dispatch({ type: "donationsSuccess", payload: { data } });
+    } catch (error: any) {
+        console.log(error.response.data);
+        dispatch({
+            type: "donationsFailure",
             payload: error.response.data.message,
         });
     }

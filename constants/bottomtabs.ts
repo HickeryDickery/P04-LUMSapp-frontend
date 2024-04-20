@@ -7,20 +7,22 @@ import Notifications from "../screens/NotificationsTab";
 import EventTopTabs from "../components/EventTopTabs";
 import ChatScreen from "../screens/ChatScreen";
 import ChatsHome from "../screens/ChatsHome";
+import Donations from "../screens/Donations";
 
 type BottomTab = {
-  name: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  component: React.FC;
+    name: string;
+    icon: keyof typeof Ionicons.glyphMap;
+    component: React.FC;
 };
 
 const bottomTabs: BottomTab[] = [
-  { name: "LDF", icon: "people-circle", component: LdfHomePage },
-  { name: "AllEvents", icon: "calendar", component: EventTopTabs },
-  { name: "HomeStack", icon: "home", component: HomeStack },
-  { name: "Notifications", icon: "notifications", component: Notifications },
-  // { name: "Donations", icon: "fitness" },
-  { name: "Profile", icon: "person", component: Profile },
+    { name: "LDF", icon: "people-circle", component: LdfHomePage },
+    { name: "AllEvents", icon: "calendar", component: EventTopTabs },
+    { name: "HomeStack", icon: "home", component: HomeStack },
+    { name: "Notifications", icon: "notifications", component: Notifications },
+    // { name: "Donations", icon: "fitness" },
+    { name: "Profile", icon: "person", component: Profile },
+    { name: "Donations", icon: "cash", component: Donations },
 ];
 
 export default bottomTabs;

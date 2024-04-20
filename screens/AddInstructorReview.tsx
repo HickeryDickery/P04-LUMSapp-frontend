@@ -12,7 +12,7 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 import StarRating from '../components/StarRating';
@@ -85,7 +85,7 @@ const AddInstructorReview = ({ route }: any) => {
 
   return (
     <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Button
           onPress={() => {
             navigation.goBack();
@@ -127,34 +127,39 @@ const AddInstructorReview = ({ route }: any) => {
           setValue={setSelectedSession}
           setItems={() => {}}
           placeholder="Select a session..."
+          placeholderStyle={{ color: 'white' }}
           style={styles.dropdown}
           dropDownContainerStyle={{
             backgroundColor: "#2B2B2B",
             width: "80%",
             marginLeft: 30,
             height: 200,
-          }}          
-        />
+          }} 
+          listItemLabelStyle={{ color: 'white' }} 
+          selectedItemLabelStyle={{ color: '#35C2C1' }}
+          labelStyle={{ color: 'white' }} 
+      />
+
 
         <Text style={styles.instructorTitle}>Review: </Text>
         <View style={styles.inputbox}>
           <TextInput
             editable
             placeholder="Write your review here..."
-            placeholderTextColor="#000"
+            placeholderTextColor="white"
             multiline
             numberOfLines={4}
             maxLength={40}
             onChangeText={setReviewDescription}
             value={reviewDescription}
-            style={{ padding: 10, color: 'black', fontSize: 16 }}
+            style={{ padding: 10, color: 'white', fontSize: 16 }}
           />
         </View>
 
         <TouchableOpacity style={styles.topicButton} onPress={submitPressed}>
           <Text style={{ color: '#000', fontWeight: 'bold' }}>Submit</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -204,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2B2B2B',
     marginLeft: 30,
     marginBottom: 20,
+    // color: "white"
   },
   inputbox: {
     height: 150,

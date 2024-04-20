@@ -41,6 +41,10 @@ import ChatsHome from "./screens/ChatsHome";
 import ThreadScreen from "./screens/ThreadScreen";
 import { useChatClient } from "./useChatClient";
 import { useState } from "react";
+import SpecificDonation from "./screens/SpecificDonation";
+import AddDonation from "./screens/AddDonation";
+import EditDonation from "./screens/EditDonation";
+import Donation from "./screens/Donations";
 
 const Stack = createNativeStackNavigator();
 
@@ -100,36 +104,66 @@ const Main = () => {
                                     name="Comments"
                                     component={Comments}
                                 /> */}
-                <Stack.Screen name="SinglePost" component={SinglePost} />
-                <Stack.Screen name="AddPost" component={AddPost} />
-                <Stack.Screen
-                  name="PostMediaScroll"
-                  component={PostMediaScroll}
-                />
-                <Stack.Screen name="ChatsHome" component={ChatsHome} />
-                <Stack.Screen name="ChatScreen" component={ChatScreen} />
-                <Stack.Screen name="ThreadScreen" component={ThreadScreen} />
-                <Stack.Screen name="Transcript" component={Transcript} />
-                <Stack.Screen
-                  name="GpaPredictorHome"
-                  component={GpaPredictorHome}
-                />
-                <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
-                <Stack.Screen name="EditPost" component={EditPost} />
-                <Stack.Screen name="EditProfile" component={EditProfile} />
-                <Stack.Screen name="CampusInfo" component={CampusInfo} />
-                <Stack.Screen
-                  name="InstructorInfo"
-                  component={InstructorInfo}
-                />
-                <Stack.Screen
-                  name="InstructorDetails"
-                  component={InstructorDetails}
-                />
-                <Stack.Screen
-                  name="AddInstructorReview"
-                  component={AddInstructorReview}
-                />
+                                <Stack.Screen
+                                    name="SinglePost"
+                                    component={SinglePost}
+                                />
+                                <Stack.Screen
+                                    name="AddPost"
+                                    component={AddPost}
+                                />
+                                <Stack.Screen
+                                    name="PostMediaScroll"
+                                    component={PostMediaScroll}
+                                />
+                                <Stack.Screen
+                                    name="ChatsHome"
+                                    component={ChatsHome}
+                                />
+                                <Stack.Screen
+                                    name="ChatScreen"
+                                    component={ChatScreen}
+                                />
+                                <Stack.Screen
+                                    name="ThreadScreen"
+                                    component={ThreadScreen}
+                                />
+                                <Stack.Screen
+                                    name="Transcript"
+                                    component={Transcript}
+                                />
+                                <Stack.Screen
+                                    name="GpaPredictorHome"
+                                    component={GpaPredictorHome}
+                                />
+                                <Stack.Screen
+                                    name="GpaPredictor"
+                                    component={GpaPredictor}
+                                />
+                                <Stack.Screen
+                                    name="EditPost"
+                                    component={EditPost}
+                                />
+                                <Stack.Screen
+                                    name="EditProfile"
+                                    component={EditProfile}
+                                />
+                                <Stack.Screen
+                                    name="CampusInfo"
+                                    component={CampusInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorInfo"
+                                    component={InstructorInfo}
+                                />
+                                <Stack.Screen
+                                    name="InstructorDetails"
+                                    component={InstructorDetails}
+                                />
+                                <Stack.Screen
+                                    name="AddInstructorReview"
+                                    component={AddInstructorReview}
+                                />
 
                                 <Stack.Screen
                                     name="SpecificEvent"
@@ -138,6 +172,74 @@ const Main = () => {
                                 <Stack.Screen
                                     name="SavedPosts"
                                     component={SavedPosts}
+                                />
+                                <Stack.Screen
+                                    name="Donation"
+                                    component={Donation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="SpecificDonation"
+                                    component={SpecificDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="EditDonation"
+                                    component={EditDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Edit Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="AddDonation"
+                                    component={AddDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Add Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
                                 />
                                 {/* component={AddInstructorReview} */}
                                 {/* /> */}
@@ -181,10 +283,10 @@ const Main = () => {
                     </Stack.Navigator>
                 </NavigationContainer>
 
-        {/* <BottomTabs /> */}
-      </SafeAreaView>
-    </GestureHandlerRootView>
-  );
+                {/* <BottomTabs /> */}
+            </SafeAreaView>
+        </GestureHandlerRootView>
+    );
 };
 export default Main;
 
