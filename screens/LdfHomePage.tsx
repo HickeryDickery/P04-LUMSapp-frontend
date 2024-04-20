@@ -47,6 +47,7 @@ const LdfHomePage = ({ navigation }: any) => {
   const getData = async (page: number) => {
     try {
       const res = await axios.post(`${IP}/post/feed`, { page: page });
+      
       setPosts((posts) => [...posts, ...res.data.posts]);
     } catch (error) {
       console.log(error);
@@ -76,7 +77,7 @@ const LdfHomePage = ({ navigation }: any) => {
           <Post
             key={item._id}
             name={item.postedBy?.fullname || "Deleted User"}
-            profileImage={"https://picsum.photos/201"}
+            profileImage={item.postedBy?.profile_picture?.url || "https://picsum.photos/201"}
             body={item.text}
             media={item.media}
             likes={item.likeCount}
@@ -86,6 +87,7 @@ const LdfHomePage = ({ navigation }: any) => {
             disliked={item.isDislikedbyUser}
             postID={item._id}
             toggleSheet={toggleSheet}
+            bookmarked={item.isBookmarkedByUser}
             // postMenuRef={ref}
           />
         )}
@@ -115,6 +117,7 @@ const LdfHomePage = ({ navigation }: any) => {
               liked={selectedPost.liked}
               disliked={selectedPost.disliked}
               postID={selectedPost.postID}
+              bookmarked={selectedPost.bookmarked}
             />
           </Animated.View>
         </>

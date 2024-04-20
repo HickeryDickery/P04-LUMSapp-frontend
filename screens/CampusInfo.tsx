@@ -48,7 +48,7 @@ const CampusInfo = () => {
             <TouchableOpacity style={styles.topicButton} onPress={openLink}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Discounts </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.topicButton, {marginTop: 120}]}>
+            <TouchableOpacity style={[styles.topicButton, {marginTop: 120}]} onPress={()=>navigation.navigate("SavedPosts")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold"}}> Saved </Text>
             </TouchableOpacity>
 

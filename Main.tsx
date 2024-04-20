@@ -32,6 +32,7 @@ import AddPost from "./screens/AddPost";
 // import PostImageScroll from "./screens/PostImageScroll";
 // import VideoPlayer from "./screens/VideoPlayer";
 import AddEvent from "./screens/AddEvent";
+import SavedPosts from "./screens/SavedPosts";
 
 const Stack = createNativeStackNavigator();
 
@@ -126,6 +127,10 @@ const Main = () => {
                                 <Stack.Screen
                                     name="SpecificEvent"
                                     component={SpecificEvent}
+                                />
+                                 <Stack.Screen
+                                    name="SavedPosts"
+                                    component={SavedPosts}
                                 />
                                 {/* component={AddInstructorReview} */}
                                 {/* /> */}

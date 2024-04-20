@@ -300,13 +300,14 @@ const Profile = ({ navigation }: any) => {
             name={item.postedBy?.fullname || "Deleted User"}
             profileImage={"https://picsum.photos/201"}
             body={item.text}
-            media={["https://picsum.photos/300"]} // make this an array
+            media={item.media} // make this an array
             likes={item.likeCount}
             dislikes={item.dislikeCount}
             comments={item.commentCount}
             liked={item.isLikedbyUser}
             disliked={item.isDislikedbyUser}
             postID={item._id}
+            bookmarked={item.isBookmarkedByUser}
             // postMenuRef={ref}
           />
         )}

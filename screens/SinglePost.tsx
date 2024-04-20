@@ -85,6 +85,7 @@ const SinglePost = ({ route }: any) => {
 
   
             const { data } = await axios.post(`${IP}/comment/reply`, {
+              postId: postID,
               commentId: additionalData.id,
               text: newComment,
             });
@@ -171,6 +172,7 @@ const SinglePost = ({ route }: any) => {
         disliked={postProps.dislikedUpdated}
         postID={postProps.postID}
         toggleSheet={() => {}}
+        bookmarked={postProps.bookmarked}
       />
       <View style={{...styles.container ,paddingLeft:10}}>
       <View style={styles.topContainer}>
@@ -196,6 +198,7 @@ const SinglePost = ({ route }: any) => {
           onPress={handlePress}
           onDataChange={handleDataChange}
           deleteComment={deleteComment}
+          postId={postID}
         />
       ))}
   {/* {additionalData.name !== 'nan' && (
