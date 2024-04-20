@@ -1,3 +1,4 @@
+//COLOR DONE
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -13,7 +14,26 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/size";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Foundation } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { PRIMARY_COLOR } from "../constants/color";
+import {
+  POST_BCKG_COLOR,
+  POST_BOOKMARK_ICON_COLOR,
+  POST_BORDER_COLOR,
+  POST_COMMENT_COUNT_COLOR,
+  POST_COMMENT_ICON_COLOR,
+  POST_DISLIKE_ACTIVE_COLOR,
+  POST_DISLIKE_COUNT_ACTIVE_COLOR,
+  POST_DISLIKE_COUNT_INACTIVE_COLOR,
+  POST_DISLIKE_INACTIVE_COLOR,
+  POST_LIKE_ACTIVE_COLOR,
+  POST_LIKE_COUNT_ACTIVE_COLOR,
+  POST_LIKE_COUNT_INACTIVE_COLOR,
+  POST_LIKE_INACTIVE_COLOR,
+  POST_MEDIA_BADGE_BCKG_COLOR,
+  POST_MEDIA_BADGE_TEXT_COLOR,
+  POST_OPTIONS_ICON_COLOR,
+  POST_POSTER_NAME_COLOR,
+  POST_TEXT_COLOR,
+} from "../constants/color";
 import MediaCard from "./MediaCard";
 
 export type PostProps = {
@@ -39,6 +59,19 @@ const Post = (
   const [likeCount, setLikeCount] = useState<any>(props.likes);
   const [dislikeCount, setDislikeCount] = useState<any>(props.dislikes);
   const [update, setUpdate] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const onViewableItemsChanged = useCallback(({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      var firstVisibleItemIndex = viewableItems[0].index ?? 0;
+      firstVisibleItemIndex += 1;
+      setCurrentIndex(firstVisibleItemIndex);
+    }
+  }, []);
+
+  // Define the viewabilityConfig
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50, // Consider an item visible if 50% or more of it is visible
+  };
 
   // const ref = props.postMenuRef;
 
@@ -159,7 +192,11 @@ const Post = (
             style={styles.options}
             onPress={() => props.toggleSheet?.(props)}
           >
-            <SimpleLineIcons name="options-vertical" size={18} color="grey" />
+            <SimpleLineIcons
+              name="options-vertical"
+              size={18}
+              color={POST_OPTIONS_ICON_COLOR}
+            />
           </TouchableOpacity>
         </View>
 
@@ -167,6 +204,11 @@ const Post = (
       </TouchableOpacity>
       {props.media.length == 0 ? null : (
         <View style={styles.imageFlatlist}>
+          {props.media.length == 1 ? null : (
+            <Text style={styles.mediaBadge}>
+              {currentIndex} / {props.media.length}
+            </Text>
+          )}
           <FlatList
             refreshing={true}
             style={styles.imageScroll}
@@ -179,7 +221,7 @@ const Post = (
                 activeOpacity={1}
                 onPress={() => {
                   const { toggleSheet, ...rest } = props;
-                  navigation.navigate("PostImageScroll", {
+                  navigation.navigate("PostMediaScroll", {
                     postProps: {
                       ...rest,
                       likedUpdated: liked,
@@ -191,14 +233,16 @@ const Post = (
                 }}
               >
                 <View style={styles.mediaBox}>
-                  <Text style={styles.mediaBadge}>
+                  {/* <Text style={styles.mediaBadge}>
                     {index + 1} / {props.media.length}
-                  </Text>
+                  </Text> */}
 
                   <MediaCard media={item} />
                 </View>
               </TouchableOpacity>
             )}
+            // onViewableItemsChanged={onViewableItemsChanged}
+            // viewabilityConfig={viewabilityConfig}
           ></FlatList>
         </View>
       )}
@@ -230,11 +274,15 @@ const Post = (
                 <Foundation
                   name="arrow-up"
                   size={28}
-                  color={liked ? PRIMARY_COLOR : "grey"}
+                  color={
+                    liked ? POST_LIKE_ACTIVE_COLOR : POST_LIKE_INACTIVE_COLOR
+                  }
                 />
                 <Text
                   style={{
-                    color: liked ? "white" : "grey",
+                    color: liked
+                      ? POST_LIKE_COUNT_ACTIVE_COLOR
+                      : POST_LIKE_COUNT_INACTIVE_COLOR,
                     fontSize: 10,
                   }}
                 >
@@ -250,11 +298,17 @@ const Post = (
                 <Foundation
                   name="arrow-down"
                   size={28}
-                  color={disliked ? PRIMARY_COLOR : "grey"}
+                  color={
+                    disliked
+                      ? POST_DISLIKE_ACTIVE_COLOR
+                      : POST_DISLIKE_INACTIVE_COLOR
+                  }
                 />
                 <Text
                   style={{
-                    color: disliked ? "white" : "grey",
+                    color: disliked
+                      ? POST_DISLIKE_COUNT_ACTIVE_COLOR
+                      : POST_DISLIKE_COUNT_INACTIVE_COLOR,
                     fontSize: 10,
                   }}
                 >
@@ -265,8 +319,12 @@ const Post = (
             </View>
             <View style={styles.comment}>
               <View style={styles.footerComponent}>
-                <Octicons name="comment" size={25} color="grey" />
-                <Text style={{ color: "grey", fontSize: 10 }}>
+                <Octicons
+                  name="comment"
+                  size={25}
+                  color={POST_COMMENT_ICON_COLOR}
+                />
+                <Text style={{ color: POST_COMMENT_COUNT_COLOR, fontSize: 10 }}>
                   {props.comments}
                 </Text>
                 {/* This is grey because it is not pressed (we haven't commented). We have to make this dynamic rather than static*/}
@@ -278,7 +336,11 @@ const Post = (
               <Feather name="send" size={24} color="grey" />
             </View> */}
             <View style={styles.footerComponent}>
-              <Feather name="bookmark" size={24} color="grey" />
+              <Feather
+                name="bookmark"
+                size={24}
+                color={POST_BOOKMARK_ICON_COLOR}
+              />
             </View>
           </View>
         </View>
@@ -292,9 +354,9 @@ const styles = StyleSheet.create({
   post: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "rgba(29,29,29,0.4)",
+    backgroundColor: POST_BCKG_COLOR,
     borderWidth: 0.1,
-    borderColor: "#35C2C1",
+    borderColor: POST_BORDER_COLOR,
     paddingBottom: 12,
     paddingTop: 12,
     width: "100%",
@@ -317,14 +379,19 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   mediaBadge: {
-    color: "white",
+    color: POST_MEDIA_BADGE_TEXT_COLOR,
     position: "absolute",
     zIndex: 1,
     top: 10,
     right: 10,
+    backgroundColor: POST_MEDIA_BADGE_BCKG_COLOR,
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    fontSize: 12,
+    opacity: 0.8,
   },
   bodyFont: {
-    color: "white",
+    color: POST_TEXT_COLOR,
     paddingHorizontal: 10,
     paddingVertical: 10,
     fontSize: 14,
@@ -359,7 +426,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 7,
   },
-  posterName: { color: "white", fontWeight: "bold", fontSize: 16 },
+  posterName: {
+    color: POST_POSTER_NAME_COLOR,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
   profileComponent: {
     display: "flex",
     flexDirection: "row",

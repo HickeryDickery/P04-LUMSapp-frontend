@@ -109,7 +109,7 @@ function FooterPostDetails(props: FooterPostDetailsProps) {
           >
             <Foundation
               name="arrow-up"
-              size={40}
+              size={30}
               color={liked ? PRIMARY_COLOR : "grey"}
             />
             <Text
@@ -129,7 +129,7 @@ function FooterPostDetails(props: FooterPostDetailsProps) {
           >
             <Foundation
               name="arrow-down"
-              size={40}
+              size={30}
               color={disliked ? PRIMARY_COLOR : "grey"}
             />
             <Text
@@ -147,7 +147,7 @@ function FooterPostDetails(props: FooterPostDetailsProps) {
           <View style={styles.footerComponent}>
             <Octicons
               name="comment"
-              size={30}
+              size={25}
               color="grey"
               style={{ marginTop: 4 }}
             />
@@ -163,7 +163,7 @@ function FooterPostDetails(props: FooterPostDetailsProps) {
               <Feather name="send" size={24} color="grey" />
             </View> */}
         <View style={styles.footerComponent}>
-          <Feather name="bookmark" size={40} color="grey" />
+          <Feather name="bookmark" size={30} color="grey" />
         </View>
       </View>
     </View>
@@ -176,11 +176,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 25,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    padding: 15,
     gap: 50,
-    backgroundColor: "rgba(128, 128, 128, 0.2)",
+    backgroundColor: "rgba(128, 128, 128, 0)",
+    borderTopColor: "rgba(128, 128, 128, 0.5)",
+    borderTopWidth: 0.2,
   },
   leftFooter: {
     display: "flex",
