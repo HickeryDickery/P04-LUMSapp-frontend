@@ -1,3 +1,5 @@
+//COLOR DONE
+
 import {
   StyleSheet,
   Text,
@@ -10,6 +12,13 @@ import CarouselCard from "../components/CarouselCard";
 import { MaterialIcons } from "@expo/vector-icons";
 import buttons from "../constants/homebutton";
 import HomeButtons from "../components/HomeButtons";
+import {
+  HOME_BCKG_COLOR,
+  HOME_ICON_BCKG_COLOR,
+  HOME_ICON_COLOR,
+  HOME_ICON_DISCREET_HEADING_COLOR,
+  HOME_ICON_TEXT_COLOR,
+} from "../constants/color";
 // import { useNavigation } from "@react-navigation/native";
 
 const Home = ({ navigation }: any) => {
@@ -65,19 +74,21 @@ const Home = ({ navigation }: any) => {
             gap: 10,
             width: "100%",
             justifyContent: "flex-start",
-            backgroundColor: "#2B2B2B",
+            backgroundColor: HOME_ICON_BCKG_COLOR,
             borderRadius: 20,
             padding: 10,
             marginVertical: 10,
             paddingLeft: 20,
           }}
         >
-          <MaterialIcons name="info" size={40} color="#35C2B0" />
+          <MaterialIcons name="info" size={40} color={HOME_ICON_COLOR} />
           <View>
-            <Text style={{ color: "#35C2B0", fontWeight: "bold" }}>
+            <Text style={{ color: HOME_ICON_TEXT_COLOR, fontWeight: "bold" }}>
               Campus Information
             </Text>
-            <Text style={{ color: "#185D54", fontSize: 10 }}>
+            <Text
+              style={{ color: HOME_ICON_DISCREET_HEADING_COLOR, fontSize: 10 }}
+            >
               Instructor Emails, Gym Timings, Eateries Info etc
             </Text>
           </View>
@@ -92,9 +103,8 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: HOME_BCKG_COLOR,
     alignItems: "center",
-    color: "#fff",
     paddingHorizontal: 20,
     justifyContent: "flex-start",
   },

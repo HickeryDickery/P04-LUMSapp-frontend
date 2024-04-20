@@ -25,7 +25,7 @@ import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
 import EditProfile from "./screens/EditProfile";
-import PostImageScroll from "./screens/PostImageScroll";
+import PostMediaScroll from "./screens/PostMediaScroll";
 import SpecificEvent from "./screens/SpecificEvent";
 import AddPost from "./screens/AddPost";
 // import EditProfile from "./screens/EditProfile";
@@ -35,6 +35,12 @@ import AddEvent from "./screens/AddEvent";
 import Settings from "./screens/Settings";
 import { usePushNotifications } from "./hooks/usePushNotifications";
 import SavedPosts from "./screens/SavedPosts";
+import { NOTIFICATION_BAR_COLOR } from "./constants/color";
+import ChatScreen from "./screens/ChatScreen";
+import ChatsHome from "./screens/ChatsHome";
+import ThreadScreen from "./screens/ThreadScreen";
+import { useChatClient } from "./useChatClient";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -94,54 +100,36 @@ const Main = () => {
                                     name="Comments"
                                     component={Comments}
                                 /> */}
-                                <Stack.Screen
-                                    name="SinglePost"
-                                    component={SinglePost}
-                                />
-                                <Stack.Screen
-                                    name="AddPost"
-                                    component={AddPost}
-                                />
-                                <Stack.Screen
-                                    name="PostImageScroll"
-                                    component={PostImageScroll}
-                                />
-                                <Stack.Screen
-                                    name="Transcript"
-                                    component={Transcript}
-                                />
-                                <Stack.Screen
-                                    name="GpaPredictorHome"
-                                    component={GpaPredictorHome}
-                                />
-                                <Stack.Screen
-                                    name="GpaPredictor"
-                                    component={GpaPredictor}
-                                />
-                                <Stack.Screen
-                                    name="EditPost"
-                                    component={EditPost}
-                                />
-                                <Stack.Screen
-                                    name="EditProfile"
-                                    component={EditProfile}
-                                />
-                                <Stack.Screen
-                                    name="CampusInfo"
-                                    component={CampusInfo}
-                                />
-                                <Stack.Screen
-                                    name="InstructorInfo"
-                                    component={InstructorInfo}
-                                />
-                                <Stack.Screen
-                                    name="InstructorDetails"
-                                    component={InstructorDetails}
-                                />
-                                <Stack.Screen
-                                    name="AddInstructorReview"
-                                    component={AddInstructorReview}
-                                />
+                <Stack.Screen name="SinglePost" component={SinglePost} />
+                <Stack.Screen name="AddPost" component={AddPost} />
+                <Stack.Screen
+                  name="PostMediaScroll"
+                  component={PostMediaScroll}
+                />
+                <Stack.Screen name="ChatsHome" component={ChatsHome} />
+                <Stack.Screen name="ChatScreen" component={ChatScreen} />
+                <Stack.Screen name="ThreadScreen" component={ThreadScreen} />
+                <Stack.Screen name="Transcript" component={Transcript} />
+                <Stack.Screen
+                  name="GpaPredictorHome"
+                  component={GpaPredictorHome}
+                />
+                <Stack.Screen name="GpaPredictor" component={GpaPredictor} />
+                <Stack.Screen name="EditPost" component={EditPost} />
+                <Stack.Screen name="EditProfile" component={EditProfile} />
+                <Stack.Screen name="CampusInfo" component={CampusInfo} />
+                <Stack.Screen
+                  name="InstructorInfo"
+                  component={InstructorInfo}
+                />
+                <Stack.Screen
+                  name="InstructorDetails"
+                  component={InstructorDetails}
+                />
+                <Stack.Screen
+                  name="AddInstructorReview"
+                  component={AddInstructorReview}
+                />
 
                                 <Stack.Screen
                                     name="SpecificEvent"
@@ -193,10 +181,10 @@ const Main = () => {
                     </Stack.Navigator>
                 </NavigationContainer>
 
-                {/* <BottomTabs /> */}
-            </SafeAreaView>
-        </GestureHandlerRootView>
-    );
+        {/* <BottomTabs /> */}
+      </SafeAreaView>
+    </GestureHandlerRootView>
+  );
 };
 export default Main;
 

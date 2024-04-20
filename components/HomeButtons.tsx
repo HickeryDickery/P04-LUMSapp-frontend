@@ -1,6 +1,12 @@
+//COLOR DONE
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import {
+  HOME_ICON_BCKG_COLOR,
+  HOME_ICON_COLOR,
+  HOME_ICON_TEXT_COLOR,
+} from "../constants/color";
 
 interface HomeButtonsProps {
   name: string;
@@ -19,7 +25,7 @@ const HomeButtons = ({ name, icon }: HomeButtonsProps) => {
         padding: 0,
         marginVertical: 10,
         // flex: 1,
-        backgroundColor: "#2B2B2B",
+        backgroundColor: HOME_ICON_BCKG_COLOR,
         // padding: 20,
         borderRadius: 20,
         // alignItems: "center",
@@ -38,9 +44,15 @@ const HomeButtons = ({ name, icon }: HomeButtonsProps) => {
       <MaterialIcons
         name={icon}
         size={70}
-        color={name == "Coming Soon" ? "#505050" : "#35C2B0"}
+        color={name == "Coming Soon" ? "#505050" : HOME_ICON_COLOR}
       />
-      <Text style={{ color: "#ffffff", marginTop: 5, textAlign: "center" }}>
+      <Text
+        style={{
+          color: name == "Coming Soon" ? "#505050" : HOME_ICON_TEXT_COLOR,
+          marginTop: 5,
+          textAlign: "center",
+        }}
+      >
         {name}
       </Text>
     </View>
