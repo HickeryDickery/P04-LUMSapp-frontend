@@ -13,7 +13,10 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "runtimeVersion": {
+                "policy": "appVersion"
+            }
         },
         "android": {
             "adaptiveIcon": {
@@ -21,7 +24,8 @@
                 "backgroundColor": "#ffffff"
             },
             "package": "com.biski.LUMSapp",
-            "googleServicesFile": "./android/app/google-services.json"
+            "googleServicesFile": "./google-services.json",
+            "runtimeVersion": "1.0.0"
         },
         "web": {
             "favicon": "./assets/favicon.png"
@@ -30,6 +34,9 @@
             "eas": {
                 "projectId": "f9c9f5a9-ddf4-4e8c-888d-fd4507111527"
             }
+        },
+        "updates": {
+            "url": "https://u.expo.dev/f9c9f5a9-ddf4-4e8c-888d-fd4507111527"
         }
     }
 }
