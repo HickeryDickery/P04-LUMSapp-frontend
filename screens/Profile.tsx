@@ -6,8 +6,6 @@ import {
     Image,
     Text,
 } from "react-native";
-import Modal from "react-native-modal";
-
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { IP } from "../constants/ip";
 import axios from "axios";
@@ -18,7 +16,7 @@ import ProfileTabs from "../components/ProfileTabs";
 import { UserCommentProps } from "../types/userPostTypes";
 import ProfileBurger from "../components/ProfileBurger";
 import { Ionicons } from "@expo/vector-icons";
-import BottomSheet, { useBottomSheet } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import AccountMenu from "../components/AccountsModal";
 
 const Profile = ({ navigation }: any) => {
@@ -55,7 +53,7 @@ const Profile = ({ navigation }: any) => {
 
     const getPostData = async (page: number) => {
         try {
-            const res = await axios.post(`${IP}/post/user`, { page: postPage });
+            const res = await axios.post(`${IP}/post/user`, { page: page });
             setPosts((posts) => [...posts, ...res.data.posts]);
         } catch (error) {
             console.log(error);
@@ -283,26 +281,6 @@ const Profile = ({ navigation }: any) => {
             >
                 {bio}
             </Text>
-            <Text
-                style={{
-                    color: "white",
-                    width: "90%",
-                    marginTop: 8,
-                    fontWeight: "600",
-                    fontSize: 16,
-                }}
-            >
-                {username}
-            </Text>
-            <Text
-                style={{
-                    color: "white",
-                    width: "90%",
-                    marginTop: 8,
-                }}
-            >
-                {bio}
-            </Text>
             <TouchableOpacity
                 style={styles.editProfileBttn}
                 onPress={() => {
@@ -349,9 +327,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 12,
-    },
-    pagerView: {
-        flex: 1,
     },
     menuIcon: {
         position: "absolute",
