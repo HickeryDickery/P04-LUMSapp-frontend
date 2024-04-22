@@ -25,7 +25,7 @@ import GpaPredictorHome from "./screens/GpaPredictorHome";
 import GpaPredictor from "./screens/GpaPredictor";
 import EditPost from "./screens/EditPost";
 import EditProfile from "./screens/EditProfile";
-import PostImageScroll from "./screens/PostImageScroll";
+import PostMediaScroll from "./screens/PostMediaScroll";
 import SpecificEvent from "./screens/SpecificEvent";
 import AddPost from "./screens/AddPost";
 // import EditProfile from "./screens/EditProfile";
@@ -35,6 +35,16 @@ import AddEvent from "./screens/AddEvent";
 import Settings from "./screens/Settings";
 import { usePushNotifications } from "./hooks/usePushNotifications";
 import SavedPosts from "./screens/SavedPosts";
+import { NOTIFICATION_BAR_COLOR } from "./constants/color";
+import ChatScreen from "./screens/ChatScreen";
+import ChatsHome from "./screens/ChatsHome";
+import ThreadScreen from "./screens/ThreadScreen";
+import { useChatClient } from "./useChatClient";
+import { useState } from "react";
+import SpecificDonation from "./screens/SpecificDonation";
+import AddDonation from "./screens/AddDonation";
+import EditDonation from "./screens/EditDonation";
+import Donation from "./screens/Donations";
 
 const Stack = createNativeStackNavigator();
 
@@ -103,8 +113,20 @@ const Main = () => {
                                     component={AddPost}
                                 />
                                 <Stack.Screen
-                                    name="PostImageScroll"
-                                    component={PostImageScroll}
+                                    name="PostMediaScroll"
+                                    component={PostMediaScroll}
+                                />
+                                <Stack.Screen
+                                    name="ChatsHome"
+                                    component={ChatsHome}
+                                />
+                                <Stack.Screen
+                                    name="ChatScreen"
+                                    component={ChatScreen}
+                                />
+                                <Stack.Screen
+                                    name="ThreadScreen"
+                                    component={ThreadScreen}
                                 />
                                 <Stack.Screen
                                     name="Transcript"
@@ -150,6 +172,74 @@ const Main = () => {
                                 <Stack.Screen
                                     name="SavedPosts"
                                     component={SavedPosts}
+                                />
+                                <Stack.Screen
+                                    name="Donation"
+                                    component={Donation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="SpecificDonation"
+                                    component={SpecificDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="EditDonation"
+                                    component={EditDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Edit Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="AddDonation"
+                                    component={AddDonation}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Add Donations",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                    }}
                                 />
                                 {/* component={AddInstructorReview} */}
                                 {/* /> */}

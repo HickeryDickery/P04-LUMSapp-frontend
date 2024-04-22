@@ -1,6 +1,10 @@
+//COLORS DONE
 import { StyleSheet, View, Image } from "react-native";
 import { Avatar } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
+import { HEADER_ICON_COLOR } from "../constants/color";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 
 const Header = () => {
     return (

@@ -4,6 +4,7 @@ import {
     postsReducer,
     eventsReducer,
     notifReducer,
+    donationsReducer,
 } from "./reducer";
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
         posts: postsReducer,
         events: eventsReducer,
         notifs: notifReducer,
+        donations: donationsReducer,
     },
 });
 

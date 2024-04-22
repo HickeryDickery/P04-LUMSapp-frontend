@@ -5,6 +5,9 @@ import HomeStack from "../components/HomeStack";
 import Profile from "../screens/Profile";
 import Notifications from "../screens/NotificationsTab";
 import EventTopTabs from "../components/EventTopTabs";
+import ChatScreen from "../screens/ChatScreen";
+import ChatsHome from "../screens/ChatsHome";
+import Donations from "../screens/Donations";
 
 type BottomTab = {
     name: string;
@@ -19,6 +22,7 @@ const bottomTabs: BottomTab[] = [
     { name: "Notifications", icon: "notifications", component: Notifications },
     // { name: "Donations", icon: "fitness" },
     { name: "Profile", icon: "person", component: Profile },
+    { name: "Donations", icon: "cash", component: Donations },
 ];
 
 export default bottomTabs;

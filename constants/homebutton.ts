@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface Button {
   name: string;
@@ -19,8 +19,8 @@ const buttons: Button[] = [
   },
   {
     name: "GPA Predictor",
-    icon: "check-circle",
-    route: "GPA Predictor"
+    icon: "bar-chart",
+    route: "GPA Predictor",
   },
   {
     name: "Coming Soon",

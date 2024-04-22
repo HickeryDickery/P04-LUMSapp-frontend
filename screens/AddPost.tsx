@@ -1,3 +1,4 @@
+//COLORS DONE
 import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 
 import React, { useState } from "react";
@@ -7,7 +8,19 @@ import { Image, Button } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { BLUE_COLOR, PRIMARY_COLOR } from "../constants/color";
+import {
+  SECONDARY_COLOR,
+  PRIMARY_COLOR,
+  CROSS_COLOR,
+  ADD_POST_HEADING_COLOR,
+  ADD_POST_PLACE_HOLDER_TEXT_COLOR,
+  ADD_POST_DISCREET_HEADING_COLOR,
+  ADD_POST_UPLOAD_MEDIA_ICON_COLOR,
+  ADD_POST_SECONDARY_HEADING_COLOR,
+  ADD_POST_BUTTON_COLOR,
+  ADD_POST_POSTER_NAME_COLOR,
+  ADD_POST_MINI_MEDIA_TILES_COLOR,
+} from "../constants/color";
 import { AutoGrowTextInput } from "react-native-auto-grow-textinput";
 import { SCREEN_HEIGHT } from "../constants/size";
 
@@ -17,10 +30,13 @@ import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import Loader from "../components/Loader";
+import { ADD_POST_BCKG_COLOR } from "../constants/color";
 
 const AddPost = () => {
-  const [text, onChangeText] = useState("");
+  const [text, setText] = useState("");
   const [media, setMedia] = useState<any[]>([]);
+  const [isPosting, setPosting] = useState(false);
 
   const pickMedia = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,6 +59,9 @@ const AddPost = () => {
   // const [pressed, setPressed] = useState(false);
 
   const addPost = async () => {
+    setPosting(true);
+    setMedia([]);
+    setText("");
     try {
       const formData = new FormData();
       formData.append("text", text);
@@ -59,17 +78,30 @@ const AddPost = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      if (resp.data.success) {
+        console.log("Post added successfully");
+      }
     } catch (err) {
       console.log(err);
     }
+    setPosting(false);
   };
 
-  return (
+  return isPosting ? (
+    <Loader />
+  ) : (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.pageName}>Add a post</Text>
         <Pressable onPress={addPost} style={styles.addPost}>
-          <Text style={{ color: "white", fontSize: 15, fontWeight: "bold" }}>
+          <Text
+            style={{
+              color: ADD_POST_HEADING_COLOR,
+              fontSize: 15,
+              fontWeight: "bold",
+            }}
+          >
             Post
           </Text>
         </Pressable>
@@ -95,11 +127,11 @@ const AddPost = () => {
         </View>
         <AutoGrowTextInput
           style={styles.inputText}
-          onChangeText={onChangeText}
+          onChangeText={setText}
           value={text}
           multiline={true} // ios fix for centering it at the top-left corner
           placeholder="Write something here..."
-          placeholderTextColor="gray"
+          placeholderTextColor={ADD_POST_PLACE_HOLDER_TEXT_COLOR}
         />
         {media[0] && (
           <Image source={{ uri: media[0] }} style={styles.mainMediaTile} />
@@ -112,7 +144,7 @@ const AddPost = () => {
                   <Entypo
                     name="circle-with-cross"
                     size={24}
-                    color="white"
+                    color={CROSS_COLOR}
                     style={styles.cross}
                     onPress={() => deleteMedia(index)}
                   />
@@ -123,10 +155,22 @@ const AddPost = () => {
         </View>
         <View style={styles.footer}>
           <Pressable onPress={pickMedia} style={styles.attach}>
-            <Feather name="upload" size={40} color={PRIMARY_COLOR} />
+            <Feather
+              name="upload"
+              size={40}
+              color={ADD_POST_UPLOAD_MEDIA_ICON_COLOR}
+            />
             <View style={styles.mediaText}>
-              <Text style={{ color: "gray", fontSize: 10 }}>Add</Text>
-              <Text style={{ color: "gray", fontSize: 10 }}>Media</Text>
+              <Text
+                style={{ color: ADD_POST_DISCREET_HEADING_COLOR, fontSize: 10 }}
+              >
+                Add
+              </Text>
+              <Text
+                style={{ color: ADD_POST_DISCREET_HEADING_COLOR, fontSize: 10 }}
+              >
+                Media
+              </Text>
             </View>
           </Pressable>
         </View>
@@ -138,7 +182,7 @@ const AddPost = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: ADD_POST_BCKG_COLOR,
   },
   header: {
     display: "flex",
@@ -148,9 +192,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   pageName: {
-    color: BLUE_COLOR,
+    color: ADD_POST_SECONDARY_HEADING_COLOR,
     fontSize: 20,
-    fontWeight: "100",
+    fontWeight: "500",
     textAlign: "center",
   },
 
@@ -159,7 +203,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: ADD_POST_BUTTON_COLOR,
     paddingVertical: 5,
     borderRadius: 30,
     width: "18%",
@@ -184,7 +228,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  posterName: { color: "white", fontWeight: "bold", fontSize: 16 },
+  posterName: {
+    color: ADD_POST_POSTER_NAME_COLOR,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
   miniMediaTilesBox: {
     marginTop: 30,
     display: "flex",
@@ -204,7 +252,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     opacity: 0.5,
-    backgroundColor: "gray",
+    backgroundColor: ADD_POST_MINI_MEDIA_TILES_COLOR,
     zIndex: 1,
   },
   miniMediaTiles: {
