@@ -15,25 +15,25 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Foundation } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import {
-  PRIMARY_COLOR,
-  POST_BCKG_COLOR,
-  POST_BOOKMARK_ICON_COLOR,
-  POST_BORDER_COLOR,
-  POST_COMMENT_COUNT_COLOR,
-  POST_COMMENT_ICON_COLOR,
-  POST_DISLIKE_ACTIVE_COLOR,
-  POST_DISLIKE_COUNT_ACTIVE_COLOR,
-  POST_DISLIKE_COUNT_INACTIVE_COLOR,
-  POST_DISLIKE_INACTIVE_COLOR,
-  POST_LIKE_ACTIVE_COLOR,
-  POST_LIKE_COUNT_ACTIVE_COLOR,
-  POST_LIKE_COUNT_INACTIVE_COLOR,
-  POST_LIKE_INACTIVE_COLOR,
-  POST_MEDIA_BADGE_BCKG_COLOR,
-  POST_MEDIA_BADGE_TEXT_COLOR,
-  POST_OPTIONS_ICON_COLOR,
-  POST_POSTER_NAME_COLOR,
-  POST_TEXT_COLOR,
+    PRIMARY_COLOR,
+    POST_BCKG_COLOR,
+    POST_BOOKMARK_ICON_COLOR,
+    POST_BORDER_COLOR,
+    POST_COMMENT_COUNT_COLOR,
+    POST_COMMENT_ICON_COLOR,
+    POST_DISLIKE_ACTIVE_COLOR,
+    POST_DISLIKE_COUNT_ACTIVE_COLOR,
+    POST_DISLIKE_COUNT_INACTIVE_COLOR,
+    POST_DISLIKE_INACTIVE_COLOR,
+    POST_LIKE_ACTIVE_COLOR,
+    POST_LIKE_COUNT_ACTIVE_COLOR,
+    POST_LIKE_COUNT_INACTIVE_COLOR,
+    POST_LIKE_INACTIVE_COLOR,
+    POST_MEDIA_BADGE_BCKG_COLOR,
+    POST_MEDIA_BADGE_TEXT_COLOR,
+    POST_OPTIONS_ICON_COLOR,
+    POST_POSTER_NAME_COLOR,
+    POST_TEXT_COLOR,
 } from "../constants/color";
 import MediaCard from "./MediaCard";
 
@@ -55,26 +55,26 @@ export type PostProps = {
 const Post = (
     props: PostProps /*{ { postMenuRef: React.RefObject<PostMenuRefProps> }}*/ /// The PostMenuRef is causing the non-serlizable value warning, you have to find a workaround for this
 ) => {
-  const navigation = useNavigation<NavigationProp<any>>();
-  const [liked, setLiked] = useState(props.liked);
-  const [disliked, setDisliked] = useState(props.disliked);
-  const [likeCount, setLikeCount] = useState<any>(props.likes);
-  const [dislikeCount, setDislikeCount] = useState<any>(props.dislikes);
-  const [update, setUpdate] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [bookmarked, setBookmarked] = useState(props.bookmarked);
-  const onViewableItemsChanged = useCallback(({ viewableItems }: any) => {
-    if (viewableItems.length > 0) {
-      var firstVisibleItemIndex = viewableItems[0].index ?? 0;
-      firstVisibleItemIndex += 1;
-      setCurrentIndex(firstVisibleItemIndex);
-    }
-  }, []);
+    const navigation = useNavigation<NavigationProp<any>>();
+    const [liked, setLiked] = useState(props.liked);
+    const [disliked, setDisliked] = useState(props.disliked);
+    const [likeCount, setLikeCount] = useState<any>(props.likes);
+    const [dislikeCount, setDislikeCount] = useState<any>(props.dislikes);
+    const [update, setUpdate] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [bookmarked, setBookmarked] = useState(props.bookmarked);
+    const onViewableItemsChanged = useCallback(({ viewableItems }: any) => {
+        if (viewableItems.length > 0) {
+            var firstVisibleItemIndex = viewableItems[0].index ?? 0;
+            firstVisibleItemIndex += 1;
+            setCurrentIndex(firstVisibleItemIndex);
+        }
+    }, []);
 
-  // Define the viewabilityConfig
-  const viewabilityConfig = {
-    itemVisiblePercentThreshold: 50, // Consider an item visible if 50% or more of it is visible
-  };
+    // Define the viewabilityConfig
+    const viewabilityConfig = {
+        itemVisiblePercentThreshold: 50, // Consider an item visible if 50% or more of it is visible
+    };
 
     // const ref = props.postMenuRef;
 
@@ -202,7 +202,9 @@ const Post = (
                                 borderRadius: 50 / 2,
                             }}
                             source={{
-                                uri: props.profileImage,
+                                uri:
+                                    props.profileImage ||
+                                    "https://picsum.photos/201",
                             }} /*require path is for static images only*/
                         />
                         <Text style={styles.posterName}>{props.name}</Text>
@@ -356,101 +358,101 @@ const Post = (
 export default memo(Post);
 
 const styles = StyleSheet.create({
-  post: {
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: POST_BCKG_COLOR,
-    borderWidth: 0.1,
-    borderColor: POST_BORDER_COLOR,
-    paddingBottom: 12,
-    paddingTop: 12,
-    width: "100%",
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderTopLeftRadius: 5,
-    gap: 20,
-    marginBottom: 10,
-  },
-  headerPost: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: "-3%",
-    alignItems: "center",
-    paddingHorizontal: 10,
-  },
-  bodyPost: {},
-  mediaBox: {
-    position: "relative",
-  },
-  mediaBadge: {
-    color: POST_MEDIA_BADGE_TEXT_COLOR,
-    position: "absolute",
-    zIndex: 1,
-    top: 10,
-    right: 10,
-    backgroundColor: POST_MEDIA_BADGE_BCKG_COLOR,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    fontSize: 12,
-    opacity: 0.8,
-  },
-  bodyFont: {
-    color: POST_TEXT_COLOR,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    fontSize: 14,
-  },
-  footerPost: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-  },
-  leftFooter: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 35,
-  },
-  likeDislike: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 20,
-  },
-  comment: {},
-  rightFooter: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 30,
-    alignItems: "center",
-  },
-  footerComponent: {
-    // used for like, dislike, comment, share and bookmark
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 7,
-  },
-  posterName: {
-    color: POST_POSTER_NAME_COLOR,
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  profileComponent: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  options: {
-    padding: "3%",
-    borderRadius: 10,
-  },
-  imageFlatlist: {
-    //   width: SCREEN_WIDTH,
-    //   aspectRatio: 16 / 9,
-    //   height: "auto",
-  },
+    post: {
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: POST_BCKG_COLOR,
+        borderWidth: 0.1,
+        borderColor: POST_BORDER_COLOR,
+        paddingBottom: 12,
+        paddingTop: 12,
+        width: "100%",
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderTopLeftRadius: 5,
+        gap: 20,
+        marginBottom: 10,
+    },
+    headerPost: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginRight: "-3%",
+        alignItems: "center",
+        paddingHorizontal: 10,
+    },
+    bodyPost: {},
+    mediaBox: {
+        position: "relative",
+    },
+    mediaBadge: {
+        color: POST_MEDIA_BADGE_TEXT_COLOR,
+        position: "absolute",
+        zIndex: 1,
+        top: 10,
+        right: 10,
+        backgroundColor: POST_MEDIA_BADGE_BCKG_COLOR,
+        borderRadius: 10,
+        paddingHorizontal: 5,
+        fontSize: 12,
+        opacity: 0.8,
+    },
+    bodyFont: {
+        color: POST_TEXT_COLOR,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        fontSize: 14,
+    },
+    footerPost: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 10,
+    },
+    leftFooter: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 35,
+    },
+    likeDislike: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 20,
+    },
+    comment: {},
+    rightFooter: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 30,
+        alignItems: "center",
+    },
+    footerComponent: {
+        // used for like, dislike, comment, share and bookmark
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 7,
+    },
+    posterName: {
+        color: POST_POSTER_NAME_COLOR,
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    profileComponent: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 15,
+    },
+    options: {
+        padding: "3%",
+        borderRadius: 10,
+    },
+    imageFlatlist: {
+        //   width: SCREEN_WIDTH,
+        //   aspectRatio: 16 / 9,
+        //   height: "auto",
+    },
 
     imageScroll: {},
 });

@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/action";
+import { PRIMARY_COLOR } from "../constants/color";
 
 const ProfileBurger = forwardRef<BottomSheet>((props, ref) => {
     const navigation = useNavigation<NavigationProp<any>>();
@@ -21,11 +22,10 @@ const ProfileBurger = forwardRef<BottomSheet>((props, ref) => {
     };
 
     const renderBackdrop = useCallback(
-        (props: any) => (
+        (backdropProps: any) => (
             <BottomSheetBackdrop
-                {...props}
-                disappearsOnIndex={1}
-                appearsOnIndex={2}
+                {...backdropProps}
+                enableTouchThrough={false}
             />
         ),
         []
@@ -36,21 +36,8 @@ const ProfileBurger = forwardRef<BottomSheet>((props, ref) => {
             ref={ref}
             snapPoints={snapPoints}
             enablePanDownToClose={true}
-            style={{
-                zIndex: 1000,
-                backgroundColor: "black",
-                shadowColor: "#fff",
-                shadowOffset: {
-                    width: 0,
-                    height: 12,
-                },
-                shadowOpacity: 0.58,
-                shadowRadius: 16.0,
-
-                elevation: 24,
-            }}
             index={-1}
-            handleIndicatorStyle={{ backgroundColor: "#35C2B0" }}
+            handleIndicatorStyle={{ backgroundColor: PRIMARY_COLOR }}
             backgroundStyle={{ backgroundColor: "#292929" }}
             backdropComponent={renderBackdrop}
         >

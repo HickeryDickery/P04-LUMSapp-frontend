@@ -18,6 +18,7 @@ import ProfileBurger from "../components/ProfileBurger";
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import AccountMenu from "../components/AccountsModal";
+import { PRIMARY_COLOR } from "../constants/color";
 
 const Profile = ({ navigation }: any) => {
     const [posts, setPosts] = useState<any[]>([]);
@@ -40,14 +41,6 @@ const Profile = ({ navigation }: any) => {
         console.log(user?.profile_picture);
     }, [user]);
     const [isAccountMenuVisible, setIsAccountMenuVisible] = useState(false);
-
-    const openAccountMenu = () => {
-        setIsAccountMenuVisible(true);
-    };
-
-    const closeAccountMenu = () => {
-        setIsAccountMenuVisible(false);
-    };
 
     const ref = useRef<PostMenuRefProps>(null);
 
@@ -135,16 +128,34 @@ const Profile = ({ navigation }: any) => {
                 <TouchableOpacity>
                     <Ionicons name="menu" color="black" size={32} />
                 </TouchableOpacity>
-                <Text
+                <TouchableOpacity
                     style={{
-                        color: "white",
-                        marginTop: 8,
-                        fontWeight: "600",
-                        fontSize: 18,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
                     }}
+                    onPress={() => setIsAccountMenuVisible(true)}
                 >
-                    {username}
-                </Text>
+                    <Text
+                        style={{
+                            color: "white",
+                            marginTop: 8,
+                            fontWeight: "600",
+                            fontSize: 18,
+                        }}
+                    >
+                        {username}
+                    </Text>
+                    <Ionicons
+                        name="chevron-down"
+                        size={24}
+                        color={PRIMARY_COLOR}
+                        style={{
+                            marginLeft: 4,
+                            paddingTop: 12,
+                        }}
+                    />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={handlePresentModalPress}>
                     <Ionicons name="menu" color="white" size={32} />
                 </TouchableOpacity>
@@ -164,7 +175,7 @@ const Profile = ({ navigation }: any) => {
                         aspectRatio: 1 / 1,
                     }}
                     source={{
-                        uri: icon ? icon!.url : "https://picsum.photos/201",
+                        uri: icon?.uri || "https://picsum.photos/201",
                     }} /*require path is for static images only*/
                 />
                 <View
@@ -293,12 +304,6 @@ const Profile = ({ navigation }: any) => {
             </TouchableOpacity>
             <ProfileTabs ref={ref} {...ProfileTabProps} />
             <ProfileBurger ref={sheetRef} />
-            <TouchableOpacity
-                style={styles.menuIcon}
-                onPress={() => setIsAccountMenuVisible(true)}
-            >
-                <Feather name="menu" size={30} color="white" />
-            </TouchableOpacity>
             <AccountMenu
                 isVisible={isAccountMenuVisible}
                 onClose={() => setIsAccountMenuVisible(false)}

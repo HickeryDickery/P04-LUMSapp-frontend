@@ -14,7 +14,7 @@ const Header = () => {
         //   <MaterialIcons name="message" size={24} color="#35C2B0" />
         // </View>
         <Image
-            style={{ width: 50, height: 50 }}
+            style={{ width: 75, height: 50 }}
             source={require("../assets/logo.png")}
         />
     );
