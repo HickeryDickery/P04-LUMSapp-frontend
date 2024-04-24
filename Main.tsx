@@ -41,10 +41,12 @@ import ChatsHome from "./screens/ChatsHome";
 import ThreadScreen from "./screens/ThreadScreen";
 import { useChatClient } from "./useChatClient";
 import { useState } from "react";
+import Donations from "./screens/Donations";
 import SpecificDonation from "./screens/SpecificDonation";
 import AddDonation from "./screens/AddDonation";
 import EditDonation from "./screens/EditDonation";
 import Donation from "./screens/Donations";
+import ComingSoonPage from "./screens/ComingSoonPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -135,10 +137,38 @@ const Main = () => {
                                 <Stack.Screen
                                     name="GpaPredictorHome"
                                     component={GpaPredictorHome}
+                                    options={{
+                                        headerShown: true,
+                                        title: "GPA Predictor",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="GpaPredictor"
                                     component={GpaPredictor}
+                                    options={{
+                                        headerShown: true,
+                                        title: "GPA Predictor",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="EditPost"
@@ -151,18 +181,96 @@ const Main = () => {
                                 <Stack.Screen
                                     name="CampusInfo"
                                     component={CampusInfo}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Campus Information",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="InstructorInfo"
                                     component={InstructorInfo}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Instructor Information",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
+                                {/* <Stack.Screen
+                                    name="InstructorDetails"
+                                    component={InstructorDetails}
+                                /> */}
                                 <Stack.Screen
                                     name="InstructorDetails"
                                     component={InstructorDetails}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Instructor Details",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
+                                />
+                                <Stack.Screen
+                                    name="ComingSoonPage"
+                                    component={ComingSoonPage}
+                                    options={{
+                                        headerShown: true,
+                                        title: "",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="AddInstructorReview"
                                     component={AddInstructorReview}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Add Instructor Review",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
 
                                 <Stack.Screen
@@ -174,8 +282,8 @@ const Main = () => {
                                     component={SavedPosts}
                                 />
                                 <Stack.Screen
-                                    name="Donation"
-                                    component={Donation}
+                                    name="Donations"
+                                    component={Donations}
                                     options={{
                                         headerShown: true,
                                         title: "Donations",
@@ -188,6 +296,7 @@ const Main = () => {
                                             color: "white",
                                         },
                                         headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
                                     }}
                                 />
                                 <Stack.Screen
@@ -205,6 +314,7 @@ const Main = () => {
                                             color: "white",
                                         },
                                         headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
                                     }}
                                 />
                                 <Stack.Screen
@@ -222,6 +332,7 @@ const Main = () => {
                                             color: "white",
                                         },
                                         headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
                                     }}
                                 />
                                 <Stack.Screen
@@ -239,6 +350,7 @@ const Main = () => {
                                             color: "white",
                                         },
                                         headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
                                     }}
                                 />
                                 {/* component={AddInstructorReview} */}
@@ -259,6 +371,7 @@ const Main = () => {
                                             color: "white",
                                         },
                                         headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
                                     }}
                                 />
                                 <Stack.Screen name="Login" component={Login} />

@@ -1,17 +1,12 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome} from "@expo/vector-icons";
 
 interface Button {
   name: string;
-  icon: keyof typeof MaterialIcons.glyphMap;
+  icon: keyof typeof MaterialIcons.glyphMap | keyof typeof FontAwesome.glyphMap;
   route: string;
 }
 
 const buttons: Button[] = [
-  {
-    name: "Academics",
-    icon: "school",
-    route: "Academics",
-  },
   {
     name: "Scheduler",
     icon: "calendar-today",
@@ -21,6 +16,11 @@ const buttons: Button[] = [
     name: "GPA Predictor",
     icon: "bar-chart",
     route: "GPA Predictor",
+  },
+  {
+    name: "Donations",
+    icon: "money",
+    route: "Donations",
   },
   {
     name: "Coming Soon",

@@ -18,31 +18,20 @@ const CampusInfo = () => {
 
     return (
         <View style={styles.container}>
-            <Button
-                onPress={() => { navigation.goBack() }}
-                style={{
-                position: 'absolute',
-                left: '4%',
-                top: "5.3%",
-                }}
-            >
-                <Ionicons name="chevron-back" size={24} color="white" />
-            </Button>
-            <Text style={styles.heading}>Campus Information</Text>
             
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("ComingSoonPage")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Admin Office </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("ComingSoonPage")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Campus Facilities </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("ComingSoonPage")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Eateries </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("InstructorInfo")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Instructor Details </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topicButton}>
+            <TouchableOpacity style={styles.topicButton} onPress={() => navigation.navigate("ComingSoonPage")}>
                 <Text style={{ color: "#35C2C1", fontWeight: "bold" }}> Tools and Subscriptions </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicButton} onPress={openLink}>

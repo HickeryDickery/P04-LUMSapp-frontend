@@ -7,6 +7,8 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -84,29 +86,11 @@ const AddInstructorReview = ({ route }: any) => {
   };
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+
     <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
-      <ScrollView style={styles.container}>
-        <Button
-          onPress={() => {
-            navigation.goBack();
-          }}
-          style={{
-            position: 'absolute',
-            left: '4%',
-            top: '5.3%',
-          }}>
-          <Ionicons name="chevron-back" size={24} color="white" />
-        </Button>
-        <View style={styles.heading}>
-          <Text
-            style={{
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 18,
-            }}>
-            Add Instructor Review:
-          </Text>
-        </View>
+    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContentContainer}>
+
         <Image style={styles.mainImage} source={{ uri: instructorImage }} />
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -161,6 +145,7 @@ const AddInstructorReview = ({ route }: any) => {
         </TouchableOpacity>
       </ScrollView>
     </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -229,6 +214,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    paddingVertical: 20,
   },
 });
 

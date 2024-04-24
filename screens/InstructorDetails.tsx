@@ -172,18 +172,6 @@ const InstructorDetails = ({ route }: any) => {
   return profileDescription === null ? (
     timeup ? (  // if both timeup and data is null, show coming soon
       <View style={[styles.container, {justifyContent: 'center'}]}>
-        <Button
-        onPress={() => {
-          navigation.goBack();
-        }}
-        style={{
-          position: 'absolute',
-          left: '4%',
-          top: "5.3%",
-        }}
-      >
-        <Ionicons name="chevron-back" size={24} color="white" />
-      </Button>
         <Text style={styles.comingSoon}>Coming soon</Text>
       </View>
     ) : (  // if timeup is false but data is null, show loader
@@ -192,26 +180,6 @@ const InstructorDetails = ({ route }: any) => {
   ) : (  // if data exits show the data
   <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
     <View style={styles.container}>
-      <Button
-        onPress={() => {
-          navigation.goBack();
-        }}
-        style={{
-          position: 'absolute',
-          left: '4%',
-          top: "5.3%",
-        }}
-      >
-        <Ionicons name="chevron-back" size={24} color="white" />
-      </Button>
-      <View style={styles.heading}>
-        <Text
-          style={{
-            color: 'white',
-            fontWeight: "bold",
-            fontSize: 18,
-          }}>Instructor Details</Text>
-      </View>
           <View>
             <View>
               <Image style={{ width: windowWidth, height: windowHeight / 3 }} source={{ uri: instructorImage }} />

@@ -175,7 +175,7 @@ const Profile = ({ navigation }: any) => {
                         aspectRatio: 1 / 1,
                     }}
                     source={{
-                        uri: icon?.uri || "https://picsum.photos/201",
+                        uri: icon?.url || "https://picsum.photos/201",
                     }} /*require path is for static images only*/
                 />
                 <View

@@ -38,36 +38,26 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Button
-          onPress={() => { navigation.goBack() }}
-          style={{
-          position: 'absolute',
-          left: '4%',
-          top: "5.3%",
-          }}
-      >
-          <Ionicons name="chevron-back" size={24} color="white" />
-      </Button>
-      <Text style = {styles.heading}>GPA Predictor</Text>
+      <View style={{marginTop: 10}}>
+        <AnimatedCircularProgress
+          size={0.7 * SCREEN_WIDTH}
+          width={7}
+          delay={3}
+          fill={((transcript?.cgpa != null ? transcript?.cgpa : 0)/4)*100}
+          rotation={360}
+          tintColor="#35C2C1"
+          backgroundColor="#2A3C44"
+          // padding={20}
+        >
+          {(fill) => (
+            <View>
+              <Text style={styles.pointsValue}>{transcript?.cgpa != null ? transcript?.cgpa : 0}</Text>
+              <Text style={styles.pointsGPA}>CPGA</Text>
+            </View>
+          )}
+        </AnimatedCircularProgress>
+      </View>
 
-
-      <AnimatedCircularProgress
-        size={0.7 * SCREEN_WIDTH}
-        width={7}
-        delay={3}
-        fill={((transcript?.cgpa != null ? transcript?.cgpa : 0)/4)*100}
-        rotation={360}
-        tintColor="#35C2C1"
-        backgroundColor="#2A3C44"
-        // padding={20}
-      >
-        {(fill) => (
-          <View>
-            <Text style={styles.pointsValue}>{transcript?.cgpa != null ? transcript?.cgpa : 0}</Text>
-            <Text style={styles.pointsGPA}>CPGA</Text>
-          </View>
-        )}
-      </AnimatedCircularProgress>
 
       <UploadTranscript uploadState={setUploaded} />
 
@@ -132,9 +122,9 @@ const styles = StyleSheet.create({
   actionBttns: {
     display: "flex",
     flexDirection: "row",
-    padding: 20,
   },
   buttonContainer: {
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%", 
