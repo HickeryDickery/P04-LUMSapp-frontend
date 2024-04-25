@@ -60,7 +60,9 @@ const EditProfile = ({ navigation }: any) => {
     const uploadData = async () => {
         // Upload the selected PDF file to server.
         const formData = new FormData();
-        formData.append("icon", icon);
+        if (icon.name) {
+            formData.append("icon", icon);
+        }
         formData.append("username", username);
         formData.append("bio", bio);
         console.log(icon);
@@ -95,6 +97,7 @@ const EditProfile = ({ navigation }: any) => {
                     width: "100%",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    marginTop: "5%",
                 }}
             >
                 <Button

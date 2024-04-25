@@ -35,23 +35,7 @@ const UserPosts = forwardRef<UserPostRef, UserCommentProps>((props, ref) => {
                 }}
                 refreshing={false}
                 onEndReachedThreshold={0.9}
-                renderItem={({ item }) => (
-                    // <Post
-                    //     key={item._id}
-                    //     name={item.postedBy?.fullname || "Deleted User"}
-                    //     profileImage={"https://picsum.photos/201"}
-                    //     body={item.text}
-                    //     media={["https://picsum.photos/300"]} // make this an array
-                    //     likes={item.likeCount}
-                    //     dislikes={item.dislikeCount}
-                    //     comments={item.commentCount}
-                    //     liked={item.isLikedbyUser}
-                    //     disliked={item.isDislikedbyUser}
-                    //     postID={item._id}
-                    //     // postMenuRef={ref}
-                    // />
-                    <PostWithComment {...item} />
-                )}
+                renderItem={({ item }) => <PostWithComment {...item} />}
                 extraData={props.commentsWithPosts}
             />
         </View>

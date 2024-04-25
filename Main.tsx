@@ -133,6 +133,20 @@ const Main = () => {
                                 <Stack.Screen
                                     name="Transcript"
                                     component={Transcript}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Transcript",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="GpaPredictorHome"

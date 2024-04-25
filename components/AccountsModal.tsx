@@ -85,7 +85,7 @@ const AccountMenu = ({ isVisible, onClose }: any) => {
             <Image
                 style={styles.avatar}
                 source={
-                    item.data.user.profile_picture
+                    item.data.user.profile_picture?.url
                         ? {
                               uri: item.data.user.profile_picture?.url,
                           }

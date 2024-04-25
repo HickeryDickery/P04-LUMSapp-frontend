@@ -162,8 +162,8 @@ const Comment = ({
         };
         setData(newData);
         // Pass the modified data to the parent component
-        onDataChange(newData);
-        onPress();
+        onDataChange ? onDataChange(newData) : "";
+        onPress ? onPress() : "";
     };
     const handleUpVote = () => {
         if (downVoted) {
@@ -297,22 +297,30 @@ const Comment = ({
                                     marginBottom: 1,
                                 }}
                             >
-                                <TouchableOpacity onPress={handleEdit}>
-                                    <MaterialCommunityIcons
-                                        name="pencil"
-                                        size={15}
-                                        color="white"
-                                        style={{ right: 10 }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={handleDelete}>
-                                    <MaterialCommunityIcons
-                                        name="delete"
-                                        size={15}
-                                        color="white"
-                                        style={{ right: 0 }}
-                                    />
-                                </TouchableOpacity>
+                                {onDataChange ? (
+                                    <TouchableOpacity onPress={handleEdit}>
+                                        <MaterialCommunityIcons
+                                            name="pencil"
+                                            size={15}
+                                            color="white"
+                                            style={{ right: 10 }}
+                                        />
+                                    </TouchableOpacity>
+                                ) : (
+                                    ""
+                                )}
+                                {deleteComment ? (
+                                    <TouchableOpacity onPress={handleDelete}>
+                                        <MaterialCommunityIcons
+                                            name="delete"
+                                            size={15}
+                                            color="white"
+                                            style={{ right: 0 }}
+                                        />
+                                    </TouchableOpacity>
+                                ) : (
+                                    ""
+                                )}
                             </View>
                         )
                     ) : (
