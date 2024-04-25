@@ -114,7 +114,7 @@ const Map = ({ route, navigation }: any) => {
                     fontSize: 9,
                   }}
                 >
-                  {event.postedBy}
+                  {event.postedBy.fullname}
                 </Text>
               </View>
             </Callout>
@@ -136,7 +136,7 @@ const Map = ({ route, navigation }: any) => {
         }}
       >
         <Image
-          source={require("../assets/logo.png")}
+          source={require("../assets/Lums.png")}
           style={{
             width: 30,
             height: 30,

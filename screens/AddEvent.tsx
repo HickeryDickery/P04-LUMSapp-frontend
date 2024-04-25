@@ -14,6 +14,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useAppSelector } from "../redux/hooks";
 import { getFullMonth, amToPm, minutePadding } from "../utils/eventHelpers";
+import Loader from "../components/Loader";
 
 type Location = {
   label: string;
@@ -38,6 +39,8 @@ const AddEvent = ({ navigation }: any) => {
   const [showStartTime, setShowStartTime] = useState<boolean>(false);
   const [showEndDate, setShowEndDate] = useState<boolean>(false);
   const [showEndTime, setShowEndTime] = useState<boolean>(false);
+
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createEvent = async () => {
     try {
@@ -70,6 +73,7 @@ const AddEvent = ({ navigation }: any) => {
         endTime.getMinutes()
       );
 
+      setSubmitting(true);
       const { data } = await axios.post(`${IP}/event/create`, {
         title,
         location: venue,
@@ -77,8 +81,11 @@ const AddEvent = ({ navigation }: any) => {
         endTime: endDateAndTime,
         description,
       });
+      setSubmitting(false);
+      navigation.goBack();
       console.log(data);
     } catch (error: any) {
+      setSubmitting(false);
       console.log(error.response.data.message);
     }
   };
@@ -296,8 +303,8 @@ const AddEvent = ({ navigation }: any) => {
               mode="time"
               onChange={(event, selectedDate) => {
                 console.log(selectedDate);
-                setEndTime(selectedDate);
                 setShowEndTime(false);
+                setEndTime(selectedDate);
               }}
             />
           )}
@@ -380,6 +387,7 @@ const AddEvent = ({ navigation }: any) => {
       >
         <Text style={{ fontWeight: "bold" }}>Done</Text>
       </TouchableOpacity>
+      {submitting && <Loader />}
     </ScrollView>
   );
 };

@@ -87,6 +87,14 @@ const Login = ({ navigation }: any) => {
           Sign Up
         </Text>
       </Text>
+      <Text
+        style={{ color: "#35C2C1", fontWeight: "bold", padding: 10 }}
+        onPress={() => {
+          navigation.navigate("ForgotPassword");
+        }}
+      >
+        Forgot Password?
+      </Text>
     </View>
   );
 };

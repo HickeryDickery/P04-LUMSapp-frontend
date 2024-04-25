@@ -1,6 +1,7 @@
 type Event = {
   title: string;
-  postedBy: string;
+  postedById: string;
+  postedByName: string;
   startTime: Date;
   endTime: Date;
   coordinates: number[];
