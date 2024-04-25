@@ -238,11 +238,13 @@ const Comment = ({
                     style={comment.level !== 0 ? styles.lineContainer : null}
                 ></View>
                 <Image
-                    source={{
-                        uri:
-                            comment.postedBy.profile_picture.url ||
-                            "https://picsum.photos/201",
-                    }}
+                    source={
+                        comment.postedBy.profile_picture
+                            ? {
+                                  uri: comment.postedBy.profile_picture?.url,
+                              }
+                            : require("../assets/default_icon.png")
+                    }
                     style={{
                         ...styles.profile_picture,
                         width: comment.level !== 0 ? 20 : 30,

@@ -1,6 +1,3 @@
-import { IP } from "../constants/ip";
-import axios from "axios";
-import { useState, useEffect } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import Post from "./Post";
 import Comment from "./Comment";
@@ -22,6 +19,8 @@ interface PostWithCommentProps {
         commentCount: number;
         isLikedbyUser: boolean;
         isDislikedbyUser: boolean;
+        isBookmarkedByUser: boolean;
+        media: any[];
     };
     comment: {
         _id: string;
@@ -47,18 +46,16 @@ const PostWithComment = (props: PostWithCommentProps) => {
             <Post
                 key={props.post?._id}
                 name={props.post?.postedBy?.fullname || "Deleted User"}
-                profileImage={
-                    props.post?.postedBy?.profile_picture.url ||
-                    "https://picsum.photos/201"
-                }
+                profileImage={props.post?.postedBy?.profile_picture.url}
                 body={props.post?.text}
-                media={["https://picsum.photos/300"]} // make this an array
+                media={props.post?.media} // make this an array
                 likes={props.post?.likeCount}
                 dislikes={props.post?.dislikeCount}
                 comments={props.post?.commentCount}
                 liked={props.post?.isLikedbyUser}
                 disliked={props.post?.isDislikedbyUser}
                 postID={props.post?._id}
+                bookmarked={props.post?.isBookmarkedByUser}
             />
             <Comment
                 key={props.comment?._id.toString()} // Ensure each item has a unique key

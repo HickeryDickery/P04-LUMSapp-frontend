@@ -45,6 +45,7 @@ const Profile = ({ navigation }: any) => {
     const ref = useRef<PostMenuRefProps>(null);
 
     const getPostData = async (page: number) => {
+        console.log(`getPostData called with page: ${page}`);
         try {
             const res = await axios.post(`${IP}/post/user`, { page: page });
             setPosts((posts) => [...posts, ...res.data.posts]);
@@ -52,11 +53,6 @@ const Profile = ({ navigation }: any) => {
             console.log(error);
         }
     };
-    // will run every time page changes
-    useEffect(() => {
-        getPostData(postPage);
-        console.log(user);
-    }, [postPage, postRefresh]);
 
     let UserPostProps = {
         posts,
@@ -79,11 +75,6 @@ const Profile = ({ navigation }: any) => {
             console.log(error);
         }
     };
-    // will run every time page changes
-    useEffect(() => {
-        getCommentData(commentPage);
-        console.log(user);
-    }, [commentPage, commentRefresh]);
 
     let UserCommentProps: UserCommentProps = {
         commentsWithPosts,
@@ -174,9 +165,11 @@ const Profile = ({ navigation }: any) => {
                         borderRadius: 100,
                         aspectRatio: 1 / 1,
                     }}
-                    source={{
-                        uri: icon?.uri || "https://picsum.photos/201",
-                    }} /*require path is for static images only*/
+                    source={
+                        user?.profile_picture
+                            ? { uri: user?.profile_picture.url }
+                            : require("../assets/default_icon.png")
+                    } /*require path is for static images only*/
                 />
                 <View
                     style={{

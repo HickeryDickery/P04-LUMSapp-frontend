@@ -21,7 +21,9 @@ const UserPosts = forwardRef<UserPostRef, UserPostProps>((props, ref) => {
                 style={styles.scrollPost}
                 data={props.posts}
                 onEndReached={() => {
-                    props.setPostPage(props.postPage + 1);
+                    console.log("User Posts end reached");
+                    if (props.posts.length < 10) return;
+                    else props.setPostPage(props.postPage + 1);
                 }}
                 onRefresh={() => {
                     props.setPosts([]);
@@ -34,12 +36,9 @@ const UserPosts = forwardRef<UserPostRef, UserPostProps>((props, ref) => {
                     <Post
                         key={item._id}
                         name={item.postedBy?.fullname || "Deleted User"}
-                        profileImage={
-                            item.postedBy?.profile_picture?.url ||
-                            "https://picsum.photos/201"
-                        }
+                        profileImage={item.postedBy?.profile_picture?.url}
                         body={item.text}
-                        media={item.media || ["https://picsum.photos/300"]} // make this an array
+                        media={item.media}
                         likes={item.likeCount}
                         dislikes={item.dislikeCount}
                         comments={item.commentCount}
@@ -62,7 +61,9 @@ const UserPosts = forwardRef<UserPostRef, UserPostProps>((props, ref) => {
 export default memo(UserPosts);
 
 const styles = StyleSheet.create({
-    scrollPost: {},
+    scrollPost: {
+        width: "100%",
+    },
     postMenu: {
         position: "absolute",
         left: 0,

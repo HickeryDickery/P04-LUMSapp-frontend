@@ -61,7 +61,9 @@ const UserPosts = forwardRef<UserPostRef, UserCommentProps>((props, ref) => {
 export default memo(UserPosts);
 
 const styles = StyleSheet.create({
-    scrollPost: {},
+    scrollPost: {
+        width: "100%",
+    },
     postMenu: {
         position: "absolute",
         left: 0,

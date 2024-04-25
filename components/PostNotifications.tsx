@@ -64,11 +64,14 @@ const PostNotifications = (props: any) => {
                             borderRadius: 100,
                             aspectRatio: 1 / 1,
                         }}
-                        source={{
-                            uri:
-                                item.group[0].actor.profile_picture.url ||
-                                "https://picsum.photos/201",
-                        }}
+                        source={
+                            item.group[0].actor.profile_picture?.url
+                                ? {
+                                      uri: item.group[0].actor.profile_picture
+                                          ?.url,
+                                  }
+                                : require("../assets/default_icon.png")
+                        }
                     />
                     <View
                         style={{

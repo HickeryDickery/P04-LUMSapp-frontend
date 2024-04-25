@@ -98,9 +98,13 @@ const Reviews: React.FC<{
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Image
-                        source={{
-                            uri: profilePicture || "https://picsum.photos/201",
-                        }}
+                        source={
+                            profilePicture
+                                ? {
+                                      uri: profilePicture,
+                                  }
+                                : require("../assets/default_icon.png")
+                        }
                         style={{ width: 30, height: 30, borderRadius: 50 }}
                     />
                     <Text style={{ color: "white", paddingLeft: 20 }}>

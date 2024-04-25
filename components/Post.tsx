@@ -1,16 +1,13 @@
 //COLOR DONE
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import { useCallback, useState, memo } from "react";
 import { useEffect, useRef } from "react";
 import { IP } from "../constants/ip";
 import axios from "axios";
 import { NavigationProp } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/size";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Foundation } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -201,11 +198,11 @@ const Post = (
                                 height: 50,
                                 borderRadius: 50 / 2,
                             }}
-                            source={{
-                                uri:
-                                    props.profileImage ||
-                                    "https://picsum.photos/201",
-                            }} /*require path is for static images only*/
+                            source={
+                                props.profileImage
+                                    ? { uri: props.profileImage }
+                                    : require("../assets/default_icon.png")
+                            } /*require path is for static images only*/
                         />
                         <Text style={styles.posterName}>{props.name}</Text>
                     </View>
@@ -224,7 +221,7 @@ const Post = (
 
                 <Text style={styles.bodyFont}>{props.body}</Text>
             </TouchableOpacity>
-            {props.media.length == 0 ? null : (
+            {props.media?.length == 0 ? null : (
                 <View style={styles.imageFlatlist}>
                     <FlatList
                         refreshing={true}

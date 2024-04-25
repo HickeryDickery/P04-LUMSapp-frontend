@@ -28,8 +28,8 @@ const EditProfile = ({ navigation }: any) => {
     useEffect(() => {
         setUsername(user?.name);
         setBio(user?.bio);
-        setIcon(user?.profile_picture);
-    }, [user]);
+        setIcon({ uri: user?.profile_picture.url });
+    }, [dispatch]);
 
     const selectImage = async () => {
         try {
@@ -160,13 +160,11 @@ const EditProfile = ({ navigation }: any) => {
                             aspectRatio: 1 / 1,
                             opacity: 0.55,
                         }}
-                        source={{
-                            uri: icon
-                                ? icon!.uri
-                                    ? icon!.uri
-                                    : icon!.uri
-                                : "https://picsum.photos/201",
-                        }} /*require path is for static images only*/
+                        source={
+                            icon
+                                ? { uri: icon.uri }
+                                : require("../assets/default_icon.png")
+                        } /*require path is for static images only*/
                     >
                         <Feather
                             name="camera"
