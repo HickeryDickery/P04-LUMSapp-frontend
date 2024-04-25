@@ -20,7 +20,7 @@ const Transcript = ({ navigation }: any) => {
         const updateTranscript = async () => {
             try {
                 const jsonValue = await AsyncStorage.getItem("transcript");
-                setTranscript(jsonValue != null ? JSON.parse(jsonValue) : []);
+                setTranscript(jsonValue != null ? JSON.parse(jsonValue) : null);
             } catch (e) {
                 console.log(e);
             }

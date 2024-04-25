@@ -166,7 +166,7 @@ const Profile = ({ navigation }: any) => {
                         aspectRatio: 1 / 1,
                     }}
                     source={
-                        user?.profile_picture
+                        user?.profile_picture.url
                             ? { uri: user?.profile_picture.url }
                             : require("../assets/default_icon.png")
                     } /*require path is for static images only*/

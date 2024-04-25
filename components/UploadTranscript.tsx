@@ -11,6 +11,7 @@ import Loader from "./Loader";
 const UploadTranscript = (props: any) => {
     const [file, setFile]: any = useState();
     const [uploading, setUploading] = useState(false);
+    console.log(props);
 
     const removeTranscript = async () => {
         try {

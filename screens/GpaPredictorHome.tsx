@@ -25,14 +25,14 @@ const GpaPredictorHome = ({ navigation }: any) => {
             try {
                 const jsonValue = await AsyncStorage.getItem("transcript");
                 const jsonParsed =
-                    jsonValue != null ? JSON.parse(jsonValue) : [];
+                    jsonValue != null ? JSON.parse(jsonValue) : null;
                 setTranscript(jsonParsed);
             } catch (e) {
                 console.log(e);
             }
         };
         updateTranscript();
-    }, [uploaded]);
+    }, []);
 
     return (
         <View style={styles.container}>

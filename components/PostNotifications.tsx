@@ -1,36 +1,7 @@
 import { FlatList, View, Image, Text } from "react-native";
 import { getTimeAgo } from "../utils/timeUtil";
-import { Actor } from "../types/notificationTypes";
 import { groupNotifications } from "../utils/groupNotifications";
-import { useState, useEffect } from "react";
 const PostNotifications = (props: any) => {
-    // const getInteraction = (actor: Actor, entity: string, type: string) => {
-    //     let interaction = actor.fullname;
-
-    //     if (type == "like") {
-    //         interaction += " liked your";
-
-    //         if (entity == "Post") {
-    //             interaction += " post";
-    //         } else {
-    //             interaction += " reply";
-    //         }
-    //     } else if (type == "comment") {
-    //         interaction += " replied to your post";
-    //     } else if (type == "reply") {
-    //         interaction += " replied to your comment";
-    //     }
-
-    //     return interaction;
-    // };
-
-    // const [notifications, setNotifications] = useState<any>([]);
-
-    // useEffect(() => {
-    //     setNotifications(groupNotifications(props.post_notifs));
-    // }, [props.post_notifs]);
-    console.log(props);
-
     return (
         <FlatList
             style={{
@@ -41,7 +12,6 @@ const PostNotifications = (props: any) => {
                     new Date(b.group[0].timestamp).getTime() -
                     new Date(a.group[0].timestamp).getTime()
             )}
-            // keyExtractor={(item) => item.id.toString()}
             onRefresh={() => {
                 props.setRefresh(true);
             }}
@@ -50,7 +20,6 @@ const PostNotifications = (props: any) => {
                 <View
                     key={item.group[0]._id}
                     style={{
-                        // backgroundColor: "#3e3e3e",
                         paddingVertical: 15,
                         flexDirection: "row",
                         alignItems: "center",
@@ -78,7 +47,6 @@ const PostNotifications = (props: any) => {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            // backgroundColor: "#3e3e3e",
                         }}
                     >
                         <Text

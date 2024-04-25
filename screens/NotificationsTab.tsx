@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import PostNotifications from "../components/PostNotifications";
 import EventNotifications from "../components/EventNotifications";
 import * as ExpoNotifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { IP } from "../constants/ip";
 import axios from "axios";
@@ -50,11 +51,31 @@ const Notifications = ({ navigation }: any) => {
     const [refresh, setRefresh] = useState<Boolean>(false);
     const [notifs, setNotifs] = useState<any[]>([]);
 
+    useEffect(() => {
+        const updateNotifs = async () => {
+            try {
+                const jsonValue = await AsyncStorage.getItem("notifs");
+                setNotifs(jsonValue != null ? JSON.parse(jsonValue) : []);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        updateNotifs();
+    }, []);
+
     const getData = async () => {
         try {
             const res = await axios.post(`${IP}/notification/get`);
-            console.log(res);
-            setNotifs(res.data.notifs);
+            try {
+                await AsyncStorage.setItem(
+                    "notifs",
+                    JSON.stringify(res.data.notifs)
+                );
+                setNotifs(res.data.notifs);
+            } catch (e) {
+                setNotifs(res.data.notifs);
+            }
         } catch (error) {
             console.log(error);
         }
