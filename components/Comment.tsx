@@ -239,7 +239,7 @@ const Comment = ({
                 ></View>
                 <Image
                     source={
-                        comment.postedBy.profile_picture
+                        comment.postedBy.profile_picture?.url
                             ? {
                                   uri: comment.postedBy.profile_picture?.url,
                               }

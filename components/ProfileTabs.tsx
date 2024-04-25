@@ -8,6 +8,7 @@ import {
     UserCommentProps,
 } from "../types/userPostTypes";
 import UserReplies from "./UserReplies";
+import SavedPosts from "./SavedPosts";
 // import { IP } from "../constants/ip";
 
 const TopTabs = createMaterialTopTabNavigator();
@@ -45,6 +46,7 @@ const ProfileTabs = forwardRef<
                     <UserReplies ref={ref} {...props.UserCommentProps} />
                 )}
             />
+            <TopTabs.Screen name="Saved" children={() => <SavedPosts />} />
         </TopTabs.Navigator>
     );
 });

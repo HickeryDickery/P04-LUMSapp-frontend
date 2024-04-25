@@ -34,7 +34,7 @@ import AddPost from "./screens/AddPost";
 import AddEvent from "./screens/AddEvent";
 import Settings from "./screens/Settings";
 import { usePushNotifications } from "./hooks/usePushNotifications";
-import SavedPosts from "./screens/SavedPosts";
+import SavedPosts from "./components/SavedPosts";
 import { NOTIFICATION_BAR_COLOR } from "./constants/color";
 import ChatScreen from "./screens/ChatScreen";
 import ChatsHome from "./screens/ChatsHome";
@@ -109,6 +109,20 @@ const Main = () => {
                                 <Stack.Screen
                                     name="SinglePost"
                                     component={SinglePost}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Post",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="AddPost"
