@@ -7,6 +7,8 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -98,8 +100,9 @@ const EditDonation = ({ route, navigation }: any) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
-      <ScrollView style={styles.container}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.scrollContentContainer}>
         <View style={{display: "flex", flexDirection: "row"}}>
           <Text style={styles.promptTitle}>Issued By:</Text>
           <AntDesign name="exclamationcircleo" size={16} color="#35C2C1" style={{paddingTop: 2, paddingLeft: 10}}/>
@@ -227,7 +230,7 @@ const EditDonation = ({ route, navigation }: any) => {
             placeholderTextColor="lightgrey"
             multiline
             numberOfLines={4}
-            maxLength={40}
+            // maxLength={1000}
             onChangeText={setDonationDescription}
             value={donationDescription}
             style={{ padding: 10, color: 'white', fontSize: 16 }}
@@ -239,6 +242,7 @@ const EditDonation = ({ route, navigation }: any) => {
         </TouchableOpacity>
       </ScrollView>
     </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -272,6 +276,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
+  scrollContentContainer: {
+    flexGrow: 1,
+    paddingVertical: 20,
+  },
+  
 });
 
 export default EditDonation;

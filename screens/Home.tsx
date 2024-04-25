@@ -28,6 +28,8 @@ const Home = ({ navigation }: any) => {
             navigation.navigate("GpaPredictorHome");
         } else if (buttonName === "Scheduler") {
             navigation.navigate("Scheduler");
+        } else if (buttonName === "Donations") {
+            navigation.navigate("Donations");
         }
     };
 

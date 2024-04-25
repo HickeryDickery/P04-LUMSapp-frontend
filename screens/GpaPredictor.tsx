@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "react-native-paper";
 import { Ionicons } from '@expo/vector-icons';
 
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const minor = "NA";
 // get gpa, admissionyear, credits, minor from backend and then set the usestate for gpa
 
@@ -95,7 +97,7 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Button
+      {/* <Button
           onPress={() => { navigation.goBack() }}
           style={{
           position: 'absolute',
@@ -105,26 +107,27 @@ const GpaPredictorHome = ({ navigation }: any) => {
       >
           <Ionicons name="chevron-back" size={24} color="white" />
       </Button>
-      <Text style = {styles.heading}>GPA Predictor</Text>
+      <Text style = {styles.heading}>GPA Predictor</Text> */}
 
-
-      <AnimatedCircularProgress
-        size={150}
-        width={7}
-        delay={3}
-        fill={(gpa / 4) * 100}
-        rotation={360}
-        tintColor="#35C2C1"
-        backgroundColor="#2A3C44"
-        // padding={20}
-      >
-        {(fill) => (
-          <View>
-            <Text style={styles.pointsValue}>{gpa}</Text>
-            <Text style={styles.pointsGPA}>CPGA</Text>
-          </View>
-        )}
-      </AnimatedCircularProgress>
+      <View style={{marginTop: 10}}>
+        <AnimatedCircularProgress
+          size={0.5 * SCREEN_WIDTH}
+          width={7}
+          delay={3}
+          fill={(gpa / 4) * 100}
+          rotation={360}
+          tintColor="#35C2C1"
+          backgroundColor="#2A3C44"
+          // padding={20}
+          >
+          {(fill) => (
+            <View>
+              <Text style={styles.pointsValue}>{gpa}</Text>
+              <Text style={styles.pointsGPA}>CPGA</Text>
+            </View>
+          )}
+        </AnimatedCircularProgress>
+      </View>
 
       <Text style={{color:"#fff", marginTop:20 }}>{academicRank}</Text>
 

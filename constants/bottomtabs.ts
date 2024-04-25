@@ -22,7 +22,6 @@ const bottomTabs: BottomTab[] = [
     { name: "Notifications", icon: "notifications", component: Notifications },
     // { name: "Donations", icon: "fitness" },
     { name: "Profile", icon: "person", component: Profile },
-    { name: "Donations", icon: "cash", component: Donations },
 ];
 
 export default bottomTabs;

@@ -47,7 +47,7 @@ const ProfileBurger = forwardRef<BottomSheet>((props, ref) => {
                     style={{
                         alignItems: "center",
                         flexDirection: "row",
-                        paddingVertical: 2,
+                        paddingVertical: 4,
                     }}
                 >
                     <Ionicons name="settings-outline" size={24} color="white" />
