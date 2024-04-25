@@ -6,9 +6,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { HOME_ICON_BCKG_COLOR, PRIMARY_COLOR } from "../constants/color";
 import { Ionicons } from "@expo/vector-icons";
+import Loader from "./Loader";
 
 const UploadTranscript = (props: any) => {
     const [file, setFile]: any = useState();
+    const [uploading, setUploading] = useState(false);
     const selectTranscript = async () => {
         // Use expo-document-picker to choose Transcript from PDF files.
         try {
@@ -37,6 +39,7 @@ const UploadTranscript = (props: any) => {
     };
     const uploadTranscript = async () => {
         // Upload the selected PDF file to server.
+        setUploading(true);
         const formData = new FormData();
         formData.append("file", file);
         console.log(formData);
@@ -49,6 +52,7 @@ const UploadTranscript = (props: any) => {
                 },
             })
             .then(async (response) => {
+                setUploading(false);
                 if (!response.data.success) {
                     alert(response.data.message);
                     setFile(null);
@@ -67,6 +71,7 @@ const UploadTranscript = (props: any) => {
                 }
             })
             .catch((error) => {
+                setUploading(false);
                 setFile(null);
                 console.log(error);
                 alert("Invalid Transcript!");
@@ -89,7 +94,11 @@ const UploadTranscript = (props: any) => {
             <TouchableOpacity
                 style={styles.uploadTranscriptBttn}
                 onPress={() => {
-                    file ? uploadTranscript() : selectTranscript();
+                    uploading
+                        ? ""
+                        : file
+                        ? uploadTranscript()
+                        : selectTranscript();
                 }}
             >
                 <Text style={{ color: "#000", fontWeight: "bold" }}>
@@ -103,19 +112,25 @@ const UploadTranscript = (props: any) => {
                         : file.name.split(".")[0]
                     : ""}
             </Text>
-            <TouchableOpacity
-                onPress={() => {
-                    setFile(null);
-                }}
-                style={{
-                    backgroundColor: PRIMARY_COLOR,
-                    borderRadius: 100,
-                    padding: 8,
-                    justifyContent: "center",
-                }}
-            >
-                <Ionicons name="close" size={24} color="black" />
-            </TouchableOpacity>
+            {uploading ? (
+                <Loader />
+            ) : file ? (
+                <TouchableOpacity
+                    onPress={() => {
+                        setFile(null);
+                    }}
+                    style={{
+                        backgroundColor: PRIMARY_COLOR,
+                        borderRadius: 100,
+                        padding: 8,
+                        justifyContent: "center",
+                    }}
+                >
+                    <Ionicons name="close" size={24} color="black" />
+                </TouchableOpacity>
+            ) : (
+                ""
+            )}
         </View>
     );
 };
