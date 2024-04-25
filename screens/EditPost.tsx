@@ -31,10 +31,11 @@ import { Feather } from "@expo/vector-icons";
 import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import Loader from "../components/Loader";
 import { ADD_POST_BCKG_COLOR } from "../constants/color";
+import { useAppSelector } from "../redux/hooks";
 
 const EditPost = ({ route }: any) => {
   const { postProps } = route.params;
-  const [text, setText] = useState(postProps.text);
+  const [text, setText] = useState(postProps.body);
   const [media, setMedia] = useState<any[]>(
     postProps.media.map((m: any) => m.url)
   );
