@@ -52,6 +52,17 @@ const LdfHomePage = ({ navigation }: any) => {
       console.log(error);
     }
   };
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", () => {
+  //     setPosts([]);
+  //     setPage(0);
+  //     setRefresh(!refresh);
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation]);
+
   // will run every time page changes
   useEffect(() => {
     getData(page);

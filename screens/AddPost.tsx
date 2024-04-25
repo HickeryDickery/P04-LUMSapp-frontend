@@ -1,7 +1,7 @@
 //COLORS DONE
 import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { IP } from "../constants/ip";
 import { Image, Button } from "react-native";
@@ -32,11 +32,26 @@ import { Feather } from "@expo/vector-icons";
 import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import Loader from "../components/Loader";
 import { ADD_POST_BCKG_COLOR } from "../constants/color";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
+import { useAppSelector } from "../redux/hooks";
 
 const AddPost = () => {
   const [text, setText] = useState("");
   const [media, setMedia] = useState<any[]>([]);
   const [isPosting, setPosting] = useState(false);
+  const navigation = useNavigation<NavigationProp<any>>();
+
+  const { user }: any = useAppSelector((state) => state.auth);
+  const [username, setUsername] = useState("");
+
+  const [icon, setIcon]: any = useState();
+
+  useEffect(() => {
+    setUsername(user?.name);
+    setIcon(user?.profile_picture);
+    console.log(user?.profile_picture);
+  }, [user]);
 
   const pickMedia = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -59,6 +74,10 @@ const AddPost = () => {
   // const [pressed, setPressed] = useState(false);
 
   const addPost = async () => {
+    if (!text) {
+      alert("Please add some text to the post!");
+      return;
+    }
     setPosting(true);
     setMedia([]);
     setText("");
@@ -86,6 +105,7 @@ const AddPost = () => {
       console.log(err);
     }
     setPosting(false);
+    navigation.goBack();
   };
 
   return isPosting ? (
@@ -120,10 +140,10 @@ const AddPost = () => {
           <Image
             style={{ width: 60, height: 60, borderRadius: 100 }}
             source={{
-              uri: "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
+              uri: icon ? icon!.url : "https://picsum.photos/201",
             }} /*require path is for static images only*/
           />
-          <Text style={styles.posterName}>Muneeb Akmal</Text>
+          <Text style={styles.posterName}>{username}</Text>
         </View>
         <AutoGrowTextInput
           style={styles.inputText}

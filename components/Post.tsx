@@ -241,8 +241,8 @@ const Post = (
                 </View>
               </TouchableOpacity>
             )}
-            // onViewableItemsChanged={onViewableItemsChanged}
-            // viewabilityConfig={viewabilityConfig}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
           ></FlatList>
         </View>
       )}

@@ -38,6 +38,7 @@ import ChatsHome from "./screens/ChatsHome";
 import ThreadScreen from "./screens/ThreadScreen";
 import { useChatClient } from "./useChatClient";
 import { useState } from "react";
+import LdfHomePage from "./screens/LdfHomePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +91,10 @@ const Main = () => {
                   name="PostMediaScroll"
                   component={PostMediaScroll}
                 />
+                <Stack.Screen
+                  name="LdfHomePage"
+                  component={LdfHomePage}
+                ></Stack.Screen>
                 <Stack.Screen name="ChatsHome" component={ChatsHome} />
                 <Stack.Screen name="ChatScreen" component={ChatScreen} />
                 <Stack.Screen name="ThreadScreen" component={ThreadScreen} />

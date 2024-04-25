@@ -35,7 +35,6 @@ const Comment = ({
   const [editedText, setEditedText] = useState(comment.text);
   const commentUserId: string = comment.postedBy._id;
   const myId: string = userId;
- 
 
   const handleEdit = () => {
     setEditMode(!editMode);
@@ -84,12 +83,9 @@ const Comment = ({
 
       // console.log("Comment deleted successfully:", res.data);
 
-     
       deleteComment(comment._id);
-
     } catch (error) {
       console.error("Error deleting comment:", error);
-
     }
   };
 
@@ -338,9 +334,7 @@ const Comment = ({
               />
             </TouchableOpacity>
 
-            <Text style={{ fontStyle: "italic", color: "white" }}>
-              {upvotes}
-            </Text>
+            <Text style={{ color: "white" }}>{upvotes}</Text>
           </View>
           <View style={{ marginLeft: 40, flexDirection: "row" }}>
             <TouchableOpacity onPress={handleDownVote} style={{ padding: 1 }}>
@@ -350,9 +344,7 @@ const Comment = ({
                 color={downVoted ? "#35C2C1" : "white"}
               />
             </TouchableOpacity>
-            <Text style={{ fontStyle: "italic", color: "white" }}>
-              {downvotes}
-            </Text>
+            <Text style={{ color: "white" }}>{downvotes}</Text>
           </View>
           {comment.replies && comment.replies.length > 0 && (
             <View style={{ position: "absolute", right: 40 }}>
@@ -536,6 +528,7 @@ const styles = StyleSheet.create({
   },
   voteContainer: {
     flexDirection: "row",
+
     // borderColor:"white",
     // borderWidth:2,
 
@@ -544,16 +537,17 @@ const styles = StyleSheet.create({
   commentContent: {
     marginBottom: 1,
     backgroundColor: "#272727",
-    borderTopLeftRadius: 0,
-    borderRadius: 25,
+    borderTopLeftRadius: 5,
+    borderRadius: 18,
     padding: 13,
-    marginLeft: 10,
+    marginLeft: 12,
     marginRight: 20,
+    marginTop: 5,
     // borderColor: "grey",
   },
   commentText: {
-    fontSize: 14,
-    lineHeight:20,
+    fontSize: 16,
+    lineHeight: 24,
     color: "white",
   },
   buttonStyle: {

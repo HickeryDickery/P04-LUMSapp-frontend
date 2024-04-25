@@ -1,6 +1,6 @@
 import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { IP } from "../constants/ip";
 import { Image, Button } from "react-native";
@@ -57,6 +57,17 @@ const EditPost = ({ route }: any) => {
     newMedia.splice(index, 1);
     setMedia(newMedia);
   };
+
+  const { user }: any = useAppSelector((state) => state.auth);
+  const [username, setUsername] = useState("");
+
+  const [icon, setIcon]: any = useState();
+
+  useEffect(() => {
+    setUsername(user?.name);
+    setIcon(user?.profile_picture);
+    console.log(user?.profile_picture);
+  }, [user]);
 
   // const [pressed, setPressed] = useState(false);
 
@@ -123,10 +134,10 @@ const EditPost = ({ route }: any) => {
           <Image
             style={{ width: 60, height: 60, borderRadius: 100 }}
             source={{
-              uri: "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
+              uri: icon ? icon!.url : "https://picsum.photos/201",
             }} /*require path is for static images only*/
           />
-          <Text style={styles.posterName}>Muneeb Akmal</Text>
+          <Text style={styles.posterName}>{username}</Text>
         </View>
         <AutoGrowTextInput
           style={styles.inputText}
