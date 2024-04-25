@@ -187,6 +187,20 @@ const Main = () => {
                                 <Stack.Screen
                                     name="EditPost"
                                     component={EditPost}
+                                    options={{
+                                        headerShown: true,
+                                        title: "Edit post",
+                                        headerStyle: {
+                                            backgroundColor: "black",
+                                        },
+                                        headerTintColor: "white",
+                                        headerTitleStyle: {
+                                            fontWeight: "bold",
+                                            color: "white",
+                                        },
+                                        headerTitleAlign: "center",
+                                        headerBackTitleVisible: false,
+                                    }}
                                 />
                                 <Stack.Screen
                                     name="EditProfile"
