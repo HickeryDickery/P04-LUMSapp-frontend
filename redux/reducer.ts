@@ -139,3 +139,41 @@ export const eventsReducer = createReducer(
     },
   }
 );
+
+export const notifReducer = createReducer(
+  { loading: false, registered: false, error: null },
+  {
+    registerPushTokenRequest: (state) => {
+      state.loading = true;
+    },
+    registerPushTokenSuccess: (state) => {
+      state.loading = false;
+      state.registered = true;
+    },
+    registerPushTokenFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  }
+);
+export const donationsReducer = createReducer(
+  {
+    loading: false,
+    error: null,
+    donations: [],
+  },
+  {
+    donationsRequest: (state) => {
+      state.loading = true;
+      state.error = null; // Reset error state when making a new request
+    },
+    donationsSuccess: (state, action) => {
+      state.loading = false;
+      state.donations = action.payload.data.donation;
+    },
+    donationsFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  }
+);

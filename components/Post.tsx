@@ -1,20 +1,18 @@
 //COLOR DONE
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import { useEffect, useRef } from "react";
 import { IP } from "../constants/ip";
 import axios from "axios";
 import { NavigationProp } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/size";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Foundation } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import {
+  PRIMARY_COLOR,
   POST_BCKG_COLOR,
   POST_BOOKMARK_ICON_COLOR,
   POST_BORDER_COLOR,
@@ -47,6 +45,7 @@ export type PostProps = {
   liked: boolean;
   disliked: boolean;
   postID: string;
+  bookmarked: boolean;
   toggleSheet?: (post: PostProps) => void | null;
 };
 
@@ -60,6 +59,7 @@ const Post = (
   const [dislikeCount, setDislikeCount] = useState<any>(props.dislikes);
   const [update, setUpdate] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [bookmarked, setBookmarked] = useState(props.bookmarked);
   const onViewableItemsChanged = useCallback(({ viewableItems }: any) => {
     if (viewableItems.length > 0) {
       var firstVisibleItemIndex = viewableItems[0].index ?? 0;
@@ -88,6 +88,17 @@ const Post = (
   //   }
   // }, []);
 
+  const bookmarkHandler = async () => {
+    try {
+      const res = await axios.post(`${IP}/post/bookmark`, {
+        postId: props.postID,
+      });
+      setBookmarked(!bookmarked);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const likePressed = async () => {
     try {
       if (liked) {
@@ -105,7 +116,9 @@ const Post = (
       setUpdate(!update);
       //////// NOW WE HAVE DONE IT ON THE FRONTEND, LETS DO IT ON THE BACKEND
 
-      const res = await axios.post(`${IP}/post/like`, { postId: props.postID });
+      const res = await axios.post(`${IP}/post/like`, {
+        postId: props.postID,
+      });
       console.log(res.data); // SEND LIKE REQUEST
 
       if (disliked == true) {
@@ -180,10 +193,16 @@ const Post = (
           <View style={styles.profileComponent}>
             {/* Image and Name are One Element so we have a separate View(div) for them */}
             <Image
-              style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
-              source={{
-                uri: props.profileImage,
-              }} /*require path is for static images only*/
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+              }}
+              source={
+                props.profileImage
+                  ? { uri: props.profileImage }
+                  : require("../assets/default_icon.png")
+              } /*require path is for static images only*/
             />
             <Text style={styles.posterName}>{props.name}</Text>
           </View>
@@ -192,23 +211,14 @@ const Post = (
             style={styles.options}
             onPress={() => props.toggleSheet?.(props)}
           >
-            <SimpleLineIcons
-              name="options-vertical"
-              size={18}
-              color={POST_OPTIONS_ICON_COLOR}
-            />
+            <SimpleLineIcons name="options-vertical" size={18} color="grey" />
           </TouchableOpacity>
         </View>
 
         <Text style={styles.bodyFont}>{props.body}</Text>
       </TouchableOpacity>
-      {props.media.length == 0 ? null : (
+      {props.media?.length == 0 ? null : (
         <View style={styles.imageFlatlist}>
-          {props.media.length == 1 ? null : (
-            <Text style={styles.mediaBadge}>
-              {currentIndex} / {props.media.length}
-            </Text>
-          )}
           <FlatList
             refreshing={true}
             style={styles.imageScroll}
@@ -221,7 +231,7 @@ const Post = (
                 activeOpacity={1}
                 onPress={() => {
                   const { toggleSheet, ...rest } = props;
-                  navigation.navigate("PostMediaScroll", {
+                  navigation.navigate("PostImageScroll", {
                     postProps: {
                       ...rest,
                       likedUpdated: liked,
@@ -233,16 +243,14 @@ const Post = (
                 }}
               >
                 <View style={styles.mediaBox}>
-                  {/* <Text style={styles.mediaBadge}>
+                  <Text style={styles.mediaBadge}>
                     {index + 1} / {props.media.length}
-                  </Text> */}
+                  </Text>
 
                   <MediaCard media={item} />
                 </View>
               </TouchableOpacity>
             )}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={viewabilityConfig}
           ></FlatList>
         </View>
       )}
@@ -274,15 +282,11 @@ const Post = (
                 <Foundation
                   name="arrow-up"
                   size={28}
-                  color={
-                    liked ? POST_LIKE_ACTIVE_COLOR : POST_LIKE_INACTIVE_COLOR
-                  }
+                  color={liked ? PRIMARY_COLOR : "grey"}
                 />
                 <Text
                   style={{
-                    color: liked
-                      ? POST_LIKE_COUNT_ACTIVE_COLOR
-                      : POST_LIKE_COUNT_INACTIVE_COLOR,
+                    color: liked ? "white" : "grey",
                     fontSize: 10,
                   }}
                 >
@@ -298,17 +302,11 @@ const Post = (
                 <Foundation
                   name="arrow-down"
                   size={28}
-                  color={
-                    disliked
-                      ? POST_DISLIKE_ACTIVE_COLOR
-                      : POST_DISLIKE_INACTIVE_COLOR
-                  }
+                  color={disliked ? PRIMARY_COLOR : "grey"}
                 />
                 <Text
                   style={{
-                    color: disliked
-                      ? POST_DISLIKE_COUNT_ACTIVE_COLOR
-                      : POST_DISLIKE_COUNT_INACTIVE_COLOR,
+                    color: disliked ? "white" : "grey",
                     fontSize: 10,
                   }}
                 >
@@ -319,12 +317,8 @@ const Post = (
             </View>
             <View style={styles.comment}>
               <View style={styles.footerComponent}>
-                <Octicons
-                  name="comment"
-                  size={25}
-                  color={POST_COMMENT_ICON_COLOR}
-                />
-                <Text style={{ color: POST_COMMENT_COUNT_COLOR, fontSize: 10 }}>
+                <Octicons name="comment" size={25} color="grey" />
+                <Text style={{ color: "grey", fontSize: 10 }}>
                   {props.comments}
                 </Text>
                 {/* This is grey because it is not pressed (we haven't commented). We have to make this dynamic rather than static*/}
@@ -332,23 +326,25 @@ const Post = (
             </View>
           </View>
           <View style={styles.rightFooter}>
-            {/* <View style={styles.footerComponent}>
-              <Feather name="send" size={24} color="grey" />
-            </View> */}
-            <View style={styles.footerComponent}>
-              <Feather
-                name="bookmark"
+            <TouchableOpacity
+              style={styles.footerComponent}
+              onPress={() => {
+                bookmarkHandler();
+              }}
+            >
+              <FontAwesome
+                name={bookmarked ? "bookmark" : "bookmark-o"}
                 size={24}
-                color={POST_BOOKMARK_ICON_COLOR}
+                color={bookmarked ? "#35C2C1" : "grey"}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableOpacity>
     </View>
   );
 };
-export default Post;
+export default memo(Post);
 
 const styles = StyleSheet.create({
   post: {

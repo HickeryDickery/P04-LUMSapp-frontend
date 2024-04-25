@@ -1,7 +1,7 @@
 //COLOR DONE
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import {
   HOME_ICON_BCKG_COLOR,
   HOME_ICON_COLOR,
@@ -10,7 +10,7 @@ import {
 
 interface HomeButtonsProps {
   name: string;
-  icon: keyof typeof MaterialIcons.glyphMap;
+  icon: keyof typeof MaterialIcons.glyphMap | keyof typeof FontAwesome.glyphMap;
 }
 
 const HomeButtons = ({ name, icon }: HomeButtonsProps) => {

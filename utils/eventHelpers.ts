@@ -17,6 +17,25 @@ export const getMonth = (month: number) => {
   return months[month];
 };
 
+export const getFullMonth = (month: number) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return months[month];
+};
+
 export const amToPm = (hour: number) => {
   if (hour === 0) {
     return { hour: 12, period: "AM" };

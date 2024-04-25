@@ -3,8 +3,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
+  Alert,
+  ScrollView,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
@@ -12,7 +12,9 @@ import axios from "axios";
 import { IP } from "../constants/ip";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React from "react";
+import { useAppSelector } from "../redux/hooks";
+import { getFullMonth, amToPm, minutePadding } from "../utils/eventHelpers";
+import Loader from "../components/Loader";
 
 type Location = {
   label: string;
@@ -20,20 +22,73 @@ type Location = {
 };
 
 const AddEvent = ({ navigation }: any) => {
+  const { tags, loading } = useAppSelector((state: any) => state.events);
+
   const [venue, setVenue] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [startTime, setStartTime] = useState<Date>(new Date());
-  const [endTime, setEndTime] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [startTime, setStartTime] = useState<Date>();
+  const [endTime, setEndTime] = useState<Date>();
   const [description, setDescription] = useState<string>("");
   const [locations, setLocations] = useState<Location[]>([]);
 
   const [open, setOpen] = useState<boolean>(false);
-  const [showPicker1, setShowPicker1] = useState<boolean>(false);
-  const [showPicker2, setShowPicker2] = useState<boolean>(false);
-  const [showPicker3, setShowPicker3] = useState<boolean>(false);
-  const [showPicker4, setShowPicker4] = useState<boolean>(false);
+  const [open2, setOpen2] = useState<boolean>(false);
+  const [showStartDate, setShowStartDate] = useState<boolean>(false);
+  const [showStartTime, setShowStartTime] = useState<boolean>(false);
+  const [showEndDate, setShowEndDate] = useState<boolean>(false);
+  const [showEndTime, setShowEndTime] = useState<boolean>(false);
+
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
+  const createEvent = async () => {
+    try {
+      if (
+        !title ||
+        !venue ||
+        !startDate ||
+        !endDate ||
+        !startTime ||
+        !endTime ||
+        !description
+      ) {
+        Alert.alert("Please fill all the fields");
+        return;
+      }
+
+      const startDateAndTime = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate(),
+        startTime.getHours(),
+        startTime.getMinutes()
+      );
+
+      const endDateAndTime = new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate(),
+        endTime.getHours(),
+        endTime.getMinutes()
+      );
+
+      setSubmitting(true);
+      const { data } = await axios.post(`${IP}/event/create`, {
+        title,
+        location: venue,
+        startTime: startDateAndTime,
+        endTime: endDateAndTime,
+        description,
+      });
+      setSubmitting(false);
+      navigation.goBack();
+      console.log(data);
+    } catch (error: any) {
+      setSubmitting(false);
+      console.log(error.response.data.message);
+    }
+  };
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -56,15 +111,18 @@ const AddEvent = ({ navigation }: any) => {
   }, []);
 
   return (
-    <KeyboardAvoidingView
+    <ScrollView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
+      contentContainerStyle={{
+        flexGrow: 1,
+        paddingHorizontal: 25,
+        paddingVertical: 20,
+        gap: 10,
+      }}
     >
       <View style={{ gap: 10 }}>
         <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
           Title
-          {/* <Text style={{ color: "#35C2C1" }}>*</Text> */}
         </Text>
         <TextInput
           value={title}
@@ -86,7 +144,6 @@ const AddEvent = ({ navigation }: any) => {
       <View style={{ gap: 10 }}>
         <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
           Venue
-          {/* <Text style={{ color: "#35C2C1" }}>*</Text> */}
         </Text>
         <DropDownPicker
           items={locations}
@@ -113,6 +170,35 @@ const AddEvent = ({ navigation }: any) => {
         />
       </View>
 
+      {/* <View style={{ gap: 10 }}>
+        <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+          Category
+        </Text>
+        <DropDownPicker
+          items={locations}
+          open={open2}
+          setOpen={setOpen2}
+          value={venue}
+          setValue={setVenue}
+          placeholder="Select Venue"
+          placeholderStyle={{ color: "#414141", fontSize: 14 }}
+          style={{
+            backgroundColor: "#111111",
+            borderRadius: 10,
+          }}
+          dropDownContainerStyle={{
+            backgroundColor: "#111111",
+            borderRadius: 10,
+          }}
+          labelStyle={{ color: "white" }}
+          textStyle={{ color: "white" }}
+          showArrowIcon={true}
+          onChangeValue={(value) => {
+            console.log(value);
+          }}
+        />
+      </View> */}
+
       <View style={{ gap: 10 }}>
         <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
           Starts At
@@ -124,18 +210,32 @@ const AddEvent = ({ navigation }: any) => {
             gap: 20,
           }}
         >
-          {showPicker1 && (
+          {showStartDate && (
             <DateTimePicker
               value={new Date()}
               display="default"
+              mode="date"
               onChange={(event, selectedDate) => {
-                // console.log(selectedDate);
-                setShowPicker1(false);
+                console.log(selectedDate);
+                setStartDate(selectedDate);
+                setShowStartDate(false);
+              }}
+            />
+          )}
+          {showStartTime && (
+            <DateTimePicker
+              value={new Date()}
+              display="default"
+              mode="time"
+              onChange={(event, selectedDate) => {
+                console.log(selectedDate);
+                setStartTime(selectedDate);
+                setShowStartTime(false);
               }}
             />
           )}
           <TouchableOpacity
-            onPress={() => setShowPicker1(true)}
+            onPress={() => setShowStartDate(true)}
             style={{
               backgroundColor: "#111111",
               borderRadius: 10,
@@ -144,10 +244,16 @@ const AddEvent = ({ navigation }: any) => {
               flex: 1,
             }}
           >
-            <Text style={{ color: "#35C2C1", fontSize: 14 }}>Select Date</Text>
+            <Text style={{ color: "#35C2C1", fontSize: 14 }}>
+              {startDate
+                ? `${startDate.getDate()} ${getFullMonth(
+                    startDate.getMonth()
+                  )} ${startDate.getFullYear()}`
+                : "Select Date"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setShowPicker1(true)}
+            onPress={() => setShowStartTime(true)}
             style={{
               backgroundColor: "#35C2C1",
               borderRadius: 10,
@@ -156,7 +262,13 @@ const AddEvent = ({ navigation }: any) => {
               flex: 1,
             }}
           >
-            <Text style={{ color: "#111111", fontSize: 14 }}>Select Time</Text>
+            <Text style={{ color: "#111111", fontSize: 14 }}>
+              {startTime
+                ? `${amToPm(startTime.getHours()).hour}:${minutePadding(
+                    startTime.getMinutes()
+                  )} ${amToPm(startTime.getHours()).period}`
+                : "Select Time"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -172,18 +284,32 @@ const AddEvent = ({ navigation }: any) => {
             gap: 20,
           }}
         >
-          {showPicker1 && (
+          {showEndDate && (
             <DateTimePicker
               value={new Date()}
               display="default"
+              mode="date"
               onChange={(event, selectedDate) => {
-                // console.log(selectedDate);
-                setShowPicker1(false);
+                console.log(selectedDate);
+                setEndDate(selectedDate);
+                setShowEndDate(false);
+              }}
+            />
+          )}
+          {showEndTime && (
+            <DateTimePicker
+              value={new Date()}
+              display="default"
+              mode="time"
+              onChange={(event, selectedDate) => {
+                console.log(selectedDate);
+                setShowEndTime(false);
+                setEndTime(selectedDate);
               }}
             />
           )}
           <TouchableOpacity
-            onPress={() => setShowPicker1(true)}
+            onPress={() => setShowEndDate(true)}
             style={{
               backgroundColor: "#111111",
               borderRadius: 10,
@@ -192,10 +318,16 @@ const AddEvent = ({ navigation }: any) => {
               flex: 1,
             }}
           >
-            <Text style={{ color: "#35C2C1", fontSize: 14 }}>Select Date</Text>
+            <Text style={{ color: "#35C2C1", fontSize: 14 }}>
+              {endDate
+                ? `${endDate.getDate()} ${getFullMonth(
+                    endDate.getMonth()
+                  )} ${endDate.getFullYear()}`
+                : "Select Date"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setShowPicker1(true)}
+            onPress={() => setShowEndTime(true)}
             style={{
               backgroundColor: "#35C2C1",
               borderRadius: 10,
@@ -203,7 +335,13 @@ const AddEvent = ({ navigation }: any) => {
               flex: 1,
             }}
           >
-            <Text style={{ color: "#111111", fontSize: 14 }}>Select Time</Text>
+            <Text style={{ color: "#111111", fontSize: 14 }}>
+              {endTime
+                ? `${amToPm(endTime.getHours()).hour}:${minutePadding(
+                    endTime.getMinutes()
+                  )} ${amToPm(endTime.getHours()).period}`
+                : "Select Time"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -220,7 +358,7 @@ const AddEvent = ({ navigation }: any) => {
             padding: 10,
             color: "white",
             fontSize: 14,
-            // height: 150,
+            height: 150,
             textAlignVertical: "top",
             flexGrow: 1,
           }}
@@ -240,25 +378,24 @@ const AddEvent = ({ navigation }: any) => {
           borderRadius: 10,
           alignItems: "center",
           justifyContent: "center",
+          marginTop: 20,
         }}
         onPress={() => {
           console.log("Done");
+          createEvent();
         }}
       >
         <Text style={{ fontWeight: "bold" }}>Done</Text>
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+      {submitting && <Loader />}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#000000",
     color: "#ffffff",
-    paddingHorizontal: 25,
-    paddingVertical: 20,
-    gap: 10,
   },
 });
 

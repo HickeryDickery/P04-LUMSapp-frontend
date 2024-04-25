@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#111111",
     borderRadius: 10,
-    width: "100%",
+    width: "110%",
     marginTop: 20,
     marginLeft: 40,
     padding: 20,

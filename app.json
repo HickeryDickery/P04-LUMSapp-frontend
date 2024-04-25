@@ -15,19 +15,35 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/Lums.png",
+        "backgroundColor": "#000000"
       },
-      "package": "com.biski.LUMSapp"
+      "package": "com.biski.LUMSapp",
+      "googleServicesFile": "./google-services.json",
+      "runtimeVersion": "1.0.0",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB4qtDPQGLcOGvhNM3olW2tcAeNDJuIqt8"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
+      "eas": {
+        "projectId": "437967a1-98e7-47f0-8b98-5b8c98931c57"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f9c9f5a9-ddf4-4e8c-888d-fd4507111527"
     }
   }
 }

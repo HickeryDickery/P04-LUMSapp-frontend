@@ -1,12 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer, postsReducer, eventsReducer } from "./reducer";
+import {
+    authReducer,
+    postsReducer,
+    eventsReducer,
+    notifReducer,
+    donationsReducer,
+} from "./reducer";
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    posts: postsReducer,
-    events: eventsReducer,
-  },
+    reducer: {
+        auth: authReducer,
+        posts: postsReducer,
+        events: eventsReducer,
+        notifs: notifReducer,
+        donations: donationsReducer,
+    },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

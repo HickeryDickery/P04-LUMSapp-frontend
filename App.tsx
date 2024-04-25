@@ -14,20 +14,20 @@ import { Chat } from "stream-chat-expo";
 const chatClient = StreamChat.getInstance(chatApiKey);
 
 export default function App() {
-  NavigationBar.setBackgroundColorAsync("black");
+    NavigationBar.setBackgroundColorAsync("black");
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AppProvider>
-        <OverlayProvider>
-          <Chat client={chatClient}>
-            <Provider store={store}>
-              <StatusBar style="light" />
-              <Main />
-            </Provider>
-          </Chat>
-        </OverlayProvider>
-      </AppProvider>
-    </GestureHandlerRootView>
-  );
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <AppProvider>
+                <OverlayProvider>
+                    <Chat client={chatClient}>
+                        <Provider store={store}>
+                            <StatusBar style="light" />
+                            <Main />
+                        </Provider>
+                    </Chat>
+                </OverlayProvider>
+            </AppProvider>
+        </GestureHandlerRootView>
+    );
 }

@@ -3,10 +3,24 @@ import { useState } from "react";
 import axios from "axios";
 import { IP } from "../constants/ip";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { HOME_ICON_BCKG_COLOR, PRIMARY_COLOR } from "../constants/color";
+import { Ionicons } from "@expo/vector-icons";
+import Loader from "./Loader";
 
 const UploadTranscript = (props: any) => {
     const [file, setFile]: any = useState();
+    const [uploading, setUploading] = useState(false);
+    console.log(props);
+
+    const removeTranscript = async () => {
+        try {
+            await AsyncStorage.removeItem("transcript");
+            props.setTranscript(null);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const selectTranscript = async () => {
         // Use expo-document-picker to choose Transcript from PDF files.
         try {
@@ -35,6 +49,7 @@ const UploadTranscript = (props: any) => {
     };
     const uploadTranscript = async () => {
         // Upload the selected PDF file to server.
+        setUploading(true);
         const formData = new FormData();
         formData.append("file", file);
         console.log(formData);
@@ -47,6 +62,7 @@ const UploadTranscript = (props: any) => {
                 },
             })
             .then(async (response) => {
+                setUploading(false);
                 if (!response.data.success) {
                     alert(response.data.message);
                     setFile(null);
@@ -56,6 +72,7 @@ const UploadTranscript = (props: any) => {
                             "transcript",
                             JSON.stringify(response.data.parsedData)
                         );
+                        props.setTranscript(response.data.parsedData);
                     } catch (e) {
                         console.log(e);
                     } finally {
@@ -65,6 +82,7 @@ const UploadTranscript = (props: any) => {
                 }
             })
             .catch((error) => {
+                setUploading(false);
                 setFile(null);
                 console.log(error);
                 alert("Invalid Transcript!");
@@ -72,16 +90,75 @@ const UploadTranscript = (props: any) => {
     };
 
     return (
-        <TouchableOpacity
-            style={styles.uploadTranscriptBttn}
-            onPress={() => {
-                file ? uploadTranscript() : selectTranscript();
+        <View
+            style={{
+                width: "80%",
+                backgroundColor: HOME_ICON_BCKG_COLOR,
+                marginTop: 32,
+                padding: 12,
+                borderRadius: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
             }}
         >
-            <Text style={{ color: "#000", fontWeight: "bold" }}>
-                {file ? "Upload Transcript" : "Select Transcript"}
+            <TouchableOpacity
+                style={styles.uploadTranscriptBttn}
+                onPress={() => {
+                    uploading
+                        ? ""
+                        : file
+                        ? uploadTranscript()
+                        : selectTranscript();
+                }}
+            >
+                <Text style={{ color: "#000", fontWeight: "bold" }}>
+                    {file ? "Upload" : "Select"}
+                </Text>
+            </TouchableOpacity>
+            <Text style={{ color: "#fff" }}>
+                {file
+                    ? file.name.split(".")[0].length > 10
+                        ? file.name.split(".")[0].slice(0, 10) + "..."
+                        : file.name.split(".")[0]
+                    : props.transcript
+                    ? "SSR_TSRPT.pdf"
+                    : ""}
             </Text>
-        </TouchableOpacity>
+            {uploading ? (
+                <Loader />
+            ) : file ? (
+                <TouchableOpacity
+                    onPress={() => {
+                        setFile(null);
+                    }}
+                    style={{
+                        backgroundColor: PRIMARY_COLOR,
+                        borderRadius: 100,
+                        padding: 8,
+                        justifyContent: "center",
+                    }}
+                >
+                    <Ionicons name="close" size={24} color="black" />
+                </TouchableOpacity>
+            ) : (
+                props.transcript && (
+                    <TouchableOpacity
+                        onPress={() => {
+                            removeTranscript();
+                        }}
+                        style={{
+                            backgroundColor: PRIMARY_COLOR,
+                            borderRadius: 100,
+                            padding: 8,
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Ionicons name="close" size={24} color="black" />
+                    </TouchableOpacity>
+                )
+            )}
+        </View>
     );
 };
 
@@ -94,9 +171,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#35C2C1",
         borderRadius: 10,
-        width: "80%",
-        marginTop: 50,
-        padding: 20,
+        width: "25%",
+        padding: 10,
         justifyContent: "center",
         alignItems: "center",
     },
