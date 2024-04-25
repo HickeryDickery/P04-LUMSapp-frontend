@@ -11,6 +11,15 @@ import Loader from "./Loader";
 const UploadTranscript = (props: any) => {
     const [file, setFile]: any = useState();
     const [uploading, setUploading] = useState(false);
+
+    const removeTranscript = async () => {
+        try {
+            await AsyncStorage.removeItem("transcript");
+            props.setTranscript(null);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const selectTranscript = async () => {
         // Use expo-document-picker to choose Transcript from PDF files.
         try {
@@ -62,6 +71,7 @@ const UploadTranscript = (props: any) => {
                             "transcript",
                             JSON.stringify(response.data.parsedData)
                         );
+                        props.setTranscript(response.data.parsedData);
                     } catch (e) {
                         console.log(e);
                     } finally {
@@ -110,6 +120,8 @@ const UploadTranscript = (props: any) => {
                     ? file.name.split(".")[0].length > 10
                         ? file.name.split(".")[0].slice(0, 10) + "..."
                         : file.name.split(".")[0]
+                    : props.transcript
+                    ? "SSR_TSRPT.pdf"
                     : ""}
             </Text>
             {uploading ? (
@@ -129,7 +141,21 @@ const UploadTranscript = (props: any) => {
                     <Ionicons name="close" size={24} color="black" />
                 </TouchableOpacity>
             ) : (
-                ""
+                props.transcript && (
+                    <TouchableOpacity
+                        onPress={() => {
+                            removeTranscript();
+                        }}
+                        style={{
+                            backgroundColor: PRIMARY_COLOR,
+                            borderRadius: 100,
+                            padding: 8,
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Ionicons name="close" size={24} color="black" />
+                    </TouchableOpacity>
+                )
             )}
         </View>
     );
