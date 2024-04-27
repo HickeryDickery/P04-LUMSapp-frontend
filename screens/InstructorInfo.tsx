@@ -63,25 +63,6 @@ const InstructorInfo = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        onPress={() => { navigation.goBack() }}
-        style={{
-          position: 'absolute',
-          left: '4%',
-          top: "5.3%",
-        }}
-      >
-        <Ionicons name="chevron-back" size={24} color="white" />
-      </Button>
-      <View style={styles.heading}>
-        <Text
-          style={{
-            color: 'white',
-            fontWeight: "bold",
-            fontSize: 18,
-          }}>Instructor Details</Text>
-      </View>
-
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

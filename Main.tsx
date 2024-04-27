@@ -294,7 +294,24 @@ const Main = () => {
                 />
 
                 <Stack.Screen name="SpecificEvent" component={SpecificEvent} />
-                <Stack.Screen name="SavedPosts" component={SavedPosts} />
+                <Stack.Screen
+                  name="SavedPosts"
+                  component={SavedPosts}
+                  options={{
+                    headerShown: true,
+                    title: "Saved Posts",
+                    headerStyle: {
+                      backgroundColor: "black",
+                    },
+                    headerTintColor: "white",
+                    headerTitleStyle: {
+                      fontWeight: "bold",
+                      color: "white",
+                    },
+                    headerTitleAlign: "center",
+                    headerBackTitleVisible: false,
+                  }}
+                />
                 <Stack.Screen
                   name="Donations"
                   component={Donations}
