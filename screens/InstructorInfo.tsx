@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { Button } from "react-native-paper";
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import Loader from "../components/Loader";
 
 
 import { instructor_array } from '../components/DepartmentSchoolPairs';
+import { WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 
 const groupInstructors = (instructors:string[]) => {
   const groupedData = {} as Record<string, Record<string, string[]>>;
@@ -33,36 +34,79 @@ const RenderInstructors = ({ groupedData, navigation }: { groupedData: Record<st
       {/* mapping schools ie. sse, sdsb etc */}
       {Object.entries(groupedData).map(([school, departments]) => (
         <View key={school}>
-          <Text style={styles.schoolHeading}>{school}</Text>
+          {Object.keys(departments).some(department => departments[department].length > 0) && (
+            <>
+              <Text style={styles.schoolHeading}>{school}</Text>
 
-          {/* mapping departments ie. cs, ee etc */}
-          {Object.entries(departments).map(([department, instructors]) => (
-            <View key={department}>
-              <Text style={styles.deptHeading}>{department}</Text>
+              {/* mapping departments ie. cs, ee etc */}
+              {Object.entries(departments).map(([department, instructors]) => (
+                <View key={department}>
+                  {instructors.length > 0 && (
+                    <Text style={styles.deptHeading}>{department}</Text>
+                  )}
 
-              {/* mapping instructors names*/}
-              {instructors.map((instructor, index) => (
-                <TouchableOpacity 
-                  style={styles.topicButton} 
-                  onPress={() => custompage(instructor, school, department, navigation)}>
-                  <Text style={styles.instructorHeading} key={index}>{instructor}</Text>
-                </TouchableOpacity>
+                  {/* mapping instructors names*/}
+                  {instructors.map((instructor, index) => (
+                    <TouchableOpacity 
+                      style={[styles.topicButton, { height: 60, width: (WINDOW_WIDTH * 0.8) }]} // Adjust the height as per your requirement
+                      onPress={() => custompage(instructor, school, department, navigation)}
+                      key={index} // Move the key prop to the TouchableOpacity
+                    >
+                      <Text style={styles.instructorHeading}>{instructor}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               ))}
-            </View>
-          ))}
+            </>
+          )}
         </View>
       ))}
     </View>
   );
 };
 
+
+
+
 const InstructorInfo = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const groupedData = groupInstructors(instructor_array);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+
+  const filteredData = Object.fromEntries(
+    Object.entries(groupedData).map(([school, departments]) => [
+      school,
+      Object.fromEntries(
+        Object.entries(departments).map(([department, instructors]) => [
+          department,
+          instructors.filter((instructor) =>
+            instructor.toLowerCase().includes(searchQuery.toLowerCase())
+          ),
+        ])
+      ),
+    ])
+  );
+  
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.search}>
+        <MaterialIcons
+          name="search"
+          size={20}
+          color="#414141"
+          style={{ alignSelf: "center" }}
+        />
+        <TextInput
+          placeholder="Search Instructors"
+          placeholderTextColor="#414141"
+          style={{ fontSize: 13, color: "white", flex: 1 }}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -70,17 +114,13 @@ const InstructorInfo = () => {
           justifyContent: "space-between",
         }}
       >
-
         <View>
-          <RenderInstructors groupedData={groupedData} navigation={navigation} />
+          <RenderInstructors groupedData={filteredData} navigation={navigation} />
         </View>
-
-      {loading && <Loader />}
+        {loading && <Loader />}
       </ScrollView>
     </SafeAreaView>
-
-  );
-};
+  );}
 
 export default InstructorInfo;
 
@@ -137,5 +177,17 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     padding: 20,
     alignItems: "flex-start",
-  }
+  }, 
+  search: {
+    width: "90%",
+    backgroundColor: "#292626",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    alignSelf: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+    marginVertical: 10,
+  },
 });
