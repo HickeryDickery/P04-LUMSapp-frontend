@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -11,16 +12,15 @@ import DonationDetails from "../components/DonationDetails";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import Loader from "../components/Loader";
 import { getDonations } from "../redux/action";
-import { useEffect } from "react";
-
 
 const Donations = ({ navigation }: any) => {
     const dispatch = useAppDispatch();
     const { donations, loading } = useAppSelector(
         (state: any) => state.donations || { donations: [], loading: false }
     );
-
+    const [searchQuery, setSearchQuery] = useState("");
     const { user } = useAppSelector((state: any) => state.auth);
+
 
     useEffect(() => {
         dispatch(getDonations());
@@ -30,91 +30,63 @@ const Donations = ({ navigation }: any) => {
         return <Loader />;
     }
 
-    if (!donations) {  // worst case, havent tested this
-        return <Text style={{color: "red"}}>No donations available.</Text>;
+    if (!donations || donations.length === 0) {
+        return <Text style={{ color: "red" }}>No donations available.</Text>;
     }
 
-
+    const filteredDonations = donations.filter((donation:any) =>
+        donation.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    
     return (
         <View style={styles.container}>
-                    <View style={styles.search}>
-                        <MaterialIcons
-                            name="search"
-                            size={20}
-                            color="#414141"
-                            style={{ alignSelf: "center" }}
-                        />
-                        <TextInput
-                            placeholder="Search Donations"
-                            placeholderTextColor={"#414141"}
-                            style={{ fontSize: 13, color: "white", flex: 1 }}
-                        />
-                    </View>
-                    {user?.role === "admin" && (
-                        <TouchableOpacity
-                            style={{
-                                display: "flex",
-                                width: "100%",
-                                backgroundColor: "#35C2C1",
-                                borderRadius: 10,
-                                marginBottom: 10,
-                                justifyContent: "center",
-                                alignItems: "center",
-                                flexDirection: "row",
-                                paddingVertical: 5,
-                                gap: 5,
-                            }}
-                            onPress={() => {
-                                navigation.navigate("AddDonation");
-                            }}
-                        >
-                            <MaterialIcons name="add" size={24} color="white" />
-                            <Text style={{ color: "white" }}>Add Donation</Text>
-                        </TouchableOpacity>
-                    )}
-                    <View
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            gap: 10,
-                            width: "100%",
+            <View style={styles.search}>
+                <MaterialIcons
+                    name="search"
+                    size={20}
+                    color="#414141"
+                    style={{ alignSelf: "center" }}
+                />
+                <TextInput
+                    placeholder="Search Donations by Category"
+                    placeholderTextColor="#414141"
+                    style={{ fontSize: 13, color: "white", flex: 1 }}
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                />
+            </View>
+            {user?.role === "admin" && (
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => navigation.navigate("AddDonation")}
+                >
+                    <MaterialIcons name="add" size={24} color="white" />
+                    <Text style={{ color: "white" }}>Add Donation</Text>
+                </TouchableOpacity>
+            )}
+            <FlatList
+                style={{ width: "100%", marginTop: 10 }}
+                data={filteredDonations}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate("SpecificDonation", {
+                                donation: item,
+                            });
                         }}
                     >
-                    </View>
-                    {loading ? (
-                        <Loader />
-                    ) : (
-                        <FlatList
-                            style={{ width: "100%", marginTop: 10 }}
-                            onRefresh={() => {
-                                dispatch(getDonations());
-                            }}
-                            refreshing={false}
-                            data={donations}
-                            keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            navigation.navigate("SpecificDonation", {
-                                                donation: item,
-                                            });
-                                        }}
-                                    >
-                                    <DonationDetails
-                                        category={item.category} 
-                                        description={item.details} 
-                                        date={item.createdAt} 
-                                        amountPending={item.pendingAmount} 
-                                        issuedBy={item.accountDetails.issuedBy} 
-                                    />
-                                    </TouchableOpacity>
-                                );
-                            }}
+                        <DonationDetails
+                            category={item.category}
+                            description={item.details}
+                            date={item.createdAt}
+                            amountPending={item.pendingAmount}
+                            issuedBy={item.accountDetails.issuedBy}
                         />
-                    )}
-                </View>
+                    </TouchableOpacity>
+                )}
+            />
+        </View>
     );
 };
 
@@ -139,6 +111,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 10,
         marginVertical: 10,
+    },
+    addButton: {
+        width: "100%",
+        backgroundColor: "#35C2C1",
+        borderRadius: 10,
+        marginBottom: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        paddingVertical: 5,
+        gap: 5,
     },
 });
 
