@@ -14,15 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 const Home = () => {
   const navigation = useNavigation();
 
-  const [loaded] = useFonts({
-    RobotoRegular: require("../assets/fonts/Roboto-Regular.ttf"),
-    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-  });
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
     <View style={styles.container}>
       <ImageBackground

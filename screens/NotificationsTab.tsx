@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     editProfileBttn: {
-        fontFamily: "Roboto",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#35C2C1",

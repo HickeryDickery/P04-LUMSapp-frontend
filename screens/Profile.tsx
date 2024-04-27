@@ -315,7 +315,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     editProfileBttn: {
-        fontFamily: "Roboto",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#35C2C1",
