@@ -77,7 +77,7 @@ const EditDonation = ({ route, navigation }: any) => {
         iban: iban
       });
       alert('Donation updated successfully!');
-      navigation.goBack()
+      navigation.navigate("Donations");
     } catch (err) {
       alert('Error updating donation. Please try again later.');
       navigation.goBack();
@@ -86,18 +86,44 @@ const EditDonation = ({ route, navigation }: any) => {
 
 
   const updatePressed = () => {
-    if (donationDescription === '' || category === '' || issuingAuthority === '' || totalAmount === '' || pendingAmount === '' || bankName === '') {
-      alert('Please fill all the fields.');
-    } 
+    const emptyFields = [];
+    if (donationDescription === '') {
+      emptyFields.push('Donation Details');
+    }
+    if (category === '') {
+      emptyFields.push('Category');
+    }
+    if (issuingAuthority === '') {
+      emptyFields.push('Issued By');
+    }
+    if (totalAmount === '') {
+      emptyFields.push('Total Amount');
+    }
+    if (pendingAmount === '') {
+      emptyFields.push('Pending Amount');
+    }
+    if (bankName === '') {
+      emptyFields.push('Bank');
+    }
+    if (emptyFields.length > 0) {
+      const fields = emptyFields.join(', ');
+      alert(`Please fill the following fields: ${fields}`);
+    }
     else {
-      if ((accountName === '' || accountNumber === '') && iban === '') {
-        alert('Please fill either account details or IBAN.');
+      if (Number(pendingAmount) > Number(totalAmount)) {
+        alert('Pending amount cannot be greater than total amount.')
       }
       else {
-        updateDonation();
+        if ((accountName === '' || accountNumber === '') && iban === '') {
+          alert('Please fill either account details or IBAN.');
+        }
+        else {
+          updateDonation();
+        }
       }
     }
   };
+
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>

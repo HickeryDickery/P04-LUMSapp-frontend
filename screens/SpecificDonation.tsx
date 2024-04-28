@@ -4,6 +4,8 @@ import { useAppSelector } from "../redux/hooks";
 import { useState, useEffect} from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { IP } from "../constants/ip";
+import axios from "axios";
 
 const SpecificDonation = ({route ,navigation }:any) => {
     const donation = route.params.donation
@@ -19,6 +21,19 @@ const SpecificDonation = ({route ,navigation }:any) => {
             setUserPermission(true)
         }
     }, [user.role]); 
+
+    const deleteDonation = async (id: string) => {
+        //const res = axios 
+        try {
+            console.log("Deleting id: ", id)
+            const res = await axios.post(`${IP}/donations/deleteSpecificDonation`, {
+                donationId: id,
+              });
+            navigation.navigate("Donations");
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
     return (
@@ -43,6 +58,28 @@ const SpecificDonation = ({route ,navigation }:any) => {
             >
                 <MaterialCommunityIcons name="pencil" size={24} color="white" />
                 <Text style={{ color: "white" }}>Edit Donation</Text>
+            </TouchableOpacity>)}
+
+            {userPermission && (
+                <TouchableOpacity
+                style={{
+                    display: "flex",
+                    width: "100%",
+                    backgroundColor: "#35C2C1",
+                    borderRadius: 10,
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    paddingVertical: 5,
+                    gap: 5,
+                }}
+                onPress={() => {
+                    deleteDonation(donation._id);
+                }}
+            >
+                <MaterialCommunityIcons name="delete" size={24} color="white" />
+                <Text style={{ color: "white" }}>Delete Donation</Text>
             </TouchableOpacity>)}
 
             <View style={{display: "flex", flexDirection: "row", paddingLeft: 18, paddingTop: 25}}>

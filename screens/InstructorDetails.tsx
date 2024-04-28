@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, Keyboard, TouchableWithoutFeedback, SafeAreaView} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from "react-native-paper";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -179,10 +179,10 @@ const InstructorDetails = ({ route }: any) => {
     )
   ) : (  // if data exits show the data
   <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
           <View>
             <View>
-              <Image style={{ width: windowWidth, height: windowHeight / 3 }} source={{ uri: instructorImage }} />
+              <Image style={{ width: windowWidth, height: windowHeight / 2.25 }} source={{ uri: instructorImage }} />
             </View>
             <LinearGradient
               colors={['transparent', 'rgba(0,0,0,1.0)']}
@@ -198,12 +198,12 @@ const InstructorDetails = ({ route }: any) => {
               renderScene={({ route }) => renderScene({ route, reviewRating, reviewsCount, zambeelRating,
                 profileDescription, reviews, name, instructorImage, userID, userImageURL, onDeleteSuccess })}
               onIndexChange={setIndex}
-              initialLayout={{ width: windowWidth, height: windowHeight / 2 }}
+              initialLayout={{ width: windowWidth, height: (windowHeight)}}
               renderTabBar={props => <TabBar {...props} style={{ backgroundColor: 'black' }} indicatorStyle={{ backgroundColor: '#35C2C1' }} />}
             />
           </View>
       {loading && <Loader />}
-    </View>
+    </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
@@ -239,5 +239,4 @@ const styles = StyleSheet.create({
 });
 
 export default InstructorDetails;
-
 

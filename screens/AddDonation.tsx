@@ -56,8 +56,28 @@ const AddDonation = ({ route, navigation }: any) => {
 
 
   const submitPressed = () => {
-    if (donationDescription === '' || category === '' || issuingAuthority === '' || totalAmount === '' || pendingAmount === '' || bankName === '') {
-      alert('Please fill all the fields.');
+    const emptyFields = [];
+    if (donationDescription === '') {
+      emptyFields.push('Donation Details');
+    }
+    if (category === '') {
+      emptyFields.push('Category');
+    }
+    if (issuingAuthority === '') {
+      emptyFields.push('Issued By');
+    }
+    if (totalAmount === '') {
+      emptyFields.push('Total Amount');
+    }
+    if (pendingAmount === '') {
+      emptyFields.push('Pending Amount');
+    }
+    if (bankName === '') {
+      emptyFields.push('Bank');
+    }
+    if (emptyFields.length > 0) {
+      const fields = emptyFields.join(', ');
+      alert(`Please fill the following fields: ${fields}`);
     } 
     else {
       if ((accountName === '' || accountNumber === '') && iban === '') {

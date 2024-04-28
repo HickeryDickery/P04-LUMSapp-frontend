@@ -166,7 +166,6 @@ export default UploadTranscript;
 
 const styles = StyleSheet.create({
     uploadTranscriptBttn: {
-        fontFamily: "Roboto",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#35C2C1",

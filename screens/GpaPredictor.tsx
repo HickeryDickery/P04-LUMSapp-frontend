@@ -74,18 +74,18 @@ const GpaPredictorHome = ({ navigation }: any) => {
                     break;
             }
         }
-    }, [transcript]);
+    }, [transcript, academicYear]);
 
     useEffect(() => {
         let fullCredits = 130;
-        if (minorChecker != "NA") {
+        if (minorChecker !== "NA") {
             fullCredits = 150;
         }
         let creditsLeft = sliderCredits * (8 - majorSems?.length);
         let tempEst: number =
             (gpa * credits + sliderGPA * creditsLeft) / (credits + creditsLeft);
         setEstimatedGPA(parseFloat(tempEst?.toFixed(2)));
-    }, [sliderCredits, sliderGPA]);
+    }, [sliderCredits, sliderGPA, gpa]);
 
     useEffect(() => {
         const updateTranscript = async () => {
@@ -102,18 +102,6 @@ const GpaPredictorHome = ({ navigation }: any) => {
 
     return (
         <View style={styles.container}>
-            {/* <Button
-          onPress={() => { navigation.goBack() }}
-          style={{
-          position: 'absolute',
-          left: '4%',
-          top: "5.3%",
-          }}
-      >
-          <Ionicons name="chevron-back" size={24} color="white" />
-      </Button>
-      <Text style = {styles.heading}>GPA Predictor</Text> */}
-
             <View style={{ marginTop: 10 }}>
                 <AnimatedCircularProgress
                     size={0.5 * SCREEN_WIDTH}
