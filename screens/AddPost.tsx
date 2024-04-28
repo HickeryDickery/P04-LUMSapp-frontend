@@ -1,7 +1,7 @@
 //COLORS DONE
 import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { IP } from "../constants/ip";
 import { Image, Button } from "react-native";
@@ -32,6 +32,7 @@ import { Feather } from "@expo/vector-icons";
 import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import Loader from "../components/Loader";
 import { ADD_POST_BCKG_COLOR } from "../constants/color";
+import { useAppSelector } from "../redux/hooks";
 
 const AddPost = () => {
   const [text, setText] = useState("");
@@ -49,6 +50,14 @@ const AddPost = () => {
       setMedia([...media, ...result.assets.map((asset) => asset.uri)]);
     }
   };
+
+  const { user }: any = useAppSelector((state) => state.auth);
+  const [username, setUsername] = useState("");
+  const [icon, setIcon]: any = useState();
+  useEffect(() => {
+    setUsername(user?.name);
+    setIcon(user?.profile_picture.url);
+  }, [user]);
 
   const deleteMedia = (index: number) => {
     const newMedia = [...media];
@@ -119,11 +128,11 @@ const AddPost = () => {
           {/* Image and Name are One Element so we have a separate View(div) for them */}
           <Image
             style={{ width: 60, height: 60, borderRadius: 100 }}
-            source={{
-              uri: "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
-            }} /*require path is for static images only*/
+            source={
+              icon ? { uri: icon } : require("../assets/default_icon.png")
+            } /*require path is for static images only*/
           />
-          <Text style={styles.posterName}>Muneeb Akmal</Text>
+          <Text style={styles.posterName}>{username}</Text>
         </View>
         <AutoGrowTextInput
           style={styles.inputText}
@@ -194,7 +203,7 @@ const styles = StyleSheet.create({
   pageName: {
     color: ADD_POST_SECONDARY_HEADING_COLOR,
     fontSize: 20,
-    fontWeight: "500",
+    fontWeight: "300",
     textAlign: "center",
   },
 

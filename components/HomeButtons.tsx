@@ -46,7 +46,7 @@ const HomeButtons = ({ name, icon }: HomeButtonsProps) => {
         size={70}
         color={name == "Coming Soon" ? "#505050" : HOME_ICON_COLOR}
       />
-      <Text
+      {/* <Text
         style={{
           color: name == "Coming Soon" ? "#505050" : HOME_ICON_TEXT_COLOR,
           marginTop: 5,
@@ -54,7 +54,7 @@ const HomeButtons = ({ name, icon }: HomeButtonsProps) => {
         }}
       >
         {name}
-      </Text>
+      </Text> */}
     </View>
     // </View>
   );

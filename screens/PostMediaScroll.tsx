@@ -8,16 +8,20 @@ import { POST_MEDIA_SCROLL_BCKG_COLOR } from "../constants/color";
 
 function PostMediaScroll({ route }: any) {
   const postProps = route.params.postProps;
+  const index = route.params.index;
+  const flatListRef = React.useRef<FlatList>(null);
   return (
     <View style={styles.container}>
       <View style={styles.mediaStyle}>
         <FlatList
+          ref={flatListRef}
           refreshing={true}
           style={styles.imageScroll}
           data={postProps.media}
           horizontal={true}
           pagingEnabled
           showsHorizontalScrollIndicator={false}
+          initialScrollIndex={index}
           renderItem={({ item }) => <MediaCard media={item} />}
         />
       </View>

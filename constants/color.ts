@@ -3,14 +3,14 @@ export const SECONDARY_COLOR = "rgba(100, 149, 237, 1)"; // blue
 export const TERTIARY_COLOR = "white";
 export const QUATERNARY_COLOR = "black";
 export const QUNINARY_COLOR = "rgba(255, 255, 255, 0.5)"; //gray
-export const SENARY_COLOR = "rgba(29,29,29,1)"; //grayish black
+export const SENARY_COLOR = "#2B2B2B"; //grayish black
 export const BACKDROP_COLOR = "rgba(0, 0, 0, 0.3)";
 
 export const BLUE_COLOR = "#6495ED";
 export const DISCREET_HEADING_COLOR = QUNINARY_COLOR;
 
 //PLACE_HOLDER_TEXT COLORS
-export const PLACE_HOLDER_TEXT_COLOR = QUATERNARY_COLOR;
+export const PLACE_HOLDER_TEXT_COLOR = QUNINARY_COLOR;
 
 //POST COLORS
 export const POST_BCKG_COLOR = "rgba(29,29,29,0.4)";
