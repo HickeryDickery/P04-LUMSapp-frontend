@@ -12,6 +12,7 @@ import EventNotifications from "../components/EventNotifications";
 import * as ExpoNotifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { getEvents } from "../redux/action";
 import { IP } from "../constants/ip";
 import axios from "axios";
 
@@ -43,13 +44,15 @@ const Notifications = ({ navigation }: any) => {
     React.useEffect(() => {
         const subscription = ExpoNotifications.addNotificationReceivedListener(
             () => {
-                getData();
+                getNotifData();
             }
         );
         return () => subscription.remove();
     }, []);
-    const [refresh, setRefresh] = useState<Boolean>(false);
+    const dispatch = useAppDispatch();
+    const [notifRefresh, setNotifRefresh] = useState<Boolean>(false);
     const [notifs, setNotifs] = useState<any[]>([]);
+    const [eventRefresh, setEventRefresh] = useState<Boolean>(false);
 
     const { events } = useAppSelector((state: any) => state.events);
 
@@ -66,7 +69,7 @@ const Notifications = ({ navigation }: any) => {
         updateNotifs();
     }, []);
 
-    const getData = async () => {
+    const getNotifData = async () => {
         try {
             const res = await axios.post(`${IP}/notification/get`);
             try {
@@ -84,14 +87,24 @@ const Notifications = ({ navigation }: any) => {
     };
     // will run every time page changes
     useEffect(() => {
-        getData().then(() => setRefresh(false));
-    }, [refresh]);
+        getNotifData().then(() => setNotifRefresh(false));
+    }, [notifRefresh]);
 
     let notif_props = {
         notifs,
-        refresh,
-        setRefresh,
+        notifRefresh,
+        setNotifRefresh,
     };
+
+    let event_props = {
+        events,
+        eventRefresh,
+        setEventRefresh,
+    };
+
+    useEffect(() => {
+        dispatch(getEvents()).then(() => setEventRefresh(false));
+    }, [eventRefresh]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -143,7 +156,7 @@ const Notifications = ({ navigation }: any) => {
                         }}
                     />
                 </View>
-                <EventNotifications event_notifs={events} />
+                <EventNotifications {...event_props} />
             </View>
         </SafeAreaView>
     );

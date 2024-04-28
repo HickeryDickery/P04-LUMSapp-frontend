@@ -1,15 +1,49 @@
 import { FlatList, View, ImageBackground, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { convertTo12HourFormat } from "../utils/timeUtil";
+import { Event } from "../types/eventtypes";
+
+const filterEventsOnCurrentDay = (events: Event[]) => {
+    // Get the current date without the time portion
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    // Filter events with startTime on the current day
+    const filteredEvents = events.filter((event: Event) => {
+        // Get the date portion of the startTime
+        const eventDate = event.startTime.split("T")[0];
+        return eventDate === currentDate;
+    });
+
+    return filteredEvents;
+};
 
 const EventNotifications = (props: any) => {
-    console.log(props.event_notifs[0].image);
+    const events_today = filterEventsOnCurrentDay(props.events);
     return (
         <FlatList
             style={{
                 width: "100%",
             }}
-            data={props.event_notifs}
+            data={events_today}
+            onRefresh={() => {
+                props.setEventRefresh(true);
+            }}
+            refreshing={props.eventRefresh}
+            ListFooterComponent={() =>
+                events_today.length > 0 ? null : (
+                    <Text
+                        style={{
+                            color: "grey",
+                            width: "100%",
+                            textAlign: "center",
+                            paddingVertical: "25%",
+                            fontSize: 18,
+                        }}
+                    >
+                        Nothing to show
+                    </Text>
+                )
+            }
             renderItem={({ item }) => (
                 <ImageBackground
                     source={{
