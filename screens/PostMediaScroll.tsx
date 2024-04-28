@@ -5,6 +5,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/size";
 import MediaCard from "../components/MediaCard";
 import FooterPostDetails from "../components/FooterPostDetails";
 import { POST_MEDIA_SCROLL_BCKG_COLOR } from "../constants/color";
+import MediaCard2 from "../components/MediaCard2";
 
 function PostMediaScroll({ route }: any) {
   const postProps = route.params.postProps;
@@ -22,7 +23,7 @@ function PostMediaScroll({ route }: any) {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           initialScrollIndex={index}
-          renderItem={({ item }) => <MediaCard media={item} />}
+          renderItem={({ item }) => <MediaCard2 media={item} />}
         />
       </View>
       <View style={styles.bottomBar}>
