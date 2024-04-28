@@ -25,7 +25,12 @@
             },
             "package": "com.biski.LUMSapp",
             "googleServicesFile": "./google-services.json",
-            "runtimeVersion": "1.0.0"
+            "runtimeVersion": "1.0.0",
+            "config": {
+                "googleMaps": {
+                    "apiKey": "AIzaSyB4qtDPQGLcOGvhNM3olW2tcAeNDJuIqt8"
+                }
+            }
         },
         "web": {
             "favicon": "./assets/favicon.png"

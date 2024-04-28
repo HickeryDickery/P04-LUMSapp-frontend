@@ -3,7 +3,7 @@ import {
     TouchableOpacity,
     FlatList,
     SafeAreaView,
-    View,
+    Text,
     Pressable,
 } from "react-native";
 
@@ -14,7 +14,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import NewPostMenu from "../components/NewPostMenu";
 import { HEIGHT, OVERDRAG } from "../constants/size";
-import { BACKDROP_COLOR, PRIMARY_COLOR } from "../constants/color";
+import {
+    BACKDROP_COLOR,
+    POST_LIKE_INACTIVE_COLOR,
+    PRIMARY_COLOR,
+} from "../constants/color";
 import Animated, {
     SlideInDown,
     SlideOutDown,
@@ -74,6 +78,19 @@ const LdfHomePage = ({ navigation }: any) => {
                 }}
                 refreshing={false}
                 onEndReachedThreshold={0.9}
+                ListFooterComponent={() => {
+                    return (
+                        <Text
+                            style={{
+                                color: POST_LIKE_INACTIVE_COLOR,
+                                textAlign: "center",
+                                padding: 10,
+                            }}
+                        >
+                            . . .
+                        </Text>
+                    );
+                }}
                 renderItem={({ item }) => (
                     <Post
                         key={item._id}

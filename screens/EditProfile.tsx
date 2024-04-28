@@ -164,7 +164,7 @@ const EditProfile = ({ navigation }: any) => {
                             opacity: 0.55,
                         }}
                         source={
-                            icon
+                            icon?.uri
                                 ? { uri: icon.uri }
                                 : require("../assets/default_icon.png")
                         } /*require path is for static images only*/
