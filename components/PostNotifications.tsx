@@ -31,7 +31,7 @@ const PostNotifications = (props: any) => {
                 )
             }
             refreshing={props.notifRefresh}
-            keyExtractor={(item) => item.group[0]?._id}
+            keyExtractor={(item) => item?.group[0]?._id}
             renderItem={({ item }) => (
                 <View
                     style={{
