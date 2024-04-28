@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { convertTo12HourFormat } from "../utils/timeUtil";
 
 const EventNotifications = (props: any) => {
+    console.log(props.event_notifs[0].image);
     return (
         <FlatList
             style={{
@@ -11,7 +12,11 @@ const EventNotifications = (props: any) => {
             data={props.event_notifs}
             renderItem={({ item }) => (
                 <ImageBackground
-                    source={{ uri: "https://picsum.photos/203" }}
+                    source={{
+                        uri: item.image.url
+                            ? item.image.url
+                            : "https://picsum.photos/203",
+                    }}
                     resizeMode="cover"
                     style={{
                         flexDirection: "row",
@@ -63,7 +68,7 @@ const EventNotifications = (props: any) => {
                                     textShadowRadius: 10,
                                 }}
                             >
-                                {item.event_name}
+                                {item.title}
                             </Text>
                             <View
                                 style={{
@@ -78,7 +83,7 @@ const EventNotifications = (props: any) => {
                                         fontSize: 14,
                                     }}
                                 >
-                                    {item.society}
+                                    {item.description}
                                 </Text>
                                 <Text
                                     style={{
@@ -86,7 +91,7 @@ const EventNotifications = (props: any) => {
                                         paddingHorizontal: 10,
                                     }}
                                 >
-                                    {item.venue}
+                                    {item.locationName}
                                 </Text>
                                 <Text
                                     style={{
@@ -94,8 +99,8 @@ const EventNotifications = (props: any) => {
                                         paddingHorizontal: 10,
                                     }}
                                 >
-                                    {convertTo12HourFormat(item.start_time)} -{" "}
-                                    {convertTo12HourFormat(item.end_time)}
+                                    {convertTo12HourFormat(item.startTime)} -{" "}
+                                    {convertTo12HourFormat(item.endTime)}
                                 </Text>
                             </View>
                         </View>

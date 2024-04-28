@@ -11,7 +11,7 @@ import PostNotifications from "../components/PostNotifications";
 import EventNotifications from "../components/EventNotifications";
 import * as ExpoNotifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { IP } from "../constants/ip";
 import axios from "axios";
 
@@ -50,6 +50,8 @@ const Notifications = ({ navigation }: any) => {
     }, []);
     const [refresh, setRefresh] = useState<Boolean>(false);
     const [notifs, setNotifs] = useState<any[]>([]);
+
+    const { events } = useAppSelector((state: any) => state.events);
 
     useEffect(() => {
         const updateNotifs = async () => {
@@ -141,7 +143,7 @@ const Notifications = ({ navigation }: any) => {
                         }}
                     />
                 </View>
-                <EventNotifications event_notifs={event_notifs} />
+                <EventNotifications event_notifs={events} />
             </View>
         </SafeAreaView>
     );
