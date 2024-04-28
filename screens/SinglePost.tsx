@@ -9,6 +9,7 @@ import { IP } from "../constants/ip";
 import { useAppSelector } from "../redux/hooks";
 import Comment from "../components/Comment";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Loader from "../components/Loader";
 
 
 
@@ -37,11 +38,10 @@ const SinglePost = ({ route }: any) => {
   const inputRef = useRef<any>(null);
   const [additionalData, setAdditionalData] = useState({id: "-1",
     name: 'nan'});
-
   const [userId,setUserId] = useState("");
-
   const {user} = useAppSelector((state) => state.auth);
   const [commentsData, setCommentsData] = useState<any[]>([])
+  const [loading, setLoading] = useState(true);
   
   const handlePress = () => {
     
@@ -64,6 +64,13 @@ const SinglePost = ({ route }: any) => {
   };
   
   const submitHandler = async () => {
+
+    const commentData = newComment
+    if (commentData.trim() === "" || commentData.length === 0) {
+      return;
+    }
+
+    setNewComment("");
     try {
       // Dummy data for the new comment
       // const newCommentData = {
@@ -93,7 +100,7 @@ const SinglePost = ({ route }: any) => {
           
             // commentToReplyTo.replies.pop();
             commentToReplyTo.replies.push(data.reply);
-            setNewComment("");
+            // setNewComment("");
             
             
           }catch(error){
@@ -111,7 +118,7 @@ const SinglePost = ({ route }: any) => {
           });
           // Handle the response data as needed
           setCommentsData((prevComments) => [...(prevComments || []), data.comment]);
-          setNewComment("");
+          // setNewComment("");
     
           // Close the modal and clear the reply text
         } catch (error) {
@@ -146,6 +153,8 @@ const SinglePost = ({ route }: any) => {
         });
         setCommentsData(data.comments);
         setUserId(data.userId)
+        setLoading(false)
+        
         // console.log(data.comments)
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -188,8 +197,11 @@ const SinglePost = ({ route }: any) => {
   }
 
     /> */}
-     {commentsData?.map(item => (
-      // console.log(item),
+
+    {loading ? (
+      <Loader />
+    ) : (
+      commentsData?.map(item => (
         <Comment
           key={item?._id.toString()} // Ensure each item has a unique key
           comment={item}
@@ -200,7 +212,8 @@ const SinglePost = ({ route }: any) => {
           deleteComment={deleteComment}
           postId={postID}
         />
-      ))}
+      ))
+    )}
   {/* {additionalData.name !== 'nan' && (
      <View style={{...styles.userInfoContainer, marginBottom:0}}>
      <Text style={{color: "white"}}>Replying to </Text><Text style={{color: "white",fontWeight: "bold" }}>{additionalData.name}</Text>

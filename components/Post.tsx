@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { Foundation } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { debounce } from 'lodash';
 import {
     PRIMARY_COLOR,
     POST_BCKG_COLOR,
@@ -88,17 +89,57 @@ const Post = (
     //   }
     // }, []);
 
-    const bookmarkHandler = async () => {
+    // const bookmarkHandler = async () => {
+    //     try {
+    //         const res = await axios.post(`${IP}/post/bookmark`, {
+    //             postId: props.postID,
+    //         });
+    //         setBookmarked(!bookmarked);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    const submitBookmark = async (bookmark: boolean) => {
         try {
+            if(bookmark){
             const res = await axios.post(`${IP}/post/bookmark`, {
                 postId: props.postID,
             });
-            setBookmarked(!bookmarked);
+            console.log(res.data);}
+            else{
+                const res = await axios.post(`${IP}/post/unbookmark`, {
+                    postId: props.postID,
+                });
+                console.log(res.data);
+            }
         } catch (error) {
             console.log(error);
         }
+    }
+
+   
+
+   
+
+    const bookmarkHandler = () => {
+        console.log("sent")
+        if (bookmarked) {
+            setBookmarked(false);
+            submitBookmark(false).catch((error) => {
+                console.log(error);
+            });
+        } else {
+            setBookmarked(true);
+            submitBookmark(true).catch((error) => {
+                console.log(error);
+            });
+        }
     };
 
+    const debouncedBookmarkHandler = debounce(bookmarkHandler, 200);
+
+            
     const likePressed = async () => {
         try {
             if (liked) {
@@ -337,7 +378,7 @@ const Post = (
                         <TouchableOpacity
                             style={styles.footerComponent}
                             onPress={() => {
-                                bookmarkHandler();
+                                debouncedBookmarkHandler();
                             }}
                         >
                             <FontAwesome
