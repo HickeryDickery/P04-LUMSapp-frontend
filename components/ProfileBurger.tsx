@@ -80,6 +80,25 @@ const ProfileBurger = forwardRef<BottomSheet>((props, ref) => {
                         Log Out
                     </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("SavedPosts")}
+                    style={{
+                        alignItems: "center",
+                        flexDirection: "row",
+                    }}
+                >
+                    <Ionicons name="bookmark-outline" size={24} color="white" />
+                    <Text
+                        style={{
+                            color: "white",
+                            fontSize: 20,
+                            marginHorizontal: 10,
+                            paddingVertical: 2,
+                        }}
+                    >
+                        Saved Posts
+                    </Text>
+                </TouchableOpacity>
             </BottomSheetView>
         </BottomSheet>
     );

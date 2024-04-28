@@ -100,6 +100,25 @@ const Profile = ({ navigation }: any) => {
         UserCommentProps,
     };
 
+    const sheetRef2 = useRef<BottomSheet>(null);
+
+    const [accountSheetOpen, setAccountSheetOpen] = useState(false);
+
+    const handleAccountModalPress = useCallback(() => {
+        if (accountSheetOpen) {
+            sheetRef2.current?.close();
+            setAccountSheetOpen(false);
+        } else {
+        
+            sheetRef2.current?.expand();
+            setAccountSheetOpen(true);
+        }
+    }, []);
+
+
+  
+
+
     const sheetRef = useRef<BottomSheet>(null);
 
     const [sheetOpen, setSheetOpen] = useState(false);
@@ -134,7 +153,7 @@ const Profile = ({ navigation }: any) => {
                         alignItems: "center",
                         justifyContent: "center",
                     }}
-                    onPress={() => setIsAccountMenuVisible(true)}
+                    onPress={() => handleAccountModalPress()}
                 >
                     <Text
                         style={{
@@ -175,7 +194,7 @@ const Profile = ({ navigation }: any) => {
                         aspectRatio: 1 / 1,
                     }}
                     source={{
-                        uri: icon?.uri || "https://picsum.photos/201",
+                        uri: icon?.url || "https://picsum.photos/203",
                     }} /*require path is for static images only*/
                 />
                 <View
@@ -305,8 +324,11 @@ const Profile = ({ navigation }: any) => {
             <ProfileTabs ref={ref} {...ProfileTabProps} />
             <ProfileBurger ref={sheetRef} />
             <AccountMenu
-                isVisible={isAccountMenuVisible}
-                onClose={() => setIsAccountMenuVisible(false)}
+                // isVisible={isAccountMenuVisible}
+                // onClose={() => setIsAccountMenuVisible(false)}
+                ref={sheetRef2}
+                
+
             />
         </SafeAreaView>
     );
