@@ -19,6 +19,7 @@ import {
     HOME_ICON_DISCREET_HEADING_COLOR,
     HOME_ICON_TEXT_COLOR,
 } from "../constants/color";
+import CarouselCard from "../components/CarouselCard";
 // import { useNavigation } from "@react-navigation/native";
 
 const Home = ({ navigation }: any) => {
@@ -37,8 +38,8 @@ const Home = ({ navigation }: any) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/*<CarouselCard />*/}
-            <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
+            <CarouselCard />
+            {/* <Image source={lumsLogo} style={{ width: 150, height: 150 }} /> */}
 
             <View
                 style={{

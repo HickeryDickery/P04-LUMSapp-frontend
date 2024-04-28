@@ -19,8 +19,8 @@ const Map = ({ route, navigation }: any) => {
     longitudeDelta: 0.003,
   };
 
-  if (route.params?.event) {
-    console.log(route.params.event);
+  if (route.params?.event && mapRef.current) {
+    // console.log(route.params.event);
 
     const { coordinates } = route.params.event;
     const eventLocation = {
@@ -40,7 +40,7 @@ const Map = ({ route, navigation }: any) => {
         console.log("Permission to access location was denied");
         return;
       } else if (status === "granted") {
-        await Location.requestBackgroundPermissionsAsync();
+        // await Location.requestBackgroundPermissionsAsync();
         console.log("Permission to access location was granted");
         return;
       }
