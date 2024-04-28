@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import React, { useState } from "react";
 import Loader from "../components/Loader";
 import { Chat, ChannelList, Channel } from "stream-chat-expo";
 import { StreamChat, ChannelSort } from "stream-chat";
@@ -8,6 +8,7 @@ import { useAppContext } from "../AppContext";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProp } from "@react-navigation/native";
 import ChatsHomeHeader from "../components/ChatsHomeHeader";
+import { useChatClient } from "../useChatClient";
 
 const filters = {
   members: {
@@ -21,6 +22,7 @@ const sort: ChannelSort = {
 };
 export default function ChatsHome() {
   const navigation = useNavigation<NavigationProp<any>>();
+  const { clientIsReady } = useChatClient();
 
   const { setChannel } = useAppContext();
 
