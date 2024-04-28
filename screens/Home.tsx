@@ -38,8 +38,8 @@ const Home = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<CarouselCard />*/}
-      <Image source={lumsLogo} style={{ width: 150, height: 150 }} />
+      <CarouselCard />
+      {/* <Image source={lumsLogo} style={{ width: 150, height: 150 }} /> */}
 
       <View
         style={{

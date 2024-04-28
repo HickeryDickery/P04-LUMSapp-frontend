@@ -151,7 +151,7 @@ export const getEvents = () => async (dispatch: any) => {
 
     dispatch({ type: "eventsSuccess", payload: { data, tags } });
   } catch (error: any) {
-    console.log(error.response.data);
+    console.log(error);
     dispatch({
       type: "eventsFailure",
       payload: error.response.data.message,
