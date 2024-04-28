@@ -14,7 +14,9 @@ import { NavigationProp } from "@react-navigation/native";
 export default function ChatScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
   const { channel, setThread } = useAppContext();
+
   return (
+    
     <View style={styles.container}>
       <Channel channel={channel}>
         <MessageList
