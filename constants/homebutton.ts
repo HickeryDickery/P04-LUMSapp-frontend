@@ -1,4 +1,4 @@
-import { MaterialIcons, FontAwesome} from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
 interface Button {
   name: string;
@@ -19,7 +19,7 @@ const buttons: Button[] = [
   },
   {
     name: "Donations",
-    icon: "money",
+    icon: "attach-money",
     route: "Donations",
   },
   {

@@ -43,6 +43,7 @@ const LdfHomePage = ({ navigation }: any) => {
     const [visible, setVisible] = useState(false);
 
     const toggleSheet = (post: PostProps) => {
+        setVisible(!visible);
         setIsOpen(!isOpen);
         setSelectedPost(post);
     };
@@ -145,7 +146,7 @@ const LdfHomePage = ({ navigation }: any) => {
                     width: 60,
                     height: 60,
                     borderRadius: 100,
-                    backgroundColor: "#35C2B0",
+                    backgroundColor: PRIMARY_COLOR,
                     bottom: 15,
                     right: 20,
                     display: "flex",
@@ -178,16 +179,18 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     sheet: {
-        backgroundColor: "#272727",
+        backgroundColor: "black",
+        borderColor: "rgba(140,140,140,1)",
+        borderWidth: 0.5,
+        borderTopLeftWidth: 1,
         opacity: 1,
-        padding: 16,
-        height: HEIGHT,
-        width: "100%",
+        height: HEIGHT / 1.8,
+        width: "101%",
         position: "absolute",
-        bottom: -OVERDRAG * 1.1,
+        bottom: -OVERDRAG * 1.5,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
-        zIndex: 1,
+        zIndex: 9000,
     },
     backdrop: {
         ...StyleSheet.absoluteFillObject,
