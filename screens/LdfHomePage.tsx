@@ -3,7 +3,7 @@ import {
     TouchableOpacity,
     FlatList,
     SafeAreaView,
-    Text,
+    View,
     Pressable,
 } from "react-native";
 
@@ -27,6 +27,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { PostProps } from "../components/Post";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Loader from "../components/Loader";
 
 // const media = [
 //   "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -80,15 +81,13 @@ const LdfHomePage = ({ navigation }: any) => {
                 onEndReachedThreshold={0.9}
                 ListFooterComponent={() => {
                     return (
-                        <Text
+                        <View
                             style={{
-                                color: POST_LIKE_INACTIVE_COLOR,
-                                textAlign: "center",
-                                padding: 10,
+                                marginVertical: "25%",
                             }}
                         >
-                            . . .
-                        </Text>
+                            <Loader />
+                        </View>
                     );
                 }}
                 renderItem={({ item }) => (
