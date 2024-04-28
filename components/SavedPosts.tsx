@@ -60,7 +60,7 @@ const SavedPosts = ({ navigation }: any) => {
                 }}
                 onRefresh={() => {
                     setPosts([]);
-                    setPage(0);
+                    setPage(1);
                     setRefresh(!refresh);
                 }}
                 refreshing={false}
